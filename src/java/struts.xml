@@ -1,0 +1,27 @@
+<!DOCTYPE struts PUBLIC
+"-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+"http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+    <!-- Configuration for the default package. -->
+    <package name="default" extends="struts-default" >
+        <action name="logeo" class="co.com.codesoftware.general.action.LoginAction">
+            <result name="facturador">/WEB-INF/FACTURACION/homeFacturacion.jsp</result>
+            <result name="error">/inicio.jsp</result>
+        </action>
+        <action name="Fac_consCliente" class="co.com.codesoftware.facturacion.action.ClienteAction">
+            <result name="facturador">/WEB-INF/FACTURACION/homeFacturacion.jsp</result>
+            <result name="error">/inicio.jsp</result>
+        </action>
+        <action name="Fac_consClienteID" class="co.com.codesoftware.facturacion.action.ClienteAction" method="consultaClienteIniFactura">
+            <result name="inexistente">/WEB-INF/FACTURACION/CREACION/Fac_InsertCliFactura.jsp</result>
+            <result name="input">/WEB-INF/FACTURACION/CREACION/Fac_InsertCliFactura.jsp</result>
+            <result name="success">/WEB-INF/FACTURACION/MODIFICAR/Fact_GestionFacturacion.jsp</result>
+        </action>
+        <action name="Fac_nuevoCliente" class="co.com.codesoftware.facturacion.action.ClienteAction" method="insertarCliente">
+            <result name="error">/WEB-INF/ACCIONES/FACTURACION/CREACION/Fac_InsertCliFactura.jsp</result>
+            <result name="input">/WEB-INF/ACCIONES/FACTURACION/CREACION/Fac_InsertCliFactura.jsp</result>
+            <result name="success">/WEB-INF/ACCIONES/FACTURACION/MODIFICAR/Fact_GestionFacturacion.jsp</result>
+        </action>    
+    </package>
+</struts>

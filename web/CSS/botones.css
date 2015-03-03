@@ -1,0 +1,54 @@
+.imagenIcono{
+    width: 30px;
+    height: 30px;
+    opacity: 0.8;
+    margin-top: 3px;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.imagenIcono:hover{
+    width: 40px;
+    height: 40px;
+    opacity: 1;
+    cursor: pointer;
+}
+
+.imagenIcono:active{
+    cursor: wait;
+}
+
+.imagenIconoPeq{
+    width: 30px;
+    height: 30px;
+    opacity: 0.8;
+    margin-top: 3px;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.imagenIconoPeq:hover{
+    width: 35px;
+    height: 35px;
+    opacity: 1;
+    cursor: pointer;
+}
+
+.imagenIconoPeq:active{
+    cursor: wait;
+}
+
+.imagenIconoMenu{
+    width: 20px;
+    height: 20px;
+    opacity: 0.8;
+    margin-top: 3px;   
+}
+
+.imagenIconoMenu:hover{
+    width: 25px;
+    height: 25px;
+    opacity: 1;
+    cursor: pointer;
+    
+}

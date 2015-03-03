@@ -1,0 +1,367 @@
+//color base rgba(255, 175, 20, 10);
+.errorMensajes{
+    background-color: #8f0b0b;
+    -webkit-border-radius: 5px 5px 5px 5px;
+    border-radius: 5px 5px 5px 5px;                    
+    width: 70%;
+    text-align: center;
+    padding-right: 20px;
+    padding-top: 0.5px;
+    padding-bottom: 1px;
+    font-family: Arial;
+    font-weight: bold;
+    font-size: 12px;
+    -webkit-box-shadow: 5px 5px 10px 0 rgba(10,10,100,100);
+    box-shadow: 5px 5px 10px 0 rgba(10,10,100,100);
+}
+.errorMensajes ul li{
+    list-style: none;
+    color: #8f0b0b;
+}
+
+.mensajesOk{
+    background-color: #0b8f10;
+    -webkit-border-radius: 5px 5px 5px 5px;
+    border-radius: 5px 5px 5px 5px;                    
+    width: 70%;
+    height: 50px;
+    text-align: center;
+    padding-right: 20px;
+    padding-top: 0.5px;
+    color:#ffffff;
+    font-family: Arial;
+    font-weight: bold;
+    -webkit-box-shadow: 5px 5px 10px 0 rgba(10,10,100,100);
+    box-shadow: 5px 5px 10px 0 rgba(10,10,100,100);
+}
+.mensajesOk ul li{
+    list-style: none;
+}
+
+
+.tableConsulta {
+    margin:0px;
+    padding:0px;
+    width:100%;
+    box-shadow: 10px 10px 5px #888888;
+    border:1px solid #000000;
+    -moz-border-radius-bottomleft:6px;
+    -webkit-border-bottom-left-radius:6px;
+    border-bottom-left-radius:6px;
+
+    -moz-border-radius-bottomright:6px;
+    -webkit-border-bottom-right-radius:6px;
+    border-bottom-right-radius:6px;
+
+    -moz-border-radius-topright:6px;
+    -webkit-border-top-right-radius:6px;
+    border-top-right-radius:6px;
+
+    -moz-border-radius-topleft:6px;
+    -webkit-border-top-left-radius:6px;
+    border-top-left-radius:6px;
+}.tableConsulta table{
+    border-collapse: collapse;
+    border-spacing: 0;
+    width:100%;
+    height:100%;
+    margin:0px;padding:0px;
+}
+.tableConsulta tr:last-child td:last-child {
+    -moz-border-radius-bottomright:6px;
+    -webkit-border-bottom-right-radius:6px;
+    border-bottom-right-radius:6px;
+}
+.tableConsulta table tr:first-child td:first-child {
+    -moz-border-radius-topleft:6px;
+    -webkit-border-top-left-radius:6px;
+    border-top-left-radius:6px;
+}
+.tableConsulta table tr:first-child td:last-child {
+    -moz-border-radius-topright:6px;
+    -webkit-border-top-right-radius:6px;
+    border-top-right-radius:6px;
+}.tableConsulta tr:last-child td:first-child{
+    -moz-border-radius-bottomleft:6px;
+    -webkit-border-bottom-left-radius:6px;
+    border-bottom-left-radius:6px;
+}.tableConsulta tr:hover td{
+
+}
+.tableConsulta tr:nth-child(odd){ 
+    background-color:#ffaa56; 
+}
+.tableConsulta tr:nth-child(even)    { 
+    background-color:#ffffff; 
+}.tableConsulta td{
+    vertical-align:middle;
+    border:1px solid #000000;
+    border-width:0px 1px 1px 0px;
+    text-align:left;
+    padding:5px;
+    font-size:14px;
+    font-family:Helvetica;
+    font-weight:normal;
+    color:#000000;
+}.tableConsulta tr:last-child td{
+    border-width:0px 1px 0px 0px;
+}.tableConsulta tr td:last-child{
+    border-width:0px 0px 1px 0px;
+}.tableConsulta tr:last-child td:last-child{
+    border-width:0px 0px 0px 0px;
+}
+.tableConsulta tr:first-child td{
+    background:-o-linear-gradient(bottom, #ff8000 5%, #ff8000 100%);	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #ff8000), color-stop(1, #ff8000) );
+    background:-moz-linear-gradient( center top, #ff8000 5%, #ff8000 100% );
+    filter:progid:DXImageTransform.Microsoft.gradient(startColorstr="#ff8000", endColorstr="#ff8000");	background: -o-linear-gradient(top,#ff8000,ff8000);
+    background-color:#ff8000;
+    border:0px solid #000000;
+    text-align:center;
+    border-width:0px 0px 1px 1px;
+    font-size:18px;
+    font-family:Arial;
+    font-weight:bold;
+    color:#ffffff;
+}
+.tableConsulta tr:first-child:hover td{
+    background:-o-linear-gradient(bottom, #ff8000 5%, #ff8000 100%);	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #ff8000), color-stop(1, #ff8000) );
+    background:-moz-linear-gradient( center top, #ff8000 5%, #ff8000 100% );
+    filter:progid:DXImageTransform.Microsoft.gradient(startColorstr="#ff8000", endColorstr="#ff8000");	background: -o-linear-gradient(top,#ff8000,ff8000);
+
+    background-color:#ff8000;
+}
+.tableConsulta tr:first-child td:first-child{
+    border-width:0px 0px 1px 0px;
+}
+.tableConsulta tr:first-child td:last-child{
+    border-width:0px 0px 1px 1px;
+}
+
+.btnConsulta {
+    background: #3cb0fd;
+    background-image: -webkit-linear-gradient(top, #3cb0fd, #3498db);
+    background-image: -moz-linear-gradient(top, #3cb0fd, #3498db);
+    background-image: -ms-linear-gradient(top, #3cb0fd, #3498db);
+    background-image: -o-linear-gradient(top, #3cb0fd, #3498db);
+    background-image: linear-gradient(to bottom, #3cb0fd, #3498db);   
+    -webkit-border-radius: 10;
+    -moz-border-radius: 10;
+    border-radius: 10px;
+    text-shadow: 1px 1px 3px #666666;
+    font-family: Arial;
+    color: #ffffff;
+    font-size: 12px;
+    padding: 5px 10px 5px 10px;
+    text-decoration: none;
+}
+
+.btnConsulta:hover {
+
+    background: #3498db;
+    background-image: -webkit-linear-gradient(top, #3498db, #2980b9);
+    background-image: -moz-linear-gradient(top, #3498db, #2980b9);
+    background-image: -ms-linear-gradient(top, #3498db, #2980b9);
+    background-image: -o-linear-gradient(top, #3498db, #2980b9);
+    background-image: linear-gradient(to bottom, #3498db, #2980b9);
+    font-size: 13px;
+    text-decoration: none;
+    -webkit-border-radius: 15;
+    -moz-border-radius: 15;
+    border-radius: 15px;
+
+}
+
+
+.btnInserta {
+    -webkit-border-radius: 10;
+    -moz-border-radius: 10;
+    border-radius: 10px;
+    font-family: Arial;
+    color: #ffffff;
+    font-size: 13px;
+    background: #34d939;
+    padding: 5px 10px 5px 10px;
+    text-decoration: none;
+}
+
+.btnInserta:hover {
+    background: #0b8f10;
+    text-decoration: none;
+}
+
+.btnReporte {
+    -webkit-border-radius: 10;
+    -moz-border-radius: 10;
+    border-radius: 10px;
+    text-shadow: 1px 1px 3px #666666;
+    font-family: Arial;
+    color: #000000;
+    font-size: 12px;
+    background: #d9cb34;
+    padding: 5px 10px 5px 10px;
+    text-decoration: none;
+    background: #f6fc3c;
+}
+
+.btnReporte:hover {
+    -webkit-border-radius: 15;
+    -moz-border-radius: 15;
+    border-radius: 15px;
+    background: #d9cb34;  
+    text-decoration: none;
+    font-size: 13px;
+}
+
+.btnLimpia {
+    -webkit-border-radius: 10;
+    -moz-border-radius: 10;
+    border-radius: 10px;
+    font-family: Arial;
+    color: #ffffff;
+    font-size: 13px;
+    background: #54e5ff;
+    padding: 5px 10px 5px 10px;
+    text-decoration: none;
+}
+
+.btnLimpia:hover {
+    background: #25a883;
+    text-decoration: none;
+}
+
+.btnElimina {
+    -webkit-border-radius: 10;
+    -moz-border-radius: 10;
+    border-radius: 10px;
+    font-family: Arial;
+    color: #ffffff;
+    font-size: 13px;
+    background: #ff5e52;
+    padding: 5px 10px 5px 10px;
+    text-decoration: none;
+}
+
+.btnElimina:hover {
+    background: #8f0b0b;
+    text-decoration: none;
+}
+input{
+    border: 1px solid #DBE1EB;
+    font-size: 14px;
+    font-family: Arial, Verdana;
+    padding-left: 2px;
+    padding-right: 2px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    border-radius: 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    -o-border-radius: 3px;
+    background: #FFFFFF;
+    background: linear-gradient(left, #FFFFFF, #F7F9FA);
+    background: -moz-linear-gradient(left, #FFFFFF, #F7F9FA);
+    background: -webkit-linear-gradient(left, #FFFFFF, #F7F9FA);
+    background: -o-linear-gradient(left, #FFFFFF, #F7F9FA);
+    color: #2E3133;
+}
+input:focus{
+    box-shadow:0 0 15px #036; 
+}
+
+//tabla insert
+
+.tableInsert {
+    margin:0px;padding:0px;
+    width:100%;
+    box-shadow: 10px 10px 5px #888888;
+    border:1px solid #000000; 
+}
+
+.tableInsert table{
+    border: 1px solid #000000;
+    -webkit-border-radius: 6px;
+    border-radius: 6px; 
+    -webkit-box-shadow: 10px 10px 10px 1px rgba(100,100,110,100);
+    box-shadow: 10px 10px 10px 1px rgba(100,100,110,100);
+}
+.tableInsert table thead tr{
+    text-align: center;
+    background-color: rgba(255, 175, 20, 10);
+    color: rgba(10, 10, 20, 10);
+    font-family:Helvetica;
+    font-size: 18px;
+    -webkit-border-radius: 0 0 10px 10px;
+    border-radius: 0 0 10px 10px;   
+    text-shadow: 1px 1px 1px #FFFFFF;
+}
+.tableInsert table thead tr td{
+    border: 1px solid #000000;
+    -webkit-border-radius: 6px 6px 0px 0px;
+    border-radius: 6px 6px 0px 0px;
+}
+
+.tableInsert table tfoot tr td{
+    border: 1px solid #000000; 
+    height: 35px;
+    text-align: right;
+    -webkit-border-radius: 0px 0px 6px 6px ;
+    border-radius: 0px 0px 6px 6px;
+}
+
+.tableInsert table tbody{
+    font-family:Helvetica;
+    font-size: 14px;
+}
+
+.tableInsert table tbody tr td{
+    padding-top: 5px;
+    padding-left: 10px;
+    text-align: right;
+}
+select {
+    background: transparent;    
+    border: 1px;
+    border-radius: 0;
+
+}
+
+.tableConsultaMultiFiltro{
+    width: 90%;
+    border: 1px solid #000000;
+    -webkit-border-radius: 10px;
+    border-radius: 10px; 
+    -webkit-box-shadow: 10px 10px 10px 1px rgba(100,100,110,100);
+    box-shadow: 10px 10px 10px 1px rgba(100,100,110,100);
+    font-family:Helvetica;
+    font-size: 14px;
+}
+
+.tableConsultaMultiFiltro table{
+    width: 100%;
+}
+
+.tableConsultaMultiFiltro .titulo{
+    font-size: 16px;
+    font-weight: bolder;
+    background-color: rgba(255, 175, 20, 10);
+    -webkit-border-radius: 6px;
+    border-radius: 6px; 
+    height: 22px;
+}
+
+.tableConsultaMultiFiltro input{
+    width: 95%;
+}
+
+.tableConsultaMultiFiltro .tdLabel label{
+    font-style: normal;
+    font-weight: bold;
+}
+
+.cabecera{
+    -webkit-border-radius: 10px 10px 10px 10px;
+    border-radius: 10px 10px 10px 10px;
+    color: #ffffff;
+    font-family: Arial;
+    font-size: 15px;
+}
