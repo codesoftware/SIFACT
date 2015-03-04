@@ -1,0 +1,17 @@
+<!DOCTYPE struts PUBLIC
+"-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+"http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+    <constant name="struts.devMode" value="true"/>
+    <constant name="struts.action.extension" value="html"/>
+    
+    <package name="ajax" namespace="/" extends="struts-default">  
+        <action name="traeProducto" class="co.com.codesoftware.facturacion.ajax.controlador.AjaxControllerFacturacion" method="traeProducto">
+
+        </action>
+
+        
+    </package>
+
+</struts>

@@ -5,9 +5,28 @@
 <html>
     <head>
         <s:include value="/WEB-INF/TEMPLATES/cabecera.jsp"></s:include>
-        <script type="text/javascript" src="<%=RutaSitio%>/JS/FACTURACION/GESTION/Fact_GestionFacturacion.js"></script>
-        <script type="text/javascript" src="<%=RutaSitio%>/JS/FACTURACION/GESTION/Fact_GestionFacturacionAddServ.js"></script>
-        <script type="text/javascript" src="<%=RutaSitio%>/JS/FACTURACION/GESTION/Fact_GestionFacturacionAddProd.js"></script>
+
+
+        <script type="text/javascript">
+
+            $(document).ready(function () {
+                $('#codigoBarras').keypress(function (event) {
+                    var keycode = (event.keyCode ? event.keyCode : event.which);
+                    if (keycode == '13') {
+                        var datos= new Object();
+                        datos.codigoBarras = $('#codigoBarras').val();
+                        $.ajax({
+                            type: 'GET',
+                            data: datos,
+                            url: '${pageContext.request.contextPath}/traeProducto.html',
+                            success: function (response) {
+                                $('.result').html(response);
+                            }
+                        });
+                    }
+                });
+            });
+        </script>
     </head>
     <body>
         <s:div cssClass="header">
@@ -89,6 +108,17 @@
                         </td>                        
                     </tr>
                 </table>
+                <form>
+                <table class="table table-bordered"  >
+                    <tr>
+                        <td class="alert alert-info text-center" colspan="6" ><h3>Consultar Producto</h3></td>
+                    </tr>
+                    <tr>
+                        <td>Codigo de barras:<s:textfield cssClass="form-control" name="codigoBarras" required="true" id="codigoBarras" theme="simple" /></td>   
+
+                    </tr>
+                </table>
+                <div class="result"></div>
             </div>
             <div class="col-md-2 col-xs-0 col-sm-0"></div>
         </div>

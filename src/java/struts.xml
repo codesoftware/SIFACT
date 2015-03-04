@@ -4,7 +4,8 @@
 
 <struts>
     <!-- Configuration for the default package. -->
-    <package name="default" extends="struts-default" >
+
+    <package name="default"  extends="struts-default" >
         <action name="logeo" class="co.com.codesoftware.general.action.LoginAction">
             <result name="facturador">/WEB-INF/FACTURACION/homeFacturacion.jsp</result>
             <result name="error">/inicio.jsp</result>
@@ -22,6 +23,8 @@
             <result name="error">/WEB-INF/ACCIONES/FACTURACION/CREACION/Fac_InsertCliFactura.jsp</result>
             <result name="input">/WEB-INF/ACCIONES/FACTURACION/CREACION/Fac_InsertCliFactura.jsp</result>
             <result name="success">/WEB-INF/ACCIONES/FACTURACION/MODIFICAR/Fact_GestionFacturacion.jsp</result>
-        </action>    
+        </action>   
     </package>
+         <include file="ajax.xml" />
+         
 </struts>
