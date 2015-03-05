@@ -5,28 +5,7 @@
 <html>
     <head>
         <s:include value="/WEB-INF/TEMPLATES/cabecera.jsp"></s:include>
-
-
-        <script type="text/javascript">
-
-            $(document).ready(function () {
-                $('#codigoBarras').keypress(function (event) {
-                    var keycode = (event.keyCode ? event.keyCode : event.which);
-                    if (keycode == '13') {
-                        var datos= new Object();
-                        datos.codigoBarras = $('#codigoBarras').val();
-                        $.ajax({
-                            type: 'GET',
-                            data: datos,
-                            url: '${pageContext.request.contextPath}/traeProducto.html',
-                            success: function (response) {
-                                $('.result').html(response);
-                            }
-                        });
-                    }
-                });
-            });
-        </script>
+        <script type="text/javascript" src="<%=RutaSitio%>/JS/FACTURACION/CREACION/Fact_GestionFacturacion.js"></script>
     </head>
     <body>
         <s:div cssClass="header">
@@ -109,85 +88,41 @@
                     </tr>
                 </table>
                 <form>
-                <table class="table table-bordered"  >
-                    <tr>
-                        <td class="alert alert-info text-center" colspan="6" ><h3>Consultar Producto</h3></td>
-                    </tr>
-                    <tr>
-                        <td>Codigo de barras:<s:textfield cssClass="form-control" name="codigoBarras" required="true" id="codigoBarras" theme="simple" /></td>   
-
-                    </tr>
-                </table>
-                <div class="result"></div>
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <td class="alert alert-info text-center" colspan="4" ><h3>Consultar Producto</h3></td>
+                            </tr>
+                        </thead>
+                        <tbody id="bodyConsulta">
+                            <tr>
+                                <td><b>CODIGO:</b></td>
+                                <td>
+                                    <s:textfield cssClass="form-control" name="codigoBarras" required="true" id="codigoBarras" theme="simple" />
+                                </td>
+                                <td>
+                                    <b>CANTIDAD:</b>
+                                </td>
+                                <td>
+                                    <s:textfield cssClass="form-control" name="cantidad" required="true" id="codigoBarras" theme="simple"/>
+                                </td>                                
+                            </tr>
+                        </tbody> 
+                        <tfoot>
+                            <tr>
+                                <td style="width:10%;text-align: right;" colspan="4">
+                                    <button type="button" class="btn btn-default" onclick="adicionaProducto()">
+                                        <span class="glyphicon glyphicon-plus"></span>&nbsp;Agregar
+                                    </button>
+                                </td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                    <div class="result"></div>
             </div>
             <div class="col-md-2 col-xs-0 col-sm-0"></div>
         </div>
         <!-- Inicio popups de la pagina-->
-        <!-- Dialogo en el cual se elige si se va ha adicionar un servicio o un producto-->
-        <div class="modal fade" tabindex="-1" role="dialog" aria-hidden="true" id="dialogoAddServProd">
-            <div class="modal-dialog">                
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h4 class="modal-title">Elección Producto o Servicio</h4>
-                    </div>
-                    <div class="modal-body">
-                        ¿Desea adicionar un producto o un servicio?
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">
-                            CERRAR
-                        </button>
-                        <button type="button" class="btn btn-primary" id="sevicioAdd">
-                            SERVICIO
-                        </button>
-                        <button type="button" class="btn btn-primary" id="productoAdd">
-                            PRODUCTO
-                        </button>                        
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- Muestra un formulario con las opciones de Filtro con las cuales el usuario podra reservar una habitacion -->
-        <div class="modal fade" tabindex="-1" role="dialog" aria-hidden="true" id="dialogoFiltroReservServ">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h4 class="modal-title">Filtros Reserva Habitaciones</h4>
-                    </div>
-                    <div class="modal-body">
-                        <div class="alert alert-danger" style="display: none; text-align: center;padding: 5px; font-size: 13px;" id="divError" >
-                            <span id="msgError" style="font-weight: 700;"></span>
-                        </div>
-                        <div style="width: 100%;text-align: center;font-size: 14px;"><b>POSIBLES FILTROS PARA RESERVA DE HABITACION</b></div>                        
-                        <form>
-                            <div class="form-group">
-                                <label for="fecha" class="control-label">Fecha:</label>
-                                <div class="input-group date">
-                                    <input type="text" class="form-control" id="fechaReserv" readonly="true" >
-                                    <span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="numPersonas" class="control-label">Número de Personas:</label>
-                                <input type="text" class="form-control" id="numPersonasReserv" onkeypress="return validaNumeros(event);">
-                            </div>
-                            <div class="form-group">
-                                <label for="numDias" class="control-label">Numero de Días:</label>
-                                <input type="text" class="form-control" id="numDiasReserv" onkeypress="return validaNumeros(event);">
-                            </div>
-                        </form>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">
-                            CERRAR
-                        </button>
-                        <button type="button" class="btn btn-primary" id="buscarPosibleReservHab">
-                            BUSCAR
-                        </button>                        
-                    </div>
-                </div>                
-            </div>
-        </div>
         <!-- Popup utilizado para visualizar informacion -->
         <div class="modal fade" tabindex="-1" role="dialog" aria-hidden="true" id="informacionPopUp">
             <div class="modal-dialog">                

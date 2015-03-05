@@ -25,8 +25,8 @@ public class ProductoLogica {
             objDao = new ProductoDao();
             objDao.setDska_cod(dska_cod);
             ResultSet rs = function.enviarSelect(objDao.traeProductoCodigo());
-            prd = new Producto();
-            if (rs.next()) {
+            if (rs.next()){
+                prd = new Producto();
                 prd.setDska_cod(rs.getString("dska_cod"));
                 prd.setDska_desc(rs.getString("dska_desc"));
                 prd.setDska_cate(rs.getString("dska_cate"));

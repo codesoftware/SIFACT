@@ -24,14 +24,12 @@ public class AjaxControllerFacturacion extends ActionSupport {
     public void traeProducto() {
         String respuesta= "";
         ProductoLogica logica = new ProductoLogica();
-        try {
-            
+        try {            
             HttpServletResponse response = ServletActionContext.getResponse();
             response.setContentType("text/plain;charset=utf-8");
             PrintWriter out = response.getWriter();
             respuesta=logica.buscaProductoXCodigoBarras(codigoBarras);
-            out.print(respuesta);
-           
+            out.print(respuesta);           
             out.flush();
         } catch (Exception e) {
             e.printStackTrace();
