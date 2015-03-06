@@ -20,9 +20,9 @@
             <result name="success">/WEB-INF/FACTURACION/MODIFICAR/Fact_GestionFacturacion.jsp</result>
         </action>
         <action name="Fac_nuevoCliente" class="co.com.codesoftware.facturacion.action.ClienteAction" method="insertarCliente">
-            <result name="error">/WEB-INF/ACCIONES/FACTURACION/CREACION/Fac_InsertCliFactura.jsp</result>
-            <result name="input">/WEB-INF/ACCIONES/FACTURACION/CREACION/Fac_InsertCliFactura.jsp</result>
-            <result name="success">/WEB-INF/ACCIONES/FACTURACION/MODIFICAR/Fact_GestionFacturacion.jsp</result>
+            <result name="error">/WEB-INF/FACTURACION/CREACION/Fac_InsertCliFactura.jsp</result>
+            <result name="input">/WEB-INF/FACTURACION/CREACION/Fac_InsertCliFactura.jsp</result>
+            <result name="success">/WEB-INF/FACTURACION/MODIFICAR/Fact_GestionFacturacion.jsp</result>
         </action>   
     </package>
          <include file="ajax.xml" />

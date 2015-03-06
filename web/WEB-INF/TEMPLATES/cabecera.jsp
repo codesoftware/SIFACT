@@ -10,6 +10,7 @@
 <script type="text/javascript" src="<%=RutaSitio%>/JS/MENU/jquery.smartmenus.js"></script>
 <script type="text/javascript" src="<%=RutaSitio%>/JS/MENU/jquery.smartmenus.bootstrap.js"></script>
 <script type="text/javascript" src="<%=RutaSitio%>/JS/CORE/funciones.js"></script>
+<script type="text/javascript" src="<%=RutaSitio%>/JS/CORE/Validaciones.js"></script>
 <link rel="stylesheet" type="text/css" href="<%=RutaSitio%>/CSS/CORE/BOOTSTRAP/bootstrap.min.css">
 <link rel="stylesheet" type="text/css" href="<%=RutaSitio%>/CSS/CORE/DATEPICKER/datepicker3.css">
 <link rel="stylesheet" type="text/css" href="<%=RutaSitio%>/CSS/CORE/coreNew.css">
