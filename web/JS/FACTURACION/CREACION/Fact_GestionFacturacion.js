@@ -29,10 +29,12 @@ $(document).ready(function() {
                         $('#msnInfo').html('Producto Inexistente por favor intente de nuevo');
                         $('#informacionPopUp').modal('show');
                     }
-                    //$('.result').html(response);
                 }
             });
         }
+    });
+    $(document).on('click', '.elimnarFilaProd', function() {
+        $(this).closest('.filaProdFact').remove();
     });
 });
 
@@ -97,28 +99,28 @@ function agregaProductos(dska_dska) {
             if (obj.respuesta == 'Error') {
                 $('#msnInfo').html(obj.mensaje);
                 $('#informacionPopUp').modal('show');
-            }else{
+            } else {
                 adicionaProductoFactura(obj.objeto);
             }
         }
     });
 }
 
-function adicionaProductoFactura(objeto){
+function adicionaProductoFactura(objeto) {
     var tabla = $('#tablaFactProd');
-    var fila = '<tr>'+
-                    '<td>' + objeto.cantidad + '</td>'+
-                    '<td>' + objeto.dska_codigo + '</td>'+
-                    '<td>' + objeto.nombre + '</td>'+
-                    '<td>' + objeto.precioUnidad + '</td>'+
-                    '<td>' + objeto.ivaUnidad + '</td>'+
-                    '<td>' + objeto.valortotal + '</td>'+
-                    '<td>' + objeto.ivaTotal + '</td>'+
-                    '<td>' + objeto.totalPagar + '</td>'+
-                    '<td>'+
-                        '<button type=\"button\" class=\"btn btn-danger elimnarFila\">'+
-                        '<span class=\"glyphicon glyphicon-remove\" ></span> </button>'+
-                    '</td>'+ 
-                '</tr>';
+    var fila = '<tr class=\"filaProdFact\">' +
+            '<td>' + objeto.cantidad + '</td>' +
+            '<td>' + objeto.dska_codigo + '</td>' +
+            '<td>' + objeto.nombre + '</td>' +
+            '<td>' + objeto.precioUnidad + '</td>' +
+            '<td>' + objeto.ivaUnidad + '</td>' +
+            '<td>' + objeto.valortotal + '</td>' +
+            '<td>' + objeto.ivaTotal + '</td>' +
+            '<td>' + objeto.totalPagar + '</td>' +
+            '<td>' +
+            '<button type=\"button\" class=\"btn btn-danger elimnarFilaProd\">' +
+            '<span class=\"glyphicon glyphicon-remove\" ></span> </button>' +
+            '</td>' +
+            '</tr>';
     tabla.append(fila);
 }
