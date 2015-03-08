@@ -73,12 +73,6 @@
                             <td style="width: 17%;">0</td>
                         </s:else>
                     </tr>
-                    <tr>
-                        <td colspan="5">&nbsp;&nbsp;&nbsp;&nbsp;</td>
-                        <td>
-                            <button type="button" class="btn btn-default" onclick="agregar()"><span class="glyphicon glyphicon-plus"></span>&nbsp;Agregar</button>
-                        </td>                        
-                    </tr>
                 </table>
                 <form>
                     <table class="table table-bordered">
@@ -96,8 +90,8 @@
                                 <td>
                                     <b>CANTIDAD:</b>
                                 </td>
-                                <td colspan="2">
-                                    <s:textfield cssClass="form-control" name="cantidad" required="true" id="codigoBarras" theme="simple"/>
+                                <td>
+                                    <s:textfield cssClass="form-control" name="cantidad" required="true" id="cantidad" theme="simple" onkeypress="return validaNumeros(event)"/>
                                 </td>                                
                             </tr>
                         </tbody> 
@@ -134,91 +128,6 @@
                 </div>
             </div>
         </div>
-        <!-- Pop up en el cual se visualizara los resultados de la consulta de servicios -->
-        <div class="modal fade" tabindex="-1" role="dialog" aria-hidden="true" id="consultaBusquedaServ">
-            <div class="modal-dialog">                
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h4 class="modal-title">Resultados Busqueda Habitaciones</h4>
-                    </div>
-                    <div class="modal-body">
-                        <table id="tablaAddServ" class="table table-hover table-striped">
-
-                        </table>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">
-                            CANCELAR
-                        </button>   
-                        <button type="button" class="btn btn-primary" id="confirmarReserva">
-                            RESERVAR
-                        </button> 
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- Muestra un formulario con las opciones de Filtro con las cuales el usuario podra encontrar un podructo -->
-        <div class="modal fade" tabindex="-1" role="dialog" aria-hidden="true" id="dialogoFiltroAdicionProd">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h4 class="modal-title">Filtros Cosulta Productos</h4>
-                    </div>
-                    <div class="modal-body">
-                        <div class="alert alert-danger" style="display: none; text-align: center;padding: 5px; font-size: 13px;" id="divErrorProd" >
-                            <span id="msgErrorProd" style="font-weight: 700;"></span>
-                        </div>
-                        <div style="width: 100%;text-align: center;font-size: 14px;"><b>POSIBLES FILTROS PARA ENCONTRAR UN PRODUCTO</b></div>                        
-                        <form>
-                            <div class="form-group">
-                                <label for="codigoProd" class="control-label">Codigo:</label>
-                                <input type="text" class="form-control" id="codigoProd" />
-                            </div>
-                            <div class="form-group">
-                                <label for="referenciaProd" class="control-label">Referencia:</label>
-                                <input type="text" class="form-control" id="referenciaProd" />
-                            </div>
-                            <div class="form-group">
-                                <label for="nombreProducto" class="control-label">Nombre Producto:</label>
-                                <input type="text" class="form-control" id="nombreProducto" />
-                            </div>
-                        </form>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">
-                            CERRAR
-                        </button>
-                        <button type="button" class="btn btn-primary" id="buscaPosiblesProd">
-                            BUSCAR
-                        </button>                        
-                    </div>
-                </div>                
-            </div>
-        </div>
-        <!--- Popup el cual visualizara los resultados de la consulta de productos -->
-        <div class="modal fade" tabindex="-1" role="dialog" aria-hidden="true" id="consultaBusquedaProd">
-            <div class="modal-dialog">                
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h4 class="modal-title">Resultado busqueda de Productos</h4>
-                    </div>
-                    <div class="modal-body">
-                        <table id="tablaAddProd" class="table table-hover table-striped">
-
-                        </table>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">
-                            CANCELAR
-                        </button>   
-                        <button type="button" class="btn btn-primary" id="adicionaProd" >
-                            ADICIONAR
-                        </button> 
-                    </div>
-                </div>
-            </div>
-        </div>
-
         <!-- Fin popups de la pagina-->
     </body>
 </html>
