@@ -20,7 +20,11 @@ public class AjaxControllerFacturacion extends ActionSupport {
 
     private static final long serialVersionUID = 1L;
     private String codigoBarras;
-
+    private String dska_dska;
+    private String cantidad;
+    /**
+     * Funcion encargada de obtener los datos de un producto
+     */
     public void traeProducto() {
         String respuesta= "";
         ProductoLogica logica = new ProductoLogica();
@@ -35,6 +39,20 @@ public class AjaxControllerFacturacion extends ActionSupport {
             e.printStackTrace();
         }
     }
+    
+    public void obtieneDatosFact(){
+        ProductoLogica logica = new ProductoLogica();
+        try {
+            HttpServletResponse response = ServletActionContext.getResponse();
+            response.setContentType("text/plain;charset=utf-8");
+            PrintWriter out = response.getWriter();
+            String objJson = logica.adicionProdFactura(dska_dska, cantidad);
+            out.print(objJson);
+                        
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
     public String getCodigoBarras() {
         return codigoBarras;
@@ -44,4 +62,19 @@ public class AjaxControllerFacturacion extends ActionSupport {
         this.codigoBarras = codigoBarras;
     }
 
+    public String getDska_dska() {
+        return dska_dska;
+    }
+
+    public void setDska_dska(String dska_dska) {
+        this.dska_dska = dska_dska;
+    }
+
+    public String getCantidad() {
+        return cantidad;
+    }
+
+    public void setCantidad(String cantidad) {
+        this.cantidad = cantidad;
+    }    
 }

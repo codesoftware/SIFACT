@@ -78,26 +78,26 @@
                     <table class="table table-bordered">
                         <thead>
                             <tr>
-                                <td class="alert alert-info text-center" colspan="6" ><h3>Consultar Producto</h3></td>
+                                <td class="alert alert-info text-center" colspan="8" ><h3>Consultar Producto</h3></td>
                             </tr>
                         </thead>
                         <tbody id="bodyConsulta">
                             <tr>
                                 <td><b>CODIGO:</b></td>
-                                <td colspan="2">
+                                <td colspan="3">
                                     <s:textfield cssClass="form-control" name="codigoBarras" required="true" id="codigoBarras" theme="simple" />
                                 </td>
                                 <td>
                                     <b>CANTIDAD:</b>
                                 </td>
-                                <td colspan="2">
+                                <td colspan="3">
                                     <s:textfield cssClass="form-control" name="cantidad" required="true" id="cantidad" theme="simple" onkeypress="return validaNumeros(event)"/>
                                 </td>                                
                             </tr>
                         </tbody> 
                         <tfoot>
                             <tr>
-                                <td style="width:10%;text-align: right;" colspan="6">
+                                <td style="width:10%;text-align: right;" colspan="8">
                                     <button type="button" class="btn btn-default" onclick="adicionaProducto()">
                                         <span class="glyphicon glyphicon-plus"></span>&nbsp;Agregar
                                     </button>
@@ -108,6 +108,32 @@
                     <div class="result"></div>
             </div>
             <div class="col-md-2 col-xs-0 col-sm-0"></div>
+        </div>
+        <div class="row">
+            <div class="col-md-1 col-xs-0 col-sm-0"></div>
+            <div class="col-md-10 col-xs-12 col-sm-12">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <td class="alert alert-info text-center" colspan="9" ><h3>Productos Factura</h3></td>
+                        </tr>
+                    </thead>
+                    <tbody id="tablaFactProd">
+                        <tr class="alert alert-success">
+                            <td>Cant.</td>
+                            <td>Codigo</td>
+                            <td>Nombre</td>
+                            <td>Prod Unidad</td>
+                            <td>Iva Unidad</td>
+                            <td>Total Prod</td>
+                            <td>Total Iva</td>
+                            <td>Total</td>
+                            <td>Accion</td>
+                        </tr>
+                    </tbody>
+                </table>                
+            </div>
+            <div class="col-md-1 col-xs-0 col-sm-0"></div>
         </div>
         <!-- Inicio popups de la pagina-->
         <!-- Popup utilizado para visualizar informacion -->

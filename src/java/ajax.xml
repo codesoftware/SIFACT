@@ -10,8 +10,9 @@
         <action name="traeProducto" class="co.com.codesoftware.facturacion.ajax.controlador.AjaxControllerFacturacion" method="traeProducto">
 
         </action>
+        <action name="adicionaFactura" class="co.com.codesoftware.facturacion.ajax.controlador.AjaxControllerFacturacion" method="obtieneDatosFact">
 
-        
+        </action>
     </package>
 
 </struts>

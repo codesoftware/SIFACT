@@ -25,7 +25,8 @@ public class ProductoDao {
     private String cantExis;
     //Informacion adicional del producto
     private String precio;
-    
+    private String sede;
+    private String cantidad;//Cantidad de productos a comprar
 
     public String getDska_dska() {
         return dska_dska;
@@ -131,6 +132,22 @@ public class ProductoDao {
         this.precio = precio;
     }
 
+    public String getSede() {
+        return sede;
+    }
+
+    public void setSede(String sede) {
+        this.sede = sede;
+    }
+
+    public String getCantidad() {
+        return cantidad;
+    }
+
+    public void setCantidad(String cantidad) {
+        this.cantidad = cantidad;
+    }
+
     /**
      * Funcion encargada de realizar el query para obtener la informacion de un
      * producto
@@ -161,4 +178,67 @@ public class ProductoDao {
         return sql;
     }
 
+    /**
+     * Funcion encargada realizar el query para saber todos los ingresos del
+     * producto realizados por sede
+     *
+     * @return
+     */
+    public String ingresoProdSede(String sede) {
+        String sql = "";
+        sql += "SELECT sum(kapr_cant_mvto) ingresos  \n";
+        sql += "  FROM in_tmvin, in_tkapr   \n";
+        sql += " WHERE mvin_natu = 'I'      \n";
+        sql += "   AND mvin_mvin = kapr_mvin\n";
+        sql += "   AND kapr_sede = " + sede + " \n";
+        sql += "   AND kapr_dska = " + this.getDska_dska();
+        return sql;
+    }
+
+    /**
+     * Funcion encargada realizar el query para saber todos los egresos del
+     * producto por sede
+     *
+     * @param sede
+     * @return
+     */
+    public String egresosProdSede(String sede) {
+        String sql = "";
+        sql += "SELECT sum(kapr_cant_mvto) egresos  \n";
+        sql += "  FROM in_tmvin, in_tkapr   \n";
+        sql += " WHERE mvin_natu = 'E'      \n";
+        sql += "   AND mvin_mvin = kapr_mvin\n";
+        sql += "   AND kapr_sede = " + sede + " \n";
+        sql += "   AND kapr_dska = " + this.getDska_dska();
+        return sql;
+    }
+
+    /**
+     * Funcion encargda de realizar el Query de los calculos necesarios para
+     * facturar un producto
+     *
+     * @return
+     */
+    public String calculosFactura() {
+        String sql = "";
+        sql += "SELECT cantidad, codigo,nombre, to_char(precio,'LFM9,999,999,999,999.00') precio,                \n";
+        sql += "       to_char(ivauni,'LFM9,999,999,999,999.00') ivaUni,                                         \n";
+        sql += "       to_char(vlrTotal,'LFM9,999,999,999,999.00') vlrTotal,                                     \n";
+        sql += "       to_char(ivaTotal,'LFM9,999,999,999,999.00') ivaTotal,                                     \n";
+        sql += "       to_char((vlrTotal+ivaTotal),'LFM9,999,999,999,999.00') totalPagar                         \n";
+        sql += "  FROM (SELECT  cantidad, codigo, nombre,                                                        \n";
+        sql += "                precio, ((precio*iva)/100) ivaUni,                                               \n";
+        sql += "                (precio *cantidad) vlrTotal, (((precio*iva)/100)*cantidad) ivaTotal              \n";
+        sql += "        FROM (SELECT dska_cod codigo, dska_nom_prod nombre,                                      \n";
+        sql += "                     prpr_precio precio, " + this.getCantidad() + " cantidad,                    \n";
+        sql += "                     cast((select para_valor from em_tpara where para_clave = 'IVAPR')as int) iva\n";
+        sql += "                FROM in_tdska, in_tprpr                                                          \n";
+        sql += "               WHERE dska_dska = " + this.getDska_dska() + "                                     \n";
+        sql += "                 AND prpr_dska = dska_dska                                                       \n";
+        sql += "                 AND prpr_estado = 'A'                                                           \n";
+        sql += "                 AND prpr_sede = " + this.getSede() + "                                          \n";
+        sql += "              ) param                                                                            \n";
+        sql += "       ) tablaFinal                                                                              \n";
+        return sql;
+    }
 }
