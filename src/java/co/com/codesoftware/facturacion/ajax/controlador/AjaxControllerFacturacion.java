@@ -32,7 +32,11 @@ public class AjaxControllerFacturacion extends ActionSupport {
             HttpServletResponse response = ServletActionContext.getResponse();
             response.setContentType("text/plain;charset=utf-8");
             PrintWriter out = response.getWriter();
-            respuesta=logica.buscaProductoXCodigoBarras(codigoBarras);
+            String []elementos = codigoBarras.split("-");
+            if(elementos[0].equalsIgnoreCase("1")){
+                respuesta=logica.buscaProductoXCodigoBarras(codigoBarras);
+            }else{
+            }
             out.print(respuesta);           
             out.flush();
         } catch (Exception e) {
