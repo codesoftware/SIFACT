@@ -90,7 +90,7 @@
                                 <td>
                                     <b>CANTIDAD:</b>
                                 </td>
-                                <td>
+                                <td colspan="2">
                                     <s:textfield cssClass="form-control" name="cantidad" required="true" id="cantidad" theme="simple" onkeypress="return validaNumeros(event)"/>
                                 </td>                                
                             </tr>
