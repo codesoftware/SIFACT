@@ -32,3 +32,33 @@ $(document).ready(function(){
         }
     });
 });
+
+function adicionaProducto(){
+    var valida = validaDatos();
+    if(valida){
+        alert('Agrego el producto a la lista de facturacion');
+    }
+}
+
+function validaDatos(){
+    var codigo = $('#codigoBarras').val();
+    var cantidad = $('#cantidad').val();
+    if(codigo == ''){    
+        $('#msnInfo').html('El campo codigo no puede ser nulo');
+        $('#informacionPopUp').modal('show');        
+        return false;
+    }
+    if(cantidad == ''){
+        $('#msnInfo').html('El campo cantidad no puede ser nulo');
+        $('#informacionPopUp').modal('show');        
+        return false;
+    }
+    var cast = parseInt(cantidad);
+    if(cast == 0){
+        $('#msnInfo').html('El valor de cantidad no puede ser cero');
+        $('#informacionPopUp').modal('show');        
+        return false;
+        
+    }
+    return true;
+}
