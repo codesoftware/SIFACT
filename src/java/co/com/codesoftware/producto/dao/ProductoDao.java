@@ -10,7 +10,7 @@ package co.com.codesoftware.producto.dao;
  * @author Personal
  */
 public class ProductoDao {
-    
+
     private String dska_dska;
     private String dska_refe;
     private String dska_cod;
@@ -23,6 +23,9 @@ public class ProductoDao {
     private String dska_fec_ingreso;
     private String dska_cate;
     private String cantExis;
+    //Informacion adicional del producto
+    private String precio;
+    
 
     public String getDska_dska() {
         return dska_dska;
@@ -119,14 +122,43 @@ public class ProductoDao {
     public void setCantExis(String cantExis) {
         this.cantExis = cantExis;
     }
-    
-    public String traeProductoCodigo(){
-        String select="";
+
+    public String getPrecio() {
+        return precio;
+    }
+
+    public void setPrecio(String precio) {
+        this.precio = precio;
+    }
+
+    /**
+     * Funcion encargada de realizar el query para obtener la informacion de un
+     * producto
+     *
+     * @return
+     */
+    public String traeProductoCodigo() {
+        String select = "";
         select += "SELECT dska_dska, dska_refe, dska_cod, dska_nom_prod, dska_desc, dska_iva, \n";
         select += "       dska_porc_iva, dska_marca, dska_estado, dska_fec_ingreso, dska_cate \n";
         select += "  FROM in_tdska                                                            \n";
-        select += " WHERE dska_cod = '"+this.dska_cod+"' \n";
+        select += " WHERE dska_cod = '" + this.dska_cod + "' \n";
         return select;
     }
-    
+
+    /**
+     * Funcion encargada de realizar el Query para obtener el precio del
+     * producto
+     *
+     * @return
+     */
+    public String obtienePrecioProducto() {
+        String sql = "";
+        sql += "SELECT to_char(prpr_precio,'LFM9,,999,999,999.00') as prpr_precio\n";
+        sql += "FROM in_tprpr                                                    \n";
+        sql += "WHERE prpr_estado = 'A'                                          \n";
+        sql += "AND prpr_dska = " + this.getDska_dska() + " \n";
+        return sql;
+    }
+
 }

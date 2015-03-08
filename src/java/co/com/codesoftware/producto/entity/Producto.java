@@ -24,6 +24,7 @@ public class Producto {
     private String dska_cate;
     private String filtros; //Indica S como se le debe mostrar al cliente y N como se le debe enviar a la base de datos
     private String cantExis; //Numero de cantidades existentes de cada producto
+    private String precio;
 
     public String getDska_dska() {
         return dska_dska;
@@ -129,4 +130,11 @@ public class Producto {
         this.cantExis = cantExis;
     }
 
+    public String getPrecio() {
+        return precio;
+    }
+
+    public void setPrecio(String precio) {
+        this.precio = precio;
+    }
 }

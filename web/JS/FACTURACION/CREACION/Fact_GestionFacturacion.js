@@ -13,10 +13,12 @@ $(document).ready(function(){
                     if(datos.respuesta == 'OK' ){
                         $('#filaConsultaProd').remove();
                         var tbody = '<tr id=\"filaConsultaProd\" >'+
-                                        '<td>Descripcion</td>' + 
+                                        '<td>Descripcion:</td>' + 
                                         '<td>'+datos.objeto.dska_desc +'</td>'+
-                                        '<td>Nombre</td>'+
+                                        '<td>Nombre:</td>'+
                                         '<td>'+datos.objeto.dska_nom_prod + '</td>'+
+                                        '<td>Precio:</td>'+
+                                        '<td>'+datos.objeto.precio + '</td>' +
                                     '</tr>';
                         $('#bodyConsulta').append(tbody);
                     }else{

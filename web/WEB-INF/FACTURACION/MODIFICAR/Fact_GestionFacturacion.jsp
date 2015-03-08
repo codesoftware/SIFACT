@@ -8,13 +8,6 @@
         <script type="text/javascript" src="<%=RutaSitio%>/JS/FACTURACION/CREACION/Fact_GestionFacturacion.js"></script>
     </head>
     <body>
-        <s:div cssClass="header">
-            <s:include value="/WEB-INF/NEWTEMPLATE/FrameTop.jsp" > 
-                <s:param name="nombre"><s:text name="usuario.apellido"/> <s:text name="usuario.nombre"/></s:param>
-                <s:param name="perfil"><s:text name="usuario.NomPerfil"/></s:param>
-                <s:param name="ultimoIngreso"><s:text name="usuario.ultimoIngreso"/></s:param>
-            </s:include>
-        </s:div>
         <s:div cssClass="navigator">
             <s:include value="/WEB-INF/NEWTEMPLATE/menu.jsp">
                 <s:param name="title"><s:property value="usuario.usuario" /></s:param>
@@ -91,26 +84,26 @@
                     <table class="table table-bordered">
                         <thead>
                             <tr>
-                                <td class="alert alert-info text-center" colspan="4" ><h3>Consultar Producto</h3></td>
+                                <td class="alert alert-info text-center" colspan="6" ><h3>Consultar Producto</h3></td>
                             </tr>
                         </thead>
                         <tbody id="bodyConsulta">
                             <tr>
                                 <td><b>CODIGO:</b></td>
-                                <td>
+                                <td colspan="2">
                                     <s:textfield cssClass="form-control" name="codigoBarras" required="true" id="codigoBarras" theme="simple" />
                                 </td>
                                 <td>
                                     <b>CANTIDAD:</b>
                                 </td>
-                                <td>
+                                <td colspan="2">
                                     <s:textfield cssClass="form-control" name="cantidad" required="true" id="codigoBarras" theme="simple"/>
                                 </td>                                
                             </tr>
                         </tbody> 
                         <tfoot>
                             <tr>
-                                <td style="width:10%;text-align: right;" colspan="4">
+                                <td style="width:10%;text-align: right;" colspan="6">
                                     <button type="button" class="btn btn-default" onclick="adicionaProducto()">
                                         <span class="glyphicon glyphicon-plus"></span>&nbsp;Agregar
                                     </button>
