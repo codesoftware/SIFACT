@@ -74,7 +74,7 @@ public class RemisionLogica {
                 rev.setRmce_valor(rs.getString("rmce_valor"));
                 rev.setRmce_tppl(rs.getString("plan"));
                 rev.setRmce_fcve(rs.getString("rmce_fcve"));
-                //rev.setRmce_comision(rs.getString("rmce_comision"));
+                rev.setRmce_comision(rs.getString("comision"));
             }
             Utilidades utilidades = new Utilidades();
             rta = utilidades.convertirObjetoJSON(rev);

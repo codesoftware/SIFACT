@@ -10,6 +10,7 @@ $(document).ready(function () {
                 type: 'GET',
                 data: datos,
                 url: RutaSitio + '/traeProducto.html',
+                async: false,
                 success: function (response) {
                     var datos = JSON.parse(response);
                     if (datos.respuesta == 'OK') {
@@ -51,6 +52,10 @@ $(document).ready(function () {
                     }
                 }
             });
+            if (codigoDeBarras.charAt(0) == '2') {
+                $('#cantidad').val('1');
+                $('#btnAgregarProdRem').focus();
+            }
         }
     });
     $(document).on('click', '.elimnarFilaProd', function () {
@@ -85,6 +90,7 @@ function adicionaProducto() {
                 }
             }
         });
+        $('#codigoBarras').focus();
     }
 }
 

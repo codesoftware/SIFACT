@@ -98,7 +98,7 @@
                         <tfoot>
                             <tr>
                                 <td style="width:10%;text-align: right;" colspan="8">
-                                    <button type="button" class="btn btn-default" onclick="adicionaProducto()">
+                                    <button type="button" class="btn btn-default" id="btnAgregarProdRem" onclick="adicionaProducto()">
                                         <span class="glyphicon glyphicon-plus"></span>&nbsp;Agregar
                                     </button>
                                 </td>
@@ -131,7 +131,13 @@
                             <td>Accion</td>
                         </tr>
                     </tbody>
-                </table>                
+                </table>       
+            </div>
+            <div class="col-md-1 col-xs-0 col-sm-0"></div>
+        </div>
+        <div class="row">
+            <div class="col-md-1 col-xs-0 col-sm-0"></div>
+            <div class="col-md-10 col-xs-12 col-sm-12">
                 <table class="table table-hover">
                     <thead>
                         <tr>
@@ -144,10 +150,10 @@
                             <td>Tipo de plan</td>
                             <td>Fecha de vencimiento</td>
                             <td>Comisión</td>
-                           
+                            <td>Acción</td>
                         </tr>
                     </tbody>
-                </table>                
+                </table> 
             </div>
             <div class="col-md-1 col-xs-0 col-sm-0"></div>
         </div>

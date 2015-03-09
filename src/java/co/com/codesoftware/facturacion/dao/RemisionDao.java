@@ -177,10 +177,25 @@ public class RemisionDao {
                 .concat("'");
         return select;
     }
-
+    /**
+     * 
+     * @return 
+     */
     public String consultaRemision() {
-        String select = "select rmce_codigo, to_char(rmce_valor,'LFM9,999,999,999,999.00') rmce_valor ,  case when rmce_tppl='pr' then 'Prepago' else 'postpago' end plan,rmce_fcve from in_trmce where rmce_estado = 'E'"
-                + "AND rmce_rmce = " + this.getRmce_rmce() + "";
+        String select = "";
+        select += "SELECT  rmce_codigo,                                                                                 \n";
+        select += "        to_char(rmce_valor,'LFM9,999,999,999,999.00') rmce_valor ,                                   \n";
+        select += "        case when rmce_tppl='pr' then 'Prepago' else 'postpago' end plan,                            \n";
+        select += "        rmce_fcve,                                                                                   \n";
+        select += "        to_char(cast(case                                                                            \n";
+        select += "        when rmce_tppl='pr' then (select para_valor from em_tpara where para_clave = 'COMISIONPRE')  \n";
+        select += "        when rmce_tppl='pr' then (select para_valor from em_tpara where para_clave = 'COMISIONPOST') \n";
+        select += "        else (select para_valor from em_tpara where para_clave = 'COMISIONREP')                      \n";
+        select += "        end as numeric),'LFM9,999,999,999,999.00') comision                                          \n";
+        select += "  FROM in_trmce,in_trefe                                                                             \n";
+        select += " WHERE rmce_estado = 'E'                                                                             \n";
+        select += "   AND rmce_refe = refe_refe                                                                         \n";
+        select += "   AND rmce_rmce = " + this.getRmce_rmce() + ""; 
         return select;
     }
 }

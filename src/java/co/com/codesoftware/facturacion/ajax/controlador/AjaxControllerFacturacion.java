@@ -116,8 +116,4 @@ public class AjaxControllerFacturacion extends ActionSupport {
     public void setRmce_rmce(String rmce_rmce) {
         this.rmce_rmce = rmce_rmce;
     }
-    
-    
-    
-    
 }
