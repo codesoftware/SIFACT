@@ -179,7 +179,7 @@ public class RemisionDao {
     }
 
     public String consultaRemision() {
-        String select = "select rmce_codigo, rmce_valor,  case when rmce_tppl='pr' then 'Prepago' else 'postpago' end plan from in_trmce where rmce_estado = 'E'"
+        String select = "select rmce_codigo, to_char(rmce_valor,'LFM9,999,999,999,999.00') rmce_valor ,  case when rmce_tppl='pr' then 'Prepago' else 'postpago' end plan,rmce_fcve from in_trmce where rmce_estado = 'E'"
                 + "AND rmce_rmce = " + this.getRmce_rmce() + "";
         return select;
     }

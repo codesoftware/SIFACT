@@ -62,6 +62,7 @@ public class AjaxControllerFacturacion extends ActionSupport {
             e.printStackTrace();
         }
     }
+    
     public void obtieneDatosFactRem(){
         RemisionLogica logica = new RemisionLogica();
         try {

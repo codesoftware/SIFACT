@@ -61,18 +61,12 @@ $(document).ready(function () {
 function adicionaProducto() {
     var valida = validaDatos();
     if (valida) {
-        var urlAjax = '';
-        if (codigoDeBarras.charAt(0) == '1') {
-            urlAjax = RutaSitio + '/traeProducto.html'
-        } else {
-            urlAjax = RutaSitio + '/adicionaFacturaRem.html';
-        }
         var datos = new Object();
         datos.codigoBarras = $('#codigoBarras').val();
         $.ajax({
             type: 'GET',
             data: datos,
-            url: urlAjax,
+            url: RutaSitio + '/traeProducto.html',
             async: false,
             success: function (response) {
                 var datos = JSON.parse(response);
@@ -141,6 +135,7 @@ function agregaProductos(dska_dska) {
 function agregaRemisiones(rmce_rmce) {
     var datos = new Object();
     datos.rmce_rmce = rmce_rmce;
+    $('#cantidad').val('1');
     $.ajax({
         url: RutaSitio + "/adicionaFacturaRem.html",
         data: datos,

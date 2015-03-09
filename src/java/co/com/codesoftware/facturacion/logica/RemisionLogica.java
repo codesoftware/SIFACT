@@ -65,21 +65,20 @@ public class RemisionLogica {
         Gson gson = new Gson();
         RemisionDao objDAO = new RemisionDao();
         RemisionEntity rev = null;
-        try (EnvioFuncion funcion = new EnvioFuncion()){
-            objDAO.setRmce_refe(rmce_rmce);
+        try (EnvioFuncion funcion = new EnvioFuncion()) {
+            objDAO.setRmce_rmce(rmce_rmce);
             ResultSet rs = funcion.enviarSelect(objDAO.consultaRemision());
-            while(rs.next()){
-                rev= new RemisionEntity();
-                  rev.setRmce_codigo(rs.getString("rmce_codigo"));
-                  rev.setRmce_valor(rs.getString("rmce_valor"));
-                  rev.setRmce_tppl(rs.getString("rmce_tppl"));
-                  rev.setRmce_fcve(rs.getString("rmce_fcve"));  
-                  rev.setRmce_comision(rs.getString("rmce_comision"));  
+            while (rs.next()) {
+                rev = new RemisionEntity();
+                rev.setRmce_codigo(rs.getString("rmce_codigo"));
+                rev.setRmce_valor(rs.getString("rmce_valor"));
+                rev.setRmce_tppl(rs.getString("plan"));
+                rev.setRmce_fcve(rs.getString("rmce_fcve"));
+                //rev.setRmce_comision(rs.getString("rmce_comision"));
             }
             Utilidades utilidades = new Utilidades();
             rta = utilidades.convertirObjetoJSON(rev);
-            
-            
+
         } catch (Exception e) {
             e.printStackTrace();
         }
