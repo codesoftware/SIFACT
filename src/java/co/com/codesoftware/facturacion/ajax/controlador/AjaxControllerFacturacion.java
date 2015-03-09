@@ -5,6 +5,7 @@
  */
 package co.com.codesoftware.facturacion.ajax.controlador;
 
+import co.com.codesoftware.facturacion.logica.RemisionLogica;
 import co.com.codesoftware.producto.entity.Producto;
 import co.com.codesoftware.producto.logica.ProductoLogica;
 import com.opensymphony.xwork2.ActionSupport;
@@ -21,6 +22,8 @@ public class AjaxControllerFacturacion extends ActionSupport {
     private static final long serialVersionUID = 1L;
     private String codigoBarras;
     private String dska_dska;
+    private String refe_refe;
+    private String rmce_rmce;
     private String cantidad;
     /**
      * Funcion encargada de obtener los datos de un producto
@@ -28,6 +31,7 @@ public class AjaxControllerFacturacion extends ActionSupport {
     public void traeProducto() {
         String respuesta= "";
         ProductoLogica logica = new ProductoLogica();
+        RemisionLogica logicaR = new RemisionLogica();
         try {            
             HttpServletResponse response = ServletActionContext.getResponse();
             response.setContentType("text/plain;charset=utf-8");
@@ -36,6 +40,7 @@ public class AjaxControllerFacturacion extends ActionSupport {
             if(elementos[0].equalsIgnoreCase("1")){
                 respuesta=logica.buscaProductoXCodigoBarras(codigoBarras);
             }else{
+                respuesta = logicaR.consultaRemisionXId(codigoBarras);
             }
             out.print(respuesta);           
             out.flush();
@@ -51,6 +56,19 @@ public class AjaxControllerFacturacion extends ActionSupport {
             response.setContentType("text/plain;charset=utf-8");
             PrintWriter out = response.getWriter();
             String objJson = logica.adicionProdFactura(dska_dska, cantidad);
+            out.print(objJson);
+                        
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    public void obtieneDatosFactRem(){
+        RemisionLogica logica = new RemisionLogica();
+        try {
+            HttpServletResponse response = ServletActionContext.getResponse();
+            response.setContentType("text/plain;charset=utf-8");
+            PrintWriter out = response.getWriter();
+            String objJson = logica.insertaRemision(rmce_rmce);
             out.print(objJson);
                         
         } catch (Exception e) {
@@ -80,5 +98,25 @@ public class AjaxControllerFacturacion extends ActionSupport {
 
     public void setCantidad(String cantidad) {
         this.cantidad = cantidad;
-    }    
+    }
+
+    public String getRefe_refe() {
+        return refe_refe;
+    }
+
+    public void setRefe_refe(String refe_refe) {
+        this.refe_refe = refe_refe;
+    }
+
+    public String getRmce_rmce() {
+        return rmce_rmce;
+    }
+
+    public void setRmce_rmce(String rmce_rmce) {
+        this.rmce_rmce = rmce_rmce;
+    }
+    
+    
+    
+    
 }

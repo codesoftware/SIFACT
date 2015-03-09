@@ -13,6 +13,11 @@
         <action name="adicionaFactura" class="co.com.codesoftware.facturacion.ajax.controlador.AjaxControllerFacturacion" method="obtieneDatosFact">
 
         </action>
+        
+        <action name="adicionaFacturaRem" class="co.com.codesoftware.facturacion.ajax.controlador.AjaxControllerFacturacion" method="obtieneDatosFactRem">
+
+        </action>
+        
     </package>
 
 </struts>

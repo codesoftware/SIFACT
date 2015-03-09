@@ -132,6 +132,22 @@
                         </tr>
                     </tbody>
                 </table>                
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <td class="alert alert-info text-center" colspan="9" ><h3>Remisiones Factura</h3></td>
+                        </tr>
+                    </thead>
+                    <tbody id="tablaFactRem">
+                        <tr class="alert alert-success">
+                            <td>valor</td>
+                            <td>Tipo de plan</td>
+                            <td>Fecha de vencimiento</td>
+                            <td>Comisión</td>
+                           
+                        </tr>
+                    </tbody>
+                </table>                
             </div>
             <div class="col-md-1 col-xs-0 col-sm-0"></div>
         </div>

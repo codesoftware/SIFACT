@@ -3,14 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package co.com.codesoftware.facturacion.dao;
+package co.com.codesoftware.facturacion.entity;
 
 /**
  *
- * @author Nicolas
+ * @author Personal
  */
-public class RemisionDao {
-
+public class RemisionEntity {
+    
     private String rmce_rmce;
     private String rmce_refe;
     private String rmce_imei;
@@ -28,6 +28,11 @@ public class RemisionDao {
     private String rmce_estado;
     private String rmce_pagado;
     private String rmce_comdev;
+    //Fechas necesarias para crear las sentencias con los beteewen
+    private String valorBeteween;
+    private String fechaBeteween;
+    //
+    private String filtros;  // Variable la cual me indicara si el dto es para mostrar al usuario o es para la base de datos
 
     public String getRmce_rmce() {
         return rmce_rmce;
@@ -62,6 +67,7 @@ public class RemisionDao {
     }
 
     public String getRmce_valor() {
+
         return rmce_valor;
     }
 
@@ -78,6 +84,13 @@ public class RemisionDao {
     }
 
     public String getRmce_tppl() {
+        if (this.filtros.equalsIgnoreCase("S")) {
+            if (rmce_tppl.equalsIgnoreCase("ps")) {
+                return "POSTPAGO";
+            } else if (rmce_tppl.equalsIgnoreCase("pr")) {
+                return "PREPAGO";
+            }
+        }
         return rmce_tppl;
     }
 
@@ -142,6 +155,15 @@ public class RemisionDao {
     }
 
     public String getRmce_estado() {
+        if (this.filtros.equalsIgnoreCase("S")) {
+            if (rmce_estado.equalsIgnoreCase("E")) {
+                return "STAND";
+            } else if (rmce_estado.equalsIgnoreCase("V")) {
+                return "VENDIDO";
+            } else if (rmce_estado.equalsIgnoreCase("D")) {
+                return "DEVUELTO";
+            }
+        }
         return rmce_estado;
     }
 
@@ -165,22 +187,29 @@ public class RemisionDao {
         this.rmce_comdev = rmce_comdev;
     }
 
-    /**
-     * Funcion encargada de Realizar el Query para la cosulta de una remision en
-     * especifico
-     *
-     * @return
-     */
-    public String consultaEspecificaXCodigo() {
-        String select = "SELECT rmce_rmce, rmce_refe, rmce_imei, rmce_iccid, rmce_valor rmce_valor , rmce_comision, rmce_tppl, rmce_fcve, rmce_fcsl, rmce_fcen, rmce_tius_ent, rmce_tius_sal,rmce_codigo, rmce_sede, rmce_estado, rmce_pagado, rmce_comdev FROM in_trmce where rmce_codigo='"
-                .concat(this.getRmce_codigo())
-                .concat("'");
-        return select;
+    public String getValorBeteween() {
+        return valorBeteween;
     }
 
-    public String consultaRemision() {
-        String select = "select rmce_codigo, rmce_valor,  case when rmce_tppl='pr' then 'Prepago' else 'postpago' end plan from in_trmce where rmce_estado = 'E'"
-                + "AND rmce_rmce = " + this.getRmce_rmce() + "";
-        return select;
+    public void setValorBeteween(String valorBeteween) {
+        this.valorBeteween = valorBeteween;
     }
+
+    public String getFechaBeteween() {
+        return fechaBeteween;
+    }
+
+    public void setFechaBeteween(String fechaBeteween) {
+        this.fechaBeteween = fechaBeteween;
+    }
+
+    public String getFiltros() {
+        return filtros;
+    }
+
+    public void setFiltros(String filtros) {
+        this.filtros = filtros;
+    }
+
+    
 }
