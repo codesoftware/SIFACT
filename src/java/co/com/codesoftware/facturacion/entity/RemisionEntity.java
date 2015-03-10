@@ -34,7 +34,7 @@ public class RemisionEntity {
     //
     private String filtros;  // Variable la cual me indicara si el dto es para mostrar al usuario o es para la base de datos
     //
-    private String valorSf;
+    private String valorSinFiltros;
 
     public String getRmce_rmce() {
         return rmce_rmce;
@@ -213,12 +213,11 @@ public class RemisionEntity {
         this.filtros = filtros;
     }
 
-    public String getValorSf() {
-        return valorSf;
+    public String getValorSinFiltros() {
+        return valorSinFiltros;
     }
 
-    public void setValorSf(String valorSf) {
-        this.valorSf = valorSf;
+    public void setValorSinFiltros(String valorSinFiltros) {
+        this.valorSinFiltros = valorSinFiltros;
     }
-    
 }

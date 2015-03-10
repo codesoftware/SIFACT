@@ -195,8 +195,8 @@ function adicionaProductoFactura(objeto) {
 function adicionaRemisionFactura(objeto) {
     var tabla = $('#tablaFactRem');
     var fila = '<tr class=\"filaProdFact\">' +
-            '<td>' + objeto.rmce_valor + '<input type=\"hidden\" class=\"total\" value=\"' + objeto.valorSf + '\" /> <input type=\"hidden\" class=\"valor\" value=\"' + objeto.valorSf + '\" /></ </td>' +
-            '<td>' + objeto.rmce_tppl + '<input type=\"hidden\" name=\"remisionFact\" value=\"' + objeto.valorSf + '\" /> </td>' +
+            '<td>' + objeto.rmce_valor + '<input type=\"hidden\" class=\"total\" value=\"' + objeto.valorSinFiltros + '\" /> </td>' +
+            '<td>' + objeto.rmce_tppl + '<input type=\"hidden\" class=\"valor\" value=\"' + objeto.valorSinFiltros + '\" /> </td>' +
             '<td>' + objeto.rmce_fcve + '<input type=\"hidden\" name=\"remisionFact\" value=\"' + objeto.rmce_rmce +'\" /></td>' +
             '<td>' + objeto.rmce_comision + '</td>' +
             '<td>' +
@@ -258,4 +258,8 @@ function sumasValorTotalPagar() {
         });
         return sumatoria;
     }
+}
+
+function facturar(){
+    document.getElementById("Fac_Facturar").submit();
 }

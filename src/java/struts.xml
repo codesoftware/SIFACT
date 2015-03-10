@@ -23,8 +23,13 @@
             <result name="error">/WEB-INF/FACTURACION/CREACION/Fac_InsertCliFactura.jsp</result>
             <result name="input">/WEB-INF/FACTURACION/CREACION/Fac_InsertCliFactura.jsp</result>
             <result name="success">/WEB-INF/FACTURACION/MODIFICAR/Fact_GestionFacturacion.jsp</result>
-        </action>   
+        </action>
+        <action name="Fac_Facturar" class="co.com.codesoftware.facturacion.action.FacturarAction" method="facturar">
+            <result name="error">/WEB-INF/FACTURACION/MODIFICAR/Fact_GestionFacturacion.jsp</result>
+            <result name="input">/WEB-INF/FACTURACION/MODIFICAR/Fact_GestionFacturacion.jsp</result>
+            <result name="success">/homeFacturacion.jsp</result>
+        </action>
     </package>
-         <include file="ajax.xml" />
+    <include file="ajax.xml" />
          
 </struts>

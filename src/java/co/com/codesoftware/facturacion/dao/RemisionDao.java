@@ -172,14 +172,16 @@ public class RemisionDao {
      * @return
      */
     public String consultaEspecificaXCodigo() {
-        String select = "SELECT rmce_rmce, rmce_refe, rmce_imei, rmce_iccid, rmce_valor rmce_valor , rmce_comision, rmce_tppl, rmce_fcve, rmce_fcsl, rmce_fcen, rmce_tius_ent, rmce_tius_sal,rmce_codigo, rmce_sede, rmce_estado, rmce_pagado, rmce_comdev FROM in_trmce where rmce_codigo='"
+        String select = "SELECT rmce_rmce, rmce_refe, rmce_imei, rmce_iccid, to_char(rmce_valor,'LFM9,999,999,999,999.00') rmce_valor , rmce_comision, ";
+        select += "case when rmce_tppl='pr' then 'Prepago' else 'postpago' end rmce_tppl, rmce_fcve, rmce_fcsl, rmce_fcen, rmce_tius_ent, rmce_tius_sal,rmce_codigo, rmce_sede, rmce_estado, rmce_pagado, rmce_comdev FROM in_trmce where rmce_codigo='"
                 .concat(this.getRmce_codigo())
                 .concat("'");
         return select;
     }
+
     /**
-     * 
-     * @return 
+     *
+     * @return
      */
     public String consultaRemision() {
         String select = "";
@@ -196,7 +198,7 @@ public class RemisionDao {
         select += "  FROM in_trmce,in_trefe                                                                             \n";
         select += " WHERE rmce_estado = 'E'                                                                             \n";
         select += "   AND rmce_refe = refe_refe                                                                         \n";
-        select += "   AND rmce_rmce = " + this.getRmce_rmce() + ""; 
+        select += "   AND rmce_rmce = " + this.getRmce_rmce() + "";
         return select;
     }
 }
