@@ -134,7 +134,11 @@ public class ProductoLogica {
                 prod.setIvaTotal(rs.getString("ivatotal"));
                 prod.setPrecioUnidad(rs.getString("precio"));
                 prod.setTotalPagar(rs.getString("totalpagar"));
-                respuesta.put("objeto", prod);                
+                prod.setTotalIvaSf(rs.getString("totalIvaSinFil"));
+                prod.setTotalProdSf(rs.getString("vlrPagarSinFil"));
+                prod.setTotalPagarSf(rs.getString("totalPagarSinFil"));
+                prod.setDska_dska(rs.getString("dska_dska"));
+                respuesta.put("objeto", prod);
             }
             rta = gson.toJson(respuesta);
         } catch (Exception e) {

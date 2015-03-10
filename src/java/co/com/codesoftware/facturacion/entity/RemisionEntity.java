@@ -33,6 +33,8 @@ public class RemisionEntity {
     private String fechaBeteween;
     //
     private String filtros;  // Variable la cual me indicara si el dto es para mostrar al usuario o es para la base de datos
+    //
+    private String valorSf;
 
     public String getRmce_rmce() {
         return rmce_rmce;
@@ -211,5 +213,12 @@ public class RemisionEntity {
         this.filtros = filtros;
     }
 
+    public String getValorSf() {
+        return valorSf;
+    }
+
+    public void setValorSf(String valorSf) {
+        this.valorSf = valorSf;
+    }
     
 }

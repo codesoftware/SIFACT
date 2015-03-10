@@ -1,6 +1,6 @@
 var codigoDeBarras = '';
-$(document).ready(function () {
-    $('#codigoBarras').keypress(function (event) {
+$(document).ready(function() {
+    $('#codigoBarras').keypress(function(event) {
         var keycode = (event.keyCode ? event.keyCode : event.which);
         if (keycode == '13') {
             codigoDeBarras = $('#codigoBarras').val();
@@ -11,11 +11,12 @@ $(document).ready(function () {
                 data: datos,
                 url: RutaSitio + '/traeProducto.html',
                 async: false,
-                success: function (response) {
+                success: function(response) {
                     var datos = JSON.parse(response);
                     if (datos.respuesta == 'OK') {
 
                         $('#filaConsultaProd').remove();
+                        $('#filaConsultaRem').remove();
                         var tbody = '';
                         var codigo = codigoDeBarras;
 
@@ -47,6 +48,7 @@ $(document).ready(function () {
                         $('#cantidad').focus();
                     } else {
                         $('#filaConsultaProd').remove();
+                        $('#filaConsultaRem').remove();
                         $('#msnInfo').html('Producto Inexistente por favor intente de nuevo');
                         $('#informacionPopUp').modal('show');
                     }
@@ -58,8 +60,14 @@ $(document).ready(function () {
             }
         }
     });
-    $(document).on('click', '.elimnarFilaProd', function () {
+    $(document).on('click', '.elimnarFilaProd', function() {
         $(this).closest('.filaProdFact').remove();
+        var sumaIva = sumasValorIva();
+        $('#vlrIvaText').html(sumaIva);
+        var totalProd = sumasValorTotalProd();
+        $('#vlrTotalProdText').html(totalProd);
+        var totalPagar = sumasValorTotalPagar();
+        $('#vlrTotalPagarText').html(totalPagar);
     });
 });
 
@@ -73,7 +81,7 @@ function adicionaProducto() {
             data: datos,
             url: RutaSitio + '/traeProducto.html',
             async: false,
-            success: function (response) {
+            success: function(response) {
                 var datos = JSON.parse(response);
                 if (datos.respuesta == 'OK') {
                     codigoDeBarras = $('#codigoBarras').val();
@@ -126,7 +134,7 @@ function agregaProductos(dska_dska) {
         url: RutaSitio + "/adicionaFactura.html",
         data: datos,
         async: false,
-        success: function (data, textStatus, jqXHR) {
+        success: function(data, textStatus, jqXHR) {
             var obj = JSON.parse(data);
             if (obj.respuesta == 'Error') {
                 $('#msnInfo').html(obj.mensaje);
@@ -146,7 +154,7 @@ function agregaRemisiones(rmce_rmce) {
         url: RutaSitio + "/adicionaFacturaRem.html",
         data: datos,
         async: false,
-        success: function (data, textStatus, jqXHR) {
+        success: function(data, textStatus, jqXHR) {
             var obj = JSON.parse(data);
             if (obj.respuesta == 'Error') {
                 $('#msnInfo').html(obj.mensaje);
@@ -167,23 +175,29 @@ function adicionaProductoFactura(objeto) {
             '<td>' + objeto.nombre + '</td>' +
             '<td>' + objeto.precioUnidad + '</td>' +
             '<td>' + objeto.ivaUnidad + '</td>' +
-            '<td>' + objeto.valortotal + '</td>' +
-            '<td>' + objeto.ivaTotal + '</td>' +
-            '<td>' + objeto.totalPagar + '</td>' +
+            '<td>' + objeto.valortotal + '<input type=\"hidden\" class=\"valor\" value=\"' + objeto.totalProdSf + '\" /></td>' +
+            '<td>' + objeto.ivaTotal + '<input type=\"hidden\" class=\"iva\" value=\"' + objeto.totalIvaSf + '\" /> <input type=\"hidden\" name=\"prodFact\" value=\"' + objeto.dska_dska + '&'+ objeto.cantidad +'\" /></td>' +
+            '<td>' + objeto.totalPagar + '<input type=\"hidden\" class=\"total\" value=\"' + objeto.totalPagarSf + '\" /></td>' +
             '<td>' +
             '<button type=\"button\" class=\"btn btn-danger elimnarFilaProd\">' +
             '<span class=\"glyphicon glyphicon-remove\" ></span> </button>' +
             '</td>' +
             '</tr>';
     tabla.append(fila);
+    var sumaIva = sumasValorIva();
+    $('#vlrIvaText').html(sumaIva);
+    var totalProd = sumasValorTotalProd();
+    $('#vlrTotalProdText').html(totalProd);
+    var totalPagar = sumasValorTotalPagar();
+    $('#vlrTotalPagarText').html(totalPagar);
 }
 
 function adicionaRemisionFactura(objeto) {
     var tabla = $('#tablaFactRem');
     var fila = '<tr class=\"filaProdFact\">' +
-            '<td>' + objeto.rmce_valor + '</td>' +
-            '<td>' + objeto.rmce_tppl + '</td>' +
-            '<td>' + objeto.rmce_fcve + '</td>' +
+            '<td>' + objeto.rmce_valor + '<input type=\"hidden\" class=\"total\" value=\"' + objeto.valorSf + '\" /> <input type=\"hidden\" class=\"valor\" value=\"' + objeto.valorSf + '\" /></ </td>' +
+            '<td>' + objeto.rmce_tppl + '<input type=\"hidden\" name=\"remisionFact\" value=\"' + objeto.valorSf + '\" /> </td>' +
+            '<td>' + objeto.rmce_fcve + '<input type=\"hidden\" name=\"remisionFact\" value=\"' + objeto.rmce_rmce +'\" /></td>' +
             '<td>' + objeto.rmce_comision + '</td>' +
             '<td>' +
             '<button type=\"button\" class=\"btn btn-danger elimnarFilaProd\">' +
@@ -191,4 +205,57 @@ function adicionaRemisionFactura(objeto) {
             '</td>' +
             '</tr>';
     tabla.append(fila);
+    var sumaIva = sumasValorIva();
+    $('#vlrIvaText').html(sumaIva);
+    var totalProd = sumasValorTotalProd();
+    $('#vlrTotalProdText').html(totalProd);
+    var totalPagar = sumasValorTotalPagar();
+    $('#vlrTotalPagarText').html(totalPagar);
+}
+
+
+function sumasValorIva() {
+    var valor = $('.iva');
+    if (valor.length == 0) {
+        return 0;
+    } else {
+        var sumatoria = 0;
+        $.each(valor, function(key, value) {
+            var aux = parseInt(value.value);
+            sumatoria = sumatoria + aux;
+        });
+        return sumatoria;
+    }
+}
+
+
+
+function sumasValorTotalProd() {
+    var valor = $('.valor');
+    if (valor.length == 0) {
+        return 0;
+    } else {
+        var sumatoria = 0;
+        $.each(valor, function(key, value) {
+            var aux = parseInt(value.value);
+            sumatoria = sumatoria + aux;
+        });
+        return sumatoria;
+    }
+}
+
+
+
+function sumasValorTotalPagar() {
+    var valor = $('.total');
+    if (valor.length == 0) {
+        return 0;
+    } else {
+        var sumatoria = 0;
+        $.each(valor, function(key, value) {
+            var aux = parseInt(value.value);
+            sumatoria = sumatoria + aux;
+        });
+        return sumatoria;
+    }
 }

@@ -66,11 +66,11 @@
                         </s:if>
                         <s:else>
                             <td style="width: 15%;"><b>Valor Iva:</b></td>
-                            <td style="width: 18%;">0</td>
+                            <td style="width: 18%;">$<span id="vlrIvaText">0</span></td>
                             <td style="width: 15%;"><b>Valores Totales:</b></td>
-                            <td style="width: 18%;">0</td>
+                            <td style="width: 18%;">$<span id="vlrTotalProdText">0</span></td>
                             <td style="width: 15%;"><b>Total a Pagar:</b> </td>
-                            <td style="width: 17%;">0</td>
+                            <td style="width: 17%;">$<span id="vlrTotalPagarText">0</span></td>
                         </s:else>
                     </tr>
                 </table>

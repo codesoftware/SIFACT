@@ -183,8 +183,9 @@ public class RemisionDao {
      */
     public String consultaRemision() {
         String select = "";
-        select += "SELECT  rmce_codigo,                                                                                 \n";
+        select += "SELECT  rmce_rmce,rmce_codigo,                                                                       \n";
         select += "        to_char(rmce_valor,'LFM9,999,999,999,999.00') rmce_valor ,                                   \n";
+        select += "        cast(rmce_valor as int)    rmce_valorSf ,                                                    \n";
         select += "        case when rmce_tppl='pr' then 'Prepago' else 'postpago' end plan,                            \n";
         select += "        rmce_fcve,                                                                                   \n";
         select += "        to_char(cast(case                                                                            \n";

@@ -27,7 +27,11 @@ public class ProductoDao {
     private String precio;
     private String sede;
     private String cantidad;//Cantidad de productos a comprar
-
+    //Valores principales sin filtros
+    private String totalPagarSf;    
+    private String totalIvaSf;
+    private String totalProdSf;
+    
     public String getDska_dska() {
         return dska_dska;
     }
@@ -148,6 +152,30 @@ public class ProductoDao {
         this.cantidad = cantidad;
     }
 
+    public String getTotalPagarSf() {
+        return totalPagarSf;
+    }
+
+    public void setTotalPagarSf(String totalPagarSf) {
+        this.totalPagarSf = totalPagarSf;
+    }
+
+    public String getTotalIvaSf() {
+        return totalIvaSf;
+    }
+
+    public void setTotalIvaSf(String totalIvaSf) {
+        this.totalIvaSf = totalIvaSf;
+    }
+
+    public String getTotalProdSf() {
+        return totalProdSf;
+    }
+
+    public void setTotalProdSf(String totalProdSf) {
+        this.totalProdSf = totalProdSf;
+    }
+
     /**
      * Funcion encargada de realizar el query para obtener la informacion de un
      * producto
@@ -221,15 +249,18 @@ public class ProductoDao {
      */
     public String calculosFactura() {
         String sql = "";
-        sql += "SELECT cantidad, codigo,nombre, to_char(precio,'LFM9,999,999,999,999.00') precio,                \n";
-        sql += "       to_char(ivauni,'LFM9,999,999,999,999.00') ivaUni,                                         \n";
-        sql += "       to_char(vlrTotal,'LFM9,999,999,999,999.00') vlrTotal,                                     \n";
-        sql += "       to_char(ivaTotal,'LFM9,999,999,999,999.00') ivaTotal,                                     \n";
-        sql += "       to_char((vlrTotal+ivaTotal),'LFM9,999,999,999,999.00') totalPagar                         \n";
-        sql += "  FROM (SELECT  cantidad, codigo, nombre,                                                        \n";
-        sql += "                precio, ((precio*iva)/100) ivaUni,                                               \n";
-        sql += "                (precio *cantidad) vlrTotal, (((precio*iva)/100)*cantidad) ivaTotal              \n";
-        sql += "        FROM (SELECT dska_cod codigo, dska_nom_prod nombre,                                      \n";
+        sql += "SELECT dska_dska,cantidad, codigo,nombre, to_char(precio,'LFM9,999,999,999,999.00') precio,               \n";
+        sql += "       to_char(ivauni,'LFM9,999,999,999,999.00') ivaUni,                                        \n";
+        sql += "       to_char(vlrTotal,'LFM9,999,999,999,999.00') vlrTotal,                                    \n";
+        sql += "       to_char(ivaTotal,'LFM9,999,999,999,999.00') ivaTotal,                                    \n";
+        sql += "       to_char((vlrTotal+ivaTotal),'LFM9,999,999,999,999.00') totalPagar,                       \n";
+        sql += "       cast((vlrTotal+ivaTotal) as int) totalPagarSinFil,                                       \n";
+        sql += "       cast( ivaTotal as int ) totalIvaSinFil,                                                \n";
+        sql += "       cast( vlrTotal as int) vlrPagarSinFil                                                  \n";
+        sql += "  FROM (SELECT  dska_dska,cantidad, codigo, nombre,                                                       \n";
+        sql += "                precio, ((precio*iva)/100) ivaUni,                                              \n";
+        sql += "                (precio *cantidad) vlrTotal, (((precio*iva)/100)*cantidad) ivaTotal             \n";
+        sql += "        FROM (SELECT dska_dska,dska_cod codigo, dska_nom_prod nombre,                                     \n";
         sql += "                     prpr_precio precio, " + this.getCantidad() + " cantidad,                    \n";
         sql += "                     cast((select para_valor from em_tpara where para_clave = 'IVAPR')as int) iva\n";
         sql += "                FROM in_tdska, in_tprpr                                                          \n";

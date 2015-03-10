@@ -26,6 +26,11 @@ public class Producto {
     private String cantExis; //Numero de cantidades existentes de cada producto
     private String precio;
     private String catidad;
+    //Valores principales sin filtros
+    private String totalPagarSf;    
+    private String totalIvaSf;
+    private String totalProdSf;
+    
 
     public String getDska_dska() {
         return dska_dska;
@@ -145,5 +150,29 @@ public class Producto {
 
     public void setCatidad(String catidad) {
         this.catidad = catidad;
+    }
+
+    public String getTotalPagarSf() {
+        return totalPagarSf;
+    }
+
+    public void setTotalPagarSf(String totalPagarSf) {
+        this.totalPagarSf = totalPagarSf;
+    }
+
+    public String getTotalIvaSf() {
+        return totalIvaSf;
+    }
+
+    public void setTotalIvaSf(String totalIvaSf) {
+        this.totalIvaSf = totalIvaSf;
+    }
+
+    public String getTotalProdSf() {
+        return totalProdSf;
+    }
+
+    public void setTotalProdSf(String totalProdSf) {
+        this.totalProdSf = totalProdSf;
     }
 }

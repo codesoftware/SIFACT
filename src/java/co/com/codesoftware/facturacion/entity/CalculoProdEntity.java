@@ -11,8 +11,8 @@ package co.com.codesoftware.facturacion.entity;
  *
  * @author Nicolas
  */
-public class CalculoProdEntity{
-    
+public class CalculoProdEntity {
+
     private String dska_dska;
     private String dska_codigo;
     private String nombre;
@@ -22,6 +22,9 @@ public class CalculoProdEntity{
     private String ivaTotal;
     private String totalPagar;
     private String cantidad;
+    private String totalPagarSf;
+    private String totalIvaSf;
+    private String totalProdSf;
 
     public String getDska_dska() {
         return dska_dska;
@@ -94,4 +97,30 @@ public class CalculoProdEntity{
     public void setCantidad(String cantidad) {
         this.cantidad = cantidad;
     }
+
+    public String getTotalPagarSf() {
+        return totalPagarSf;
+    }
+
+    public void setTotalPagarSf(String totalPagarSf) {
+        this.totalPagarSf = totalPagarSf;
+    }
+
+    public String getTotalIvaSf() {
+        return totalIvaSf;
+    }
+
+    public void setTotalIvaSf(String totalIvaSf) {
+        this.totalIvaSf = totalIvaSf;
+    }
+
+    public String getTotalProdSf() {
+        return totalProdSf;
+    }
+
+    public void setTotalProdSf(String totalProdSf) {
+        this.totalProdSf = totalProdSf;
+    }
+    
+    
 }
