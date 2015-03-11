@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="226" pageHeight="842" columnWidth="186" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="7d627bcf-4474-4259-84b4-e7ae2f8eff2a">
+	<property name="ireport.zoom" value="3.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="78"/>
+	<subDataset name="dataset1" uuid="6b32a758-db57-49e6-b775-6351d0c6f740"/>
+	<parameter name="fact_fact" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT  (select para_valor from em_tpara where para_clave = 'NOMBREEMPRESA') NOMBRE,
+ 'NIT:'||(select para_valor from em_tpara where para_clave = 'NIT') NIT,
+ (select para_valor from em_tpara where para_clave = 'DIRECCION' )DIRECCION,
+ (select para_valor from em_tpara where para_clave = 'TELEFONOS')TELEFONOS,
+ (select para_valor from em_tpara where para_clave = 'CIUDAD')CIUDAD,
+
+(SELECT SED.SEDE_DIRECCION || ' --  '||SED.SEDE_NOMBRE||  '  --  Tel: '|| SED.SEDE_TELEFONO FROM  EM_TSEDE SED, US_TPERS PER, us_ttius US,fa_tfact FAC
+WHERE SED.SEDE_SEDE = US.TIUS_SEDE AND US.TIUS_TIUS = FAC.FACT_TIUS AND FAC.FACT_FACT = 1)ubicacion,
+(SELECT 'CAJERO:'||PER.PERS_NOMBRE||' '||PER.PERS_APELLIDO  FROM  EM_TSEDE SED, US_TPERS PER, us_ttius US,fa_tfact FAC
+WHERE SED.SEDE_SEDE = US.TIUS_SEDE AND US.TIUS_TIUS = FAC.FACT_TIUS AND FAC.FACT_FACT = 1)VENDEDOR,
+(SELECT 'FECHA:'||to_char(NOW(),'DD/MM/YYYY HH24:MI:SS'))FECHA
+
+
+
+ ]]>
+	</queryString>
+	<field name="nombre" class="java.lang.String"/>
+	<field name="nit" class="java.lang.String"/>
+	<field name="direccion" class="java.lang.String"/>
+	<field name="telefonos" class="java.lang.String"/>
+	<field name="ciudad" class="java.lang.String"/>
+	<field name="ubicacion" class="java.lang.String"/>
+	<field name="vendedor" class="java.lang.String"/>
+	<field name="fecha" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="133" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="1" width="186" height="15" uuid="d971adc5-19fa-4ffb-9769-f60de92ce268"/>
+				<textElement textAlignment="Center">
+					<font fontName="Courier New" size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nombre}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="16" width="186" height="13" uuid="ba24a9c1-fb46-45c9-b311-9b6a729e810c"/>
+				<textElement textAlignment="Center">
+					<font fontName="Courier New" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nit}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="48" width="186" height="10" uuid="5ba7e926-8e3e-4431-89cf-b4359b9a0339"/>
+				<textElement textAlignment="Center">
+					<font fontName="Courier New" size="8" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{ciudad}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="58" width="186" height="13" uuid="48ac931b-1128-415c-8ddd-3e2860ba6762"/>
+				<textElement>
+					<font fontName="Courier New"/>
+				</textElement>
+				<text><![CDATA[***********************************************]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="1" y="86" width="184" height="10" uuid="b7abf9fa-78e8-4b47-af5c-8f09e13d2621"/>
+				<textElement>
+					<font fontName="Courier New" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{vendedor}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="2" y="118" width="186" height="13" uuid="d53e212b-7602-418e-a685-b9e743e6246c"/>
+				<textElement>
+					<font fontName="Courier New"/>
+				</textElement>
+				<text><![CDATA[***********************************************]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="0" y="29" width="186" height="19" uuid="feb2408e-b41c-4763-86d7-b73a0d09433c"/>
+				<textElement textAlignment="Center">
+					<font fontName="Courier New" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{ubicacion}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="2" y="71" width="184" height="17" uuid="58c7b233-9c2b-44bf-8a5d-19fc23ef24f1"/>
+				<textElement>
+					<font fontName="Courier New" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{fecha}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="85" y="78" width="101" height="10" uuid="d66f96e5-df62-43a5-bae6-53ce4e16a028"/>
+				<textElement>
+					<font fontName="Courier New" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{fact_fact}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="2" y="78" width="85" height="10" uuid="6a198e9a-d17f-4283-a3c0-10e855fc2ccc"/>
+				<textElement>
+					<font fontName="Courier New" size="8"/>
+				</textElement>
+				<text><![CDATA[FACTURA DE VENTA: ]]></text>
+			</staticText>
+		</band>
+	</title>
+	<detail>
+		<band height="125" splitType="Stretch"/>
+	</detail>
+	<pageFooter>
+		<band height="54" splitType="Stretch"/>
+	</pageFooter>
+</jasperReport>
