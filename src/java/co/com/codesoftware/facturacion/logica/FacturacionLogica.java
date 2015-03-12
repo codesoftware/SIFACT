@@ -32,12 +32,13 @@ public class FacturacionLogica {
             objDao = new TempProductoFactDao();
             ResultSet rs = function.enviarSelect(objDao.obtieneSecuenciaTemFact());
             if (rs.next()) {
-                sec = rs.getString("co_temp_tran_factu_sec");
+                sec = rs.getString("secuencia");
             } else {
                 sec = null;
             }
         } catch (Exception e) {
             e.printStackTrace();
+            sec = null;
         }
         return sec;
     }
@@ -60,9 +61,11 @@ public class FacturacionLogica {
                 auxDao.setTem_fact_cant(objAux.getTem_fact_cant());
                 function.enviarSelect(auxDao.insertTemoral());
             }
+            rta = "Ok";
         } catch (Exception e) {
             this.borrarTemporalXidTransaccion(idTrans);
             e.printStackTrace();
+            rta = "Error " + e;
         }
         return rta;
     }
@@ -110,6 +113,17 @@ public class FacturacionLogica {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+    
+    
+    public String creaFacturacion(String idTrans){
+        String rta = "";
+        try {
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return rta;                 
     }
 
 }

@@ -6,6 +6,7 @@
 package co.com.codesoftware.facturacion.action;
 
 import co.com.codesoftware.facturacion.entity.ClienteEntity;
+import co.com.codesoftware.facturacion.logica.FacturacionLogica;
 import com.opensymphony.xwork2.ActionSupport;
 import java.util.List;
 
@@ -20,6 +21,23 @@ public class FacturarAction extends ActionSupport{
     private ClienteEntity cliente;
     
     public String facturar(){
+        FacturacionLogica logica = new FacturacionLogica();
+        try {
+            String idTrans = logica.obtieneValorSecuenciaTemp();
+            if(idTrans != null){
+                String rtaTemp = logica.insertarTemporalProductos(prodFact, idTrans);
+                if("Ok".equalsIgnoreCase(rtaTemp)){
+                    //Aqui hago la facturacion
+                }else{
+                    addActionError("Error al generar la factura");
+                }
+                logica.borrarTemporalXidTransaccion(idTrans);
+            }
+            
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return SUCCESS;        
     }
 
