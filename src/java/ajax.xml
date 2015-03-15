@@ -3,20 +3,22 @@
 "http://struts.apache.org/dtds/struts-2.0.dtd">
 
 <struts>
-    <constant name="struts.devMode" value="true"/>
-    <constant name="struts.action.extension" value="html"/>
     
+    <!--<constant name="struts.devMode" value="true"/> --><!-- Etiqueta usada para que se recargue el struts.xml por cada accion realizada-->
+    <constant name="struts.action.extension" value="html"/>
+        
     <package name="ajax" namespace="/" extends="struts-default">  
         <action name="traeProducto" class="co.com.codesoftware.facturacion.ajax.controlador.AjaxControllerFacturacion" method="traeProducto">
-
         </action>
+        
         <action name="adicionaFactura" class="co.com.codesoftware.facturacion.ajax.controlador.AjaxControllerFacturacion" method="obtieneDatosFact">
-
         </action>
         
         <action name="adicionaFacturaRem" class="co.com.codesoftware.facturacion.ajax.controlador.AjaxControllerFacturacion" method="obtieneDatosFactRem">
-
-        </action>
+        </action>       
+        
+        <action name="buscaProdXId" class="co.com.codesoftware.facturacion.ajax.controlador.AjaxControllerFacturacion" method="traeProductoXid">
+        </action>       
         
     </package>
 

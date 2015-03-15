@@ -25,31 +25,47 @@ public class AjaxControllerFacturacion extends ActionSupport {
     private String refe_refe;
     private String rmce_rmce;
     private String cantidad;
+
     /**
      * Funcion encargada de obtener los datos de un producto
      */
     public void traeProducto() {
-        String respuesta= "";
+        String respuesta = "";
         ProductoLogica logica = new ProductoLogica();
         RemisionLogica logicaR = new RemisionLogica();
-        try {            
+        try {
             HttpServletResponse response = ServletActionContext.getResponse();
             response.setContentType("text/plain;charset=utf-8");
             PrintWriter out = response.getWriter();
-            String []elementos = codigoBarras.split("-");
-            if(elementos[0].equalsIgnoreCase("1")){
-                respuesta=logica.buscaProductoXCodigoBarras(codigoBarras);
-            }else{
+            String[] elementos = codigoBarras.split("-");
+            if (elementos[0].equalsIgnoreCase("1")) {
+                respuesta = logica.buscaProductoXCodigoBarras(codigoBarras);
+            } else {
                 respuesta = logicaR.consultaRemisionXId(codigoBarras);
             }
-            out.print(respuesta);           
+            out.print(respuesta);
             out.flush();
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
-    
-    public void obtieneDatosFact(){
+
+    public void traeProductoXid() {
+        String respuesta = "";
+        ProductoLogica logica = new ProductoLogica();
+        try {
+            HttpServletResponse response = ServletActionContext.getResponse();
+            response.setContentType("text/plain;charset=utf-8");
+            PrintWriter out = response.getWriter();
+            respuesta = logica.buscaProdXIdProducto(dska_dska);
+            out.print(respuesta);
+            out.flush();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void obtieneDatosFact() {
         ProductoLogica logica = new ProductoLogica();
         try {
             HttpServletResponse response = ServletActionContext.getResponse();
@@ -57,13 +73,13 @@ public class AjaxControllerFacturacion extends ActionSupport {
             PrintWriter out = response.getWriter();
             String objJson = logica.adicionProdFactura(dska_dska, cantidad);
             out.print(objJson);
-                        
+
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
-    
-    public void obtieneDatosFactRem(){
+
+    public void obtieneDatosFactRem() {
         RemisionLogica logica = new RemisionLogica();
         try {
             HttpServletResponse response = ServletActionContext.getResponse();
@@ -71,7 +87,7 @@ public class AjaxControllerFacturacion extends ActionSupport {
             PrintWriter out = response.getWriter();
             String objJson = logica.insertaRemision(rmce_rmce);
             out.print(objJson);
-                        
+
         } catch (Exception e) {
             e.printStackTrace();
         }

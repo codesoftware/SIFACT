@@ -8,6 +8,9 @@ package co.com.codesoftware.facturacion.logica;
 import co.com.codesoftware.facturacion.dao.TempProductoFactDao;
 import co.com.codesoftware.facturacion.entity.TempProductoFactEntity;
 import co.com.codesoftware.general.persistencia.EnvioFuncion;
+import co.com.codesoftware.parametros.ParametrosEntity;
+import co.com.codesoftware.usuario.entity.UsuarioEntity;
+import co.com.codesoftware.usuario.logica.UsuarioLogica;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
@@ -115,11 +118,37 @@ public class FacturacionLogica {
         }
     }
     
-    
-    public String creaFacturacion(String idTrans){
+    /**
+     * Funcion encargada de realizar la facturacion
+     * @param idTrans
+     * @return 
+     */
+    public String creaFacturacion(String idTrans, String usuario, String cliente){
         String rta = "";
-        try {
-            
+        String idTius = "";
+        try(EnvioFuncion function = new EnvioFuncion()) {
+            UsuarioLogica logicaUsu = new UsuarioLogica();
+            UsuarioEntity objUsu = logicaUsu.buscaUsuarioXusuario(usuario);
+            logicaUsu = null;            
+            idTius = objUsu.getTius_tius();
+            function.adicionarNombre("FA_CREA_FACTURA_COMPLETO");
+            function.adicionarNumeric(idTius);
+            function.adicionarNumeric(cliente);
+            function.adicionarNumeric(idTrans);
+            function.adicionarNumeric(ParametrosEntity.SEDE);
+            rta = function.llamarFunction(function.getSql());
+            function.recuperarString();
+            String[] rtaVector = rta.split("-");
+            int tam = rtaVector.length;
+            if (tam == 2) {
+                // Este mensaje lo envia la funcion que envia la funcion de java que
+                // confirma que el llamado de a la funcion fue exitiso.
+                if (rtaVector[1].equalsIgnoreCase("Ok")) {
+                    // Aqui verifico si la consulta fue exitosa
+                    String rtaPg = function.getRespuesta();
+                    return rtaPg;
+                }
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }

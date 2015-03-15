@@ -69,6 +69,10 @@ $(document).ready(function() {
         var totalPagar = sumasValorTotalPagar();
         $('#vlrTotalPagarText').html(totalPagar);
     });
+    $('#enviaFacturar').click(function(){
+        //alert('Envio formulario de Facturacion');
+        document.getElementById("Fac_Facturar").submit();
+    });
 });
 
 function adicionaProducto() {
@@ -122,6 +126,27 @@ function validaDatos() {
         return false;
 
     }
+    var duplicados = validaProdExistente(codigo);
+    if(duplicados== false){
+        $('#msnInfo').html('El producto que desea ingresar ya se encuentra en la lista de productos');
+        $('#informacionPopUp').modal('show');
+        return false;
+    }
+    return true;
+}
+
+function validaProdExistente(cod){
+    var codigos =  document.getElementsByClassName('codigoProd');
+    if(codigos.length = 0){
+        return true;        
+    }else{
+        for(var i = 0; i < codigos.length; i++){
+            var codigo = codigos[i].value;
+            if(codigo == cod){
+                return false;
+            }
+        }       
+    }
     return true;
 }
 
@@ -171,7 +196,7 @@ function adicionaProductoFactura(objeto) {
     var tabla = $('#tablaFactProd');
     var fila = '<tr class=\"filaProdFact\">' +
             '<td>' + objeto.cantidad + '</td>' +
-            '<td>' + objeto.dska_codigo + '</td>' +
+            '<td>' + objeto.dska_codigo + '<input type=\"hidden\" class=\"codigoProd\" value=\"' + objeto.dska_codigo + '\" /></td>' +
             '<td>' + objeto.nombre + '</td>' +
             '<td>' + objeto.precioUnidad + '</td>' +
             '<td>' + objeto.ivaUnidad + '</td>' +
@@ -261,5 +286,21 @@ function sumasValorTotalPagar() {
 }
 
 function facturar(){
-    document.getElementById("Fac_Facturar").submit();
+    $('#usuarioFacturador').modal('show');    
+}
+
+function buscaCodigoXIdProducto(id){
+    var codigo = "";
+    var datos = new Object();
+    datos.dska_dska = id;
+    $.ajax({
+        data: datos,
+        async: false,
+        url: RutaSitio + "/buscaProdXId.html",
+        success: function(data, textStatus, jqXHR) {
+            var datosRta = JSON.parse(data);
+            codigo = datosRta.objeto.dska_cod;
+        }
+    });
+    return codigo;
 }

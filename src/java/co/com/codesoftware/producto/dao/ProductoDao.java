@@ -28,10 +28,10 @@ public class ProductoDao {
     private String sede;
     private String cantidad;//Cantidad de productos a comprar
     //Valores principales sin filtros
-    private String totalPagarSf;    
+    private String totalPagarSf;
     private String totalIvaSf;
     private String totalProdSf;
-    
+
     public String getDska_dska() {
         return dska_dska;
     }
@@ -178,7 +178,7 @@ public class ProductoDao {
 
     /**
      * Funcion encargada de realizar el query para obtener la informacion de un
-     * producto
+     * producto teniendo como referencia el codigo del producto
      *
      * @return
      */
@@ -188,6 +188,21 @@ public class ProductoDao {
         select += "       dska_porc_iva, dska_marca, dska_estado, dska_fec_ingreso, dska_cate \n";
         select += "  FROM in_tdska                                                            \n";
         select += " WHERE dska_cod = '" + this.dska_cod + "' \n";
+        return select;
+    }
+
+    /**
+     * Funcion encargada de realizar el query para obtener la informacion de un
+     * producto teniendo como referencia el id del producto
+     *
+     * @return
+     */
+    public String traeProductoIdentifi() {
+        String select = "";
+        select += "SELECT dska_dska, dska_refe, dska_cod, dska_nom_prod, dska_desc, dska_iva, \n";
+        select += "       dska_porc_iva, dska_marca, dska_estado, dska_fec_ingreso, dska_cate \n";
+        select += "  FROM in_tdska                                                            \n";
+        select += " WHERE dska_dska = '" + this.dska_dska + "' \n";
         return select;
     }
 

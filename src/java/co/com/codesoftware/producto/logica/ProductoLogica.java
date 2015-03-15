@@ -24,6 +24,47 @@ import java.util.Map;
 public class ProductoLogica {
 
     /**
+     * Funcion encargada de realizar la busqueda de productos por su
+     * Identificador
+     *
+     * @param dska_dska
+     * @return
+     */
+    public String buscaProdXIdProducto(String dska_dska) {
+        String rta = "";
+        Producto prd = null;
+        ProductoDao objDao = null;
+        try (EnvioFuncion function = new EnvioFuncion()) {
+            objDao = new ProductoDao();
+            objDao.setDska_dska(dska_dska);
+            ResultSet rs = function.enviarSelect(objDao.traeProductoIdentifi());
+            if (rs.next()) {
+                prd = new Producto();
+                prd.setDska_cod(rs.getString("dska_cod"));
+                prd.setDska_desc(rs.getString("dska_desc"));
+                prd.setDska_cate(rs.getString("dska_cate"));
+                prd.setDska_dska(rs.getString("dska_dska"));
+                prd.setDska_estado(rs.getString("dska_estado"));
+                prd.setDska_fec_ingreso(rs.getString("dska_fec_ingreso"));
+                prd.setDska_iva(rs.getString("dska_iva"));
+                prd.setDska_marca(rs.getString("dska_marca"));
+                prd.setDska_nom_prod(rs.getString("dska_nom_prod"));
+                prd.setDska_porc_iva(rs.getString("dska_porc_iva"));
+                prd.setDska_refe(rs.getString("dska_refe"));
+                prd.setPrecio(obtienePrecioProductoXId(prd.getDska_dska()));
+                //Obtengo la cantidad existente de productos en la sede
+                prd.setCantExis(obtenerExistenciasPorSede(prd.getDska_dska(), ParametrosEntity.SEDE));
+            }
+            Utilidades utilidades = new Utilidades();
+            rta = utilidades.convertirObjetoJSON(prd);
+        } catch (Exception e) {
+            e.printStackTrace();
+            prd = null;
+        }
+        return rta;
+    }
+
+    /**
      * Funcion encargada de obtener los datos del producto por medio del codigo
      * de barras
      *
@@ -53,7 +94,7 @@ public class ProductoLogica {
                 prd.setDska_refe(rs.getString("dska_refe"));
                 prd.setPrecio(obtienePrecioProductoXId(prd.getDska_dska()));
                 //Obtengo la cantidad existente de productos en la sede
-                prd.setCantExis(obtenerExistenciasPorSede(prd.getDska_dska(), ParametrosEntity.sede));
+                prd.setCantExis(obtenerExistenciasPorSede(prd.getDska_dska(), ParametrosEntity.SEDE));
             }
             Utilidades utilidades = new Utilidades();
             rta = utilidades.convertirObjetoJSON(prd);
@@ -103,8 +144,8 @@ public class ProductoLogica {
         respuesta = new HashMap<String, Object>();
         Gson gson = new Gson();
         ProductoDao objDao = new ProductoDao();
-        try(EnvioFuncion function = new EnvioFuncion()) {
-            String cantiExisSede = obtenerExistenciasPorSede(dska_dska, ParametrosEntity.sede);
+        try (EnvioFuncion function = new EnvioFuncion()) {
+            String cantiExisSede = obtenerExistenciasPorSede(dska_dska, ParametrosEntity.SEDE);
             int cantExisSede = Integer.parseInt(cantiExisSede);
             if (cantExisSede == 0) {
                 respuesta.put("respuesta", "Error");
@@ -120,10 +161,10 @@ public class ProductoLogica {
                 return rta;
             }
             objDao.setDska_dska(dska_dska);
-            objDao.setSede(ParametrosEntity.sede);
-            objDao.setCantidad(""+cantCliente);
+            objDao.setSede(ParametrosEntity.SEDE);
+            objDao.setCantidad("" + cantCliente);
             ResultSet rs = function.enviarSelect(objDao.calculosFactura());
-            while(rs.next()){
+            while (rs.next()) {
                 CalculoProdEntity prod = new CalculoProdEntity();
                 prod.setCantidad(rs.getString("cantidad"));
                 prod.setDska_codigo(rs.getString("codigo"));
@@ -145,7 +186,7 @@ public class ProductoLogica {
             e.printStackTrace();
             respuesta.put("respuesta", "Error");
             respuesta.put("mensaje", "Error ProductoLogica.adicionProdFactura " + e);
-        }         
+        }
         return rta;
     }
 

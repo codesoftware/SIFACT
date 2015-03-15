@@ -12,6 +12,6 @@ package co.com.codesoftware.parametros;
  */
 public class ParametrosEntity {
     
-    public static final String sede = "1";
+    public static final String SEDE = "1";
     
 }
