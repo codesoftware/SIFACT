@@ -1,9 +1,68 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="226" pageHeight="842" columnWidth="186" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="7d627bcf-4474-4259-84b4-e7ae2f8eff2a">
 	<property name="ireport.zoom" value="3.0"/>
-	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="78"/>
-	<subDataset name="dataset1" uuid="6b32a758-db57-49e6-b775-6351d0c6f740"/>
+	<property name="ireport.x" value="6"/>
+	<property name="ireport.y" value="325"/>
+	<style name="table">
+		<box>
+			<topPen lineWidth="1.0" lineColor="#FFFFFF"/>
+			<bottomPen lineWidth="1.0" lineColor="#FFFFFF"/>
+		</box>
+	</style>
+	<style name="table_TH" mode="Opaque" backcolor="#FFFABF">
+		<box>
+			<topPen lineWidth="0.5" lineColor="#FFFFFF"/>
+			<bottomPen lineWidth="0.5" lineColor="#FFFFFF"/>
+		</box>
+	</style>
+	<style name="table_CH" mode="Opaque" backcolor="#FFFDE6">
+		<box>
+			<topPen lineWidth="0.5" lineColor="#FFFFFF"/>
+			<bottomPen lineWidth="0.5" lineColor="#FFFFFF"/>
+		</box>
+	</style>
+	<style name="table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<topPen lineWidth="0.5" lineColor="#FFFFFF"/>
+			<bottomPen lineWidth="0.5" lineColor="#FFFFFF"/>
+		</box>
+	</style>
+	<style name="table 1">
+		<box>
+			<topPen lineWidth="1.0" lineColor="#FFFFFF"/>
+			<bottomPen lineWidth="1.0" lineColor="#FFFFFF"/>
+		</box>
+	</style>
+	<style name="table 1_TH" mode="Opaque" backcolor="#BFFFFF">
+		<box>
+			<topPen lineWidth="0.5" lineColor="#FFFFFF"/>
+			<bottomPen lineWidth="0.5" lineColor="#FFFFFF"/>
+		</box>
+	</style>
+	<style name="table 1_CH" mode="Opaque" backcolor="#E6FFFF">
+		<box>
+			<topPen lineWidth="0.5" lineColor="#FFFFFF"/>
+			<bottomPen lineWidth="0.5" lineColor="#FFFFFF"/>
+		</box>
+	</style>
+	<style name="table 1_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<topPen lineWidth="0.5" lineColor="#FFFFFF"/>
+			<bottomPen lineWidth="0.5" lineColor="#FFFFFF"/>
+		</box>
+	</style>
+	<subDataset name="dataset1" uuid="6b32a758-db57-49e6-b775-6351d0c6f740">
+		<queryString>
+			<![CDATA[SELECT ds.dska_cod CODIGO,(dska_nom_prod||'-'||dska_marca)DESCRIPCION, 
+pr.dtpr_cant CAN, pr.dtpr_vlr_venta_uni VALOR
+ FROM fa_tdtpr pr,in_tdska ds
+ WHERE   dtpr_fact = 1 and dtpr_dska = dska_dska]]>
+		</queryString>
+		<field name="codigo" class="java.lang.String"/>
+		<field name="descripcion" class="java.lang.String"/>
+		<field name="can" class="java.lang.Integer"/>
+		<field name="valor" class="java.math.BigDecimal"/>
+	</subDataset>
 	<parameter name="fact_fact" class="java.lang.String"/>
 	<queryString>
 		<![CDATA[SELECT  (select para_valor from em_tpara where para_clave = 'NOMBREEMPRESA') NOMBRE,
@@ -16,11 +75,12 @@
 WHERE SED.SEDE_SEDE = US.TIUS_SEDE AND US.TIUS_TIUS = FAC.FACT_TIUS AND FAC.FACT_FACT = 1)ubicacion,
 (SELECT 'CAJERO:'||PER.PERS_NOMBRE||' '||PER.PERS_APELLIDO  FROM  EM_TSEDE SED, US_TPERS PER, us_ttius US,fa_tfact FAC
 WHERE SED.SEDE_SEDE = US.TIUS_SEDE AND US.TIUS_TIUS = FAC.FACT_TIUS AND FAC.FACT_FACT = 1)VENDEDOR,
-(SELECT 'FECHA:'||to_char(NOW(),'DD/MM/YYYY HH24:MI:SS'))FECHA
-
-
-
- ]]>
+(SELECT 'FECHA:'||to_char(NOW(),'DD/MM/YYYY HH24:MI:SS'))FECHA,
+(select (clien_nombres||' '||clien_apellidos) from us_tclien, fa_tfact where fact_clien = clien_clien and FACT_FACT = 1)CLIENTE,
+(select  'CEDULA:'||clien_cedula cedulacliente from us_tclien, fa_tfact where fact_clien = clien_clien and FACT_FACT = 1 )CEDULACLIENTE,
+(SELECT fact_vlr_iva from fa_tfact where fact_fact  = 1)TOTIVA,
+(SELECT fact_vlr_total from fa_tfact where fact_fact  = 1)TOTAL
+]]>
 	</queryString>
 	<field name="nombre" class="java.lang.String"/>
 	<field name="nit" class="java.lang.String"/>
@@ -30,11 +90,15 @@ WHERE SED.SEDE_SEDE = US.TIUS_SEDE AND US.TIUS_TIUS = FAC.FACT_TIUS AND FAC.FACT
 	<field name="ubicacion" class="java.lang.String"/>
 	<field name="vendedor" class="java.lang.String"/>
 	<field name="fecha" class="java.lang.String"/>
+	<field name="cliente" class="java.lang.String"/>
+	<field name="cedulacliente" class="java.lang.String"/>
+	<field name="totiva" class="java.math.BigDecimal"/>
+	<field name="total" class="java.math.BigDecimal"/>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="133" splitType="Stretch">
+		<band height="170" splitType="Stretch">
 			<textField>
 				<reportElement x="0" y="1" width="186" height="15" uuid="d971adc5-19fa-4ffb-9769-f60de92ce268"/>
 				<textElement textAlignment="Center">
@@ -61,7 +125,7 @@ WHERE SED.SEDE_SEDE = US.TIUS_SEDE AND US.TIUS_TIUS = FAC.FACT_TIUS AND FAC.FACT
 				<textElement>
 					<font fontName="Courier New"/>
 				</textElement>
-				<text><![CDATA[***********************************************]]></text>
+				<text><![CDATA[----------------------------------]]></text>
 			</staticText>
 			<textField>
 				<reportElement x="1" y="86" width="184" height="10" uuid="b7abf9fa-78e8-4b47-af5c-8f09e13d2621"/>
@@ -70,22 +134,15 @@ WHERE SED.SEDE_SEDE = US.TIUS_SEDE AND US.TIUS_TIUS = FAC.FACT_TIUS AND FAC.FACT
 				</textElement>
 				<textFieldExpression><![CDATA[$F{vendedor}]]></textFieldExpression>
 			</textField>
-			<staticText>
-				<reportElement x="2" y="118" width="186" height="13" uuid="d53e212b-7602-418e-a685-b9e743e6246c"/>
-				<textElement>
-					<font fontName="Courier New"/>
-				</textElement>
-				<text><![CDATA[***********************************************]]></text>
-			</staticText>
 			<textField>
-				<reportElement x="0" y="29" width="186" height="19" uuid="feb2408e-b41c-4763-86d7-b73a0d09433c"/>
+				<reportElement x="0" y="30" width="186" height="19" uuid="feb2408e-b41c-4763-86d7-b73a0d09433c"/>
 				<textElement textAlignment="Center">
 					<font fontName="Courier New" size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{ubicacion}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="2" y="71" width="184" height="17" uuid="58c7b233-9c2b-44bf-8a5d-19fc23ef24f1"/>
+				<reportElement x="2" y="71" width="184" height="15" uuid="58c7b233-9c2b-44bf-8a5d-19fc23ef24f1"/>
 				<textElement>
 					<font fontName="Courier New" size="8"/>
 				</textElement>
@@ -105,12 +162,150 @@ WHERE SED.SEDE_SEDE = US.TIUS_SEDE AND US.TIUS_TIUS = FAC.FACT_TIUS AND FAC.FACT
 				</textElement>
 				<text><![CDATA[FACTURA DE VENTA: ]]></text>
 			</staticText>
+			<staticText>
+				<reportElement x="2" y="124" width="186" height="13" uuid="5831b7ac-eb69-4369-afc0-ec362c7a9fb3"/>
+				<textElement>
+					<font fontName="Courier New"/>
+				</textElement>
+				<text><![CDATA[----------------------------------]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="0" y="102" width="185" height="10" uuid="beb4b649-06bf-42f3-9d8c-3d5fcb251973"/>
+				<textElement>
+					<font fontName="Courier New" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{cliente}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="1" y="114" width="184" height="10" uuid="feb973dc-163b-41e7-8ed6-c38a43997cd5"/>
+				<textElement>
+					<font fontName="Courier New" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{cedulacliente}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="1" y="93" width="186" height="13" uuid="5dea3def-8921-4500-aad3-5c9e433328b6"/>
+				<textElement>
+					<font fontName="Courier New"/>
+				</textElement>
+				<text><![CDATA[----------------------------------]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="2" y="160" width="23" height="10" uuid="e2ed55fa-9ea3-4d6f-a0f3-8b9eaea7d332"/>
+				<textElement>
+					<font fontName="Courier New" size="8"/>
+				</textElement>
+				<text><![CDATA[COD]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="34" y="160" width="53" height="10" uuid="25ff0d0b-be97-44d1-b566-afdb2bbed67e"/>
+				<textElement>
+					<font fontName="Courier New" size="8"/>
+				</textElement>
+				<text><![CDATA[DESCRIPCIÓN]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="106" y="160" width="23" height="10" uuid="eefb248e-8c79-412c-bf76-7428efddba0f"/>
+				<textElement>
+					<font fontName="Courier New" size="8"/>
+				</textElement>
+				<text><![CDATA[CAN]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="152" y="160" width="33" height="10" uuid="bad974f6-8165-4f96-96f9-d63f58644952"/>
+				<textElement>
+					<font fontName="Courier New" size="8"/>
+				</textElement>
+				<text><![CDATA[TOTAL]]></text>
+			</staticText>
 		</band>
 	</title>
 	<detail>
-		<band height="125" splitType="Stretch"/>
+		<band height="14" splitType="Stretch">
+			<componentElement>
+				<reportElement key="table 1" style="table 1" x="0" y="0" width="185" height="14" uuid="9ebb05f2-5856-4dfc-8516-a2fa7f4644c4"/>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<datasetRun subDataset="dataset1" uuid="c34538f0-4921-4c8b-95e2-f93ad24c5632">
+						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					</datasetRun>
+					<jr:column width="28" uuid="fb963e5e-f6aa-4c0b-8acc-d7d11fcfefb1">
+						<jr:detailCell style="table 1_TD" height="20" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="28" height="20" uuid="442c4db8-380a-4368-a8ba-74f4da19553f"/>
+								<textElement>
+									<font fontName="Courier New" size="8"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{codigo}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="90" uuid="fbb63097-effd-45fe-8105-4b117b732f2a">
+						<jr:detailCell style="table 1_TD" height="20" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="90" height="20" uuid="ce16e3f1-8fcd-4a6b-aa73-94956efd9a60"/>
+								<textElement>
+									<font fontName="Courier New" size="8"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{descripcion}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="27" uuid="3f888b4c-dd95-4cc0-91f0-8f861c0dca53">
+						<jr:detailCell style="table 1_TD" height="20" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="27" height="20" uuid="fbcdf97e-2c17-486e-ba82-64a6661419c4"/>
+								<textElement>
+									<font fontName="Courier New" size="8"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{can}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="66" uuid="fad84375-adae-460e-b2e8-779fa02bf72b">
+						<jr:detailCell style="table 1_TD" height="20" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="66" height="20" uuid="830e78a8-e3e0-4a00-82f5-4ff0a7941d61"/>
+								<textElement>
+									<font fontName="Courier New" size="8"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{valor}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+				</jr:table>
+			</componentElement>
+		</band>
 	</detail>
-	<pageFooter>
-		<band height="54" splitType="Stretch"/>
-	</pageFooter>
+	<columnFooter>
+		<band height="50">
+			<staticText>
+				<reportElement x="63" y="-45" width="52" height="10" uuid="80a60137-7042-4caa-aa38-6eaf2d78b1a6"/>
+				<textElement textAlignment="Right">
+					<font fontName="Courier New" size="8"/>
+				</textElement>
+				<text><![CDATA[TOTAL IVA:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="62" y="-35" width="52" height="10" uuid="d67ddc63-ea50-42f2-afae-e7e4a8aea9bd"/>
+				<textElement textAlignment="Right">
+					<font fontName="Courier New" size="8"/>
+				</textElement>
+				<text><![CDATA[TOTAL:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="115" y="-45" width="71" height="10" uuid="3403c7c9-358f-4d00-8d8b-d4ce0e1a7d19"/>
+				<textElement>
+					<font fontName="Courier New" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{totiva}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="115" y="-35" width="71" height="10" uuid="d9dca3be-bd08-4c04-922f-d9efbd242687"/>
+				<textElement>
+					<font fontName="Courier New" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{total}]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnFooter>
 </jasperReport>

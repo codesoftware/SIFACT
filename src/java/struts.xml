@@ -31,5 +31,8 @@
         </action>
     </package>
     <include file="ajax.xml" />
+    <include file="report.xml" />
+    
+    
          
 </struts>

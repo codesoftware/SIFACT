@@ -1,0 +1,28 @@
+<!DOCTYPE struts PUBLIC
+"-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+"http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<!-- Author: Personal -->
+ 
+<struts>
+    <package name="report" namespace="/" extends="struts-default">
+        
+        <action name="fact_GeneraFactura" class="co.com.codesoftware.facturacion.action.GenerarFacturaAction" method="generarFactura" >
+            <param name="nombreJasper">Factura.jasper</param>
+            <result name="success" type="stream">
+                <!-- nombre del atributo del action que contiene el InputStream a devolver, por defecto se considera inputStream -->
+                <param name="inputName">fileInputStream</param>
+                <!-- nombre del atributo con el tamaño del fichero -->
+                <param name="contentLength">${contentLength}</param>
+                <!-- mime type del fichero, también se podría usar un atributo. Por defecto es text/plain -->
+                <param name="contentType">application/pdf</param>
+                <!-- el content disposition del header del response. En este ejemplo vamos a usar un valor fijo pero tomando como nombre
+                de archivo un atributo del action -->
+                <param name="contentDisposition">inline;filename="${contentName}"</param>
+                <!-- Por defecto es true y habilita el "cacheo" del fichero en el navegador. Si este puede ser variable conviene deshabilitarlo
+                para evitar posibles efectos colaterales -->
+                <param name="allowCaching">false</param><!-- default true -->
+            </result>
+        </action>  
+    </package>
+</struts>

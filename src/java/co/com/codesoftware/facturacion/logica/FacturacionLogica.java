@@ -11,9 +11,22 @@ import co.com.codesoftware.general.persistencia.EnvioFuncion;
 import co.com.codesoftware.parametros.ParametrosEntity;
 import co.com.codesoftware.usuario.entity.UsuarioEntity;
 import co.com.codesoftware.usuario.logica.UsuarioLogica;
+import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import net.sf.jasperreports.engine.JasperExportManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.util.JRLoader;
 
 /**
  * Clase encargada de realizar la logica para la facturacion de productos
@@ -154,5 +167,51 @@ public class FacturacionLogica {
         }
         return rta;                 
     }
+    
+    
+    public String generarFactura(String fact_fact, String ruta, String rutaDestino){
+        String rta = "Ok";
+        
+        Connection conn = null;
+        try (EnvioFuncion function = new EnvioFuncion()){
+            conn = this.generarConexion();
+            String ubicacionReporte = ruta;
+            Map<String, Object> properties = new HashMap<String, Object>();
+            properties.put("fact_fact", Integer.parseInt(fact_fact));
+            JasperReport jasperReport = (JasperReport) JRLoader.loadObject(ubicacionReporte);
+            JasperPrint print = JasperFillManager.fillReport(jasperReport, properties, conn);
+            JasperExportManager.exportReportToPdfFile(print, rutaDestino);
+        } catch (Exception e) {
+            System.out.println("Error Rep_ReporteLogica.generarFactura " + e);
+            rta = "Error " + e;
+        } finally {
+            try {
+                conn.close();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+        }
+        return rta;
+    }
+    
+        public Connection generarConexion() {
+        Connection con = null;
+        try {
+            ResourceBundle rb = ResourceBundle.getBundle("co.com.sigemco.alfa.archivos.BASECONFIG");
+            String host = rb.getString("HOST").trim();
+            String user = rb.getString("USER").trim();
+            String pass = rb.getString("PASSWORD").trim();
+            String db = rb.getString("DATABASE").trim();
+            String port = rb.getString("PUERTO").trim();
+            Class.forName("org.postgresql.Driver");
+            String url = "jdbc:postgresql://" + host + ":" + port + "/" + db;
+            con = DriverManager.getConnection(url, user, pass);
+        } catch (Exception e) {
+            System.out.println("Error al realizar la conexion...");
+            e.printStackTrace();
+        }
+        return con;
+    }
+
 
 }
