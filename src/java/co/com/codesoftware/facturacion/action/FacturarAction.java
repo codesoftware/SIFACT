@@ -43,7 +43,7 @@ public class FacturarAction extends ActionSupport {
                 } else {
                     addActionError("Error al generar la factura");
                 }
-                //logica.borrarTemporalXidTransaccion(idTrans);
+                logica.borrarTemporalXidTransaccion(idTrans);
             }
 
         } catch (Exception e) {

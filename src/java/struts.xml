@@ -27,12 +27,9 @@
         <action name="Fac_Facturar" class="co.com.codesoftware.facturacion.action.FacturarAction" method="facturar">
             <result name="error">/WEB-INF/FACTURACION/MODIFICAR/Fact_GestionFacturacion.jsp</result>
             <result name="input">/WEB-INF/FACTURACION/MODIFICAR/Fact_GestionFacturacion.jsp</result>
-            <result name="success">/homeFacturacion.jsp</result>
+            <result name="success">/WEB-INF/FACTURACION/MODIFICAR/Acciones_Gestion.jsp</result>
         </action>
     </package>
     <include file="ajax.xml" />
     <include file="report.xml" />
-    
-    
-         
 </struts>

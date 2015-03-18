@@ -130,19 +130,20 @@ public class FacturacionLogica {
             e.printStackTrace();
         }
     }
-    
+
     /**
      * Funcion encargada de realizar la facturacion
+     *
      * @param idTrans
-     * @return 
+     * @return
      */
-    public String creaFacturacion(String idTrans, String usuario, String cliente){
+    public String creaFacturacion(String idTrans, String usuario, String cliente) {
         String rta = "";
         String idTius = "";
-        try(EnvioFuncion function = new EnvioFuncion()) {
+        try (EnvioFuncion function = new EnvioFuncion()) {
             UsuarioLogica logicaUsu = new UsuarioLogica();
             UsuarioEntity objUsu = logicaUsu.buscaUsuarioXusuario(usuario);
-            logicaUsu = null;            
+            logicaUsu = null;
             idTius = objUsu.getTius_tius();
             function.adicionarNombre("FA_CREA_FACTURA_COMPLETO");
             function.adicionarNumeric(idTius);
@@ -165,15 +166,14 @@ public class FacturacionLogica {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return rta;                 
+        return rta;
     }
-    
-    
-    public String generarFactura(String fact_fact, String ruta, String rutaDestino){
+
+    public String generarFactura(String fact_fact, String ruta, String rutaDestino) {
         String rta = "Ok";
-        
+
         Connection conn = null;
-        try (EnvioFuncion function = new EnvioFuncion()){
+        try (EnvioFuncion function = new EnvioFuncion()) {
             conn = this.generarConexion();
             String ubicacionReporte = ruta;
             Map<String, Object> properties = new HashMap<String, Object>();
@@ -193,8 +193,8 @@ public class FacturacionLogica {
         }
         return rta;
     }
-    
-        public Connection generarConexion() {
+
+    public Connection generarConexion() {
         Connection con = null;
         try {
             ResourceBundle rb = ResourceBundle.getBundle("co.com.sigemco.alfa.archivos.BASECONFIG");
@@ -212,6 +212,5 @@ public class FacturacionLogica {
         }
         return con;
     }
-
 
 }
