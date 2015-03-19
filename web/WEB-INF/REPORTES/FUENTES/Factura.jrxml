@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="226" pageHeight="842" columnWidth="186" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="7d627bcf-4474-4259-84b4-e7ae2f8eff2a">
-	<property name="ireport.zoom" value="3.0"/>
-	<property name="ireport.x" value="6"/>
-	<property name="ireport.y" value="325"/>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="226" pageHeight="700" columnWidth="186" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="7d627bcf-4474-4259-84b4-e7ae2f8eff2a">
+	<property name="ireport.zoom" value="2.0490403660952117"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="138"/>
 	<style name="table">
 		<box>
 			<topPen lineWidth="1.0" lineColor="#FFFFFF"/>
@@ -52,35 +52,51 @@
 		</box>
 	</style>
 	<subDataset name="dataset1" uuid="6b32a758-db57-49e6-b775-6351d0c6f740">
+		<parameter name="fact_fact_table" class="java.lang.String">
+			<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+		</parameter>
 		<queryString>
 			<![CDATA[SELECT ds.dska_cod CODIGO,(dska_nom_prod||'-'||dska_marca)DESCRIPCION, 
-pr.dtpr_cant CAN, pr.dtpr_vlr_venta_uni VALOR
+pr.dtpr_cant CAN, to_char(pr.dtpr_vlr_venta_uni,'LFM9,999,999,999.00') VALOR
  FROM fa_tdtpr pr,in_tdska ds
- WHERE   dtpr_fact = 1 and dtpr_dska = dska_dska]]>
+ WHERE   dtpr_fact = cast($P{fact_fact_table} as int)
+   and dtpr_dska = dska_dska]]>
 		</queryString>
 		<field name="codigo" class="java.lang.String"/>
 		<field name="descripcion" class="java.lang.String"/>
 		<field name="can" class="java.lang.Integer"/>
-		<field name="valor" class="java.math.BigDecimal"/>
+		<field name="valor" class="java.lang.String"/>
 	</subDataset>
 	<parameter name="fact_fact" class="java.lang.String"/>
 	<queryString>
 		<![CDATA[SELECT  (select para_valor from em_tpara where para_clave = 'NOMBREEMPRESA') NOMBRE,
- 'NIT:'||(select para_valor from em_tpara where para_clave = 'NIT') NIT,
- (select para_valor from em_tpara where para_clave = 'DIRECCION' )DIRECCION,
- (select para_valor from em_tpara where para_clave = 'TELEFONOS')TELEFONOS,
- (select para_valor from em_tpara where para_clave = 'CIUDAD')CIUDAD,
-
-(SELECT SED.SEDE_DIRECCION || ' --  '||SED.SEDE_NOMBRE||  '  --  Tel: '|| SED.SEDE_TELEFONO FROM  EM_TSEDE SED, US_TPERS PER, us_ttius US,fa_tfact FAC
-WHERE SED.SEDE_SEDE = US.TIUS_SEDE AND US.TIUS_TIUS = FAC.FACT_TIUS AND FAC.FACT_FACT = 1)ubicacion,
-(SELECT 'CAJERO:'||PER.PERS_NOMBRE||' '||PER.PERS_APELLIDO  FROM  EM_TSEDE SED, US_TPERS PER, us_ttius US,fa_tfact FAC
-WHERE SED.SEDE_SEDE = US.TIUS_SEDE AND US.TIUS_TIUS = FAC.FACT_TIUS AND FAC.FACT_FACT = 1)VENDEDOR,
-(SELECT 'FECHA:'||to_char(NOW(),'DD/MM/YYYY HH24:MI:SS'))FECHA,
-(select (clien_nombres||' '||clien_apellidos) from us_tclien, fa_tfact where fact_clien = clien_clien and FACT_FACT = 1)CLIENTE,
-(select  'CEDULA:'||clien_cedula cedulacliente from us_tclien, fa_tfact where fact_clien = clien_clien and FACT_FACT = 1 )CEDULACLIENTE,
-(SELECT fact_vlr_iva from fa_tfact where fact_fact  = 1)TOTIVA,
-(SELECT fact_vlr_total from fa_tfact where fact_fact  = 1)TOTAL
-]]>
+         'NIT:'||(select para_valor from em_tpara where para_clave = 'NIT') NIT,
+        (select para_valor from em_tpara where para_clave = 'DIRECCION' )DIRECCION,
+        (select para_valor from em_tpara where para_clave = 'TELEFONOS')TELEFONOS,
+        (select para_valor from em_tpara where para_clave = 'CIUDAD')CIUDAD,
+        (SELECT SED.SEDE_DIRECCION || '--'||SED.SEDE_NOMBRE||  '--Tel: '|| SED.SEDE_TELEFONO 
+           FROM  em_tsede sed, us_tpers per, us_ttius us,fa_tfact fac
+          WHERE sed.sede_sede = us.tius_sede 
+            AND us.tius_tius = fac.fact_tius 
+            AND fac.fact_fact = cast($P{fact_fact} as int) ) ubicacion,
+        (SELECT 'CAJERO:'||PER.PERS_NOMBRE||' '||PER.PERS_APELLIDO  
+           FROM us_tpers per, us_ttius us, fa_tfact fac
+          WHERE fac.fact_fact = cast($P{fact_fact} as int)  
+            AND us.tius_tius = fac.fact_tius 
+            AND per.pers_pers = us.tius_pers
+        )vendedor,
+        (SELECT 'FECHA:'||to_char(NOW(),'DD/MM/YYYY HH24:MI:SS'))FECHA,
+        (SELECT (clien_nombres||' '||clien_apellidos) 
+           FROM us_tclien, fa_tfact 
+          WHERE fact_clien = clien_clien 
+            AND fact_fact = cast($P{fact_fact} as int))CLIENTE,
+       (SELECT  'CEDULA:'||clien_cedula cedulacliente 
+          FROM us_tclien, fa_tfact 
+         WHERE fact_clien = clien_clien 
+           AND fact_fact = cast($P{fact_fact} as int) )CEDULACLIENTE,
+(SELECT to_char(fact_vlr_iva,'LFM9,999,999,999.00') from fa_tfact where fact_fact  = cast($P{fact_fact} as int))TOTIVA,
+(SELECT to_char(fact_vlr_total,'LFM9,999,999,999.00') from fa_tfact where fact_fact  = cast($P{fact_fact} as int))SUBTOTAL,
+(SELECT to_char(cast((fact_vlr_total+fact_vlr_iva) as numeric),'LFM9,999,999,999.00') from fa_tfact where fact_fact  = cast($P{fact_fact} as int))TOTAL]]>
 	</queryString>
 	<field name="nombre" class="java.lang.String"/>
 	<field name="nit" class="java.lang.String"/>
@@ -92,147 +108,175 @@ WHERE SED.SEDE_SEDE = US.TIUS_SEDE AND US.TIUS_TIUS = FAC.FACT_TIUS AND FAC.FACT
 	<field name="fecha" class="java.lang.String"/>
 	<field name="cliente" class="java.lang.String"/>
 	<field name="cedulacliente" class="java.lang.String"/>
-	<field name="totiva" class="java.math.BigDecimal"/>
-	<field name="total" class="java.math.BigDecimal"/>
-	<background>
-		<band splitType="Stretch"/>
-	</background>
+	<field name="totiva" class="java.lang.String"/>
+	<field name="subtotal" class="java.lang.String"/>
+	<field name="total" class="java.lang.String"/>
 	<title>
-		<band height="170" splitType="Stretch">
+		<band height="155" splitType="Stretch">
 			<textField>
-				<reportElement x="0" y="1" width="186" height="15" uuid="d971adc5-19fa-4ffb-9769-f60de92ce268"/>
+				<reportElement x="0" y="0" width="186" height="15" uuid="d971adc5-19fa-4ffb-9769-f60de92ce268"/>
 				<textElement textAlignment="Center">
 					<font fontName="Courier New" size="12" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{nombre}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="0" y="16" width="186" height="13" uuid="ba24a9c1-fb46-45c9-b311-9b6a729e810c"/>
+				<reportElement x="0" y="15" width="186" height="15" uuid="ba24a9c1-fb46-45c9-b311-9b6a729e810c"/>
 				<textElement textAlignment="Center">
 					<font fontName="Courier New" isBold="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{nit}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="0" y="48" width="186" height="10" uuid="5ba7e926-8e3e-4431-89cf-b4359b9a0339"/>
+				<reportElement x="0" y="45" width="186" height="10" uuid="5ba7e926-8e3e-4431-89cf-b4359b9a0339"/>
 				<textElement textAlignment="Center">
 					<font fontName="Courier New" size="8" isBold="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{ciudad}]]></textFieldExpression>
 			</textField>
-			<staticText>
-				<reportElement x="0" y="58" width="186" height="13" uuid="48ac931b-1128-415c-8ddd-3e2860ba6762"/>
-				<textElement>
-					<font fontName="Courier New"/>
-				</textElement>
-				<text><![CDATA[----------------------------------]]></text>
-			</staticText>
 			<textField>
-				<reportElement x="1" y="86" width="184" height="10" uuid="b7abf9fa-78e8-4b47-af5c-8f09e13d2621"/>
-				<textElement>
+				<reportElement x="0" y="80" width="184" height="10" uuid="b7abf9fa-78e8-4b47-af5c-8f09e13d2621"/>
+				<textElement textAlignment="Center">
 					<font fontName="Courier New" size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{vendedor}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="0" y="30" width="186" height="19" uuid="feb2408e-b41c-4763-86d7-b73a0d09433c"/>
-				<textElement textAlignment="Center">
+				<reportElement x="0" y="30" width="186" height="15" uuid="feb2408e-b41c-4763-86d7-b73a0d09433c"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Courier New" size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{ubicacion}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="2" y="71" width="184" height="15" uuid="58c7b233-9c2b-44bf-8a5d-19fc23ef24f1"/>
-				<textElement>
+				<reportElement x="0" y="55" width="186" height="15" uuid="58c7b233-9c2b-44bf-8a5d-19fc23ef24f1"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Courier New" size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{fecha}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="85" y="78" width="101" height="10" uuid="d66f96e5-df62-43a5-bae6-53ce4e16a028"/>
+				<reportElement x="85" y="70" width="101" height="10" uuid="d66f96e5-df62-43a5-bae6-53ce4e16a028"/>
 				<textElement>
 					<font fontName="Courier New" size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{fact_fact}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="2" y="78" width="85" height="10" uuid="6a198e9a-d17f-4283-a3c0-10e855fc2ccc"/>
-				<textElement>
-					<font fontName="Courier New" size="8"/>
+				<reportElement x="0" y="70" width="85" height="10" uuid="6a198e9a-d17f-4283-a3c0-10e855fc2ccc"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Courier New" size="8" isBold="true"/>
 				</textElement>
 				<text><![CDATA[FACTURA DE VENTA: ]]></text>
 			</staticText>
-			<staticText>
-				<reportElement x="2" y="124" width="186" height="13" uuid="5831b7ac-eb69-4369-afc0-ec362c7a9fb3"/>
-				<textElement>
-					<font fontName="Courier New"/>
-				</textElement>
-				<text><![CDATA[----------------------------------]]></text>
-			</staticText>
 			<textField>
-				<reportElement x="0" y="102" width="185" height="10" uuid="beb4b649-06bf-42f3-9d8c-3d5fcb251973"/>
-				<textElement>
+				<reportElement x="0" y="90" width="185" height="15" uuid="beb4b649-06bf-42f3-9d8c-3d5fcb251973"/>
+				<textElement textAlignment="Center" verticalAlignment="Bottom">
 					<font fontName="Courier New" size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{cliente}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="1" y="114" width="184" height="10" uuid="feb973dc-163b-41e7-8ed6-c38a43997cd5"/>
-				<textElement>
+				<reportElement x="0" y="105" width="186" height="15" uuid="feb973dc-163b-41e7-8ed6-c38a43997cd5"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Courier New" size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{cedulacliente}]]></textFieldExpression>
 			</textField>
+			<line>
+				<reportElement x="0" y="55" width="186" height="1" uuid="1524158e-a4a2-42ba-82ba-6aecdd2ee6de"/>
+				<graphicElement>
+					<pen lineStyle="Dashed"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="0" y="90" width="186" height="1" uuid="d69df514-7f9a-42ab-a4c9-dfe905db91c2"/>
+				<graphicElement>
+					<pen lineStyle="Dashed"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="0" y="120" width="186" height="1" uuid="a4aa9d7e-21e0-48b9-9a39-e102f481cab1"/>
+				<graphicElement>
+					<pen lineStyle="Dashed"/>
+				</graphicElement>
+			</line>
 			<staticText>
-				<reportElement x="1" y="93" width="186" height="13" uuid="5dea3def-8921-4500-aad3-5c9e433328b6"/>
-				<textElement>
-					<font fontName="Courier New"/>
+				<reportElement x="0" y="125" width="52" height="10" uuid="80a60137-7042-4caa-aa38-6eaf2d78b1a6"/>
+				<textElement textAlignment="Right">
+					<font fontName="Courier New" size="8"/>
 				</textElement>
-				<text><![CDATA[----------------------------------]]></text>
+				<text><![CDATA[TOTAL IVA:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="2" y="160" width="23" height="10" uuid="e2ed55fa-9ea3-4d6f-a0f3-8b9eaea7d332"/>
+				<reportElement x="0" y="145" width="52" height="10" uuid="d67ddc63-ea50-42f2-afae-e7e4a8aea9bd"/>
+				<textElement textAlignment="Right">
+					<font fontName="Courier New" size="8"/>
+				</textElement>
+				<text><![CDATA[TOTAL:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="56" y="145" width="130" height="10" uuid="3403c7c9-358f-4d00-8d8b-d4ce0e1a7d19"/>
 				<textElement>
 					<font fontName="Courier New" size="8"/>
 				</textElement>
-				<text><![CDATA[COD]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="34" y="160" width="53" height="10" uuid="25ff0d0b-be97-44d1-b566-afdb2bbed67e"/>
+				<textFieldExpression><![CDATA[$F{totiva}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="56" y="125" width="130" height="10" uuid="d9dca3be-bd08-4c04-922f-d9efbd242687"/>
 				<textElement>
 					<font fontName="Courier New" size="8"/>
 				</textElement>
-				<text><![CDATA[DESCRIPCIÓN]]></text>
-			</staticText>
+				<textFieldExpression><![CDATA[$F{total}]]></textFieldExpression>
+			</textField>
 			<staticText>
-				<reportElement x="106" y="160" width="23" height="10" uuid="eefb248e-8c79-412c-bf76-7428efddba0f"/>
+				<reportElement x="0" y="135" width="52" height="10" uuid="f104af06-47f9-4f1d-88f3-0eec7603bacd"/>
+				<textElement textAlignment="Right">
+					<font fontName="Courier New" size="8"/>
+				</textElement>
+				<text><![CDATA[SUB TOTAL:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="56" y="135" width="130" height="10" uuid="641fb4e3-ada9-44a6-ab41-c37b7afaf9da"/>
 				<textElement>
 					<font fontName="Courier New" size="8"/>
 				</textElement>
-				<text><![CDATA[CAN]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="152" y="160" width="33" height="10" uuid="bad974f6-8165-4f96-96f9-d63f58644952"/>
-				<textElement>
-					<font fontName="Courier New" size="8"/>
-				</textElement>
-				<text><![CDATA[TOTAL]]></text>
-			</staticText>
+				<textFieldExpression><![CDATA[$F{subtotal}]]></textFieldExpression>
+			</textField>
 		</band>
 	</title>
 	<detail>
 		<band height="14" splitType="Stretch">
 			<componentElement>
-				<reportElement key="table 1" style="table 1" x="0" y="0" width="185" height="14" uuid="9ebb05f2-5856-4dfc-8516-a2fa7f4644c4"/>
+				<reportElement key="table 1" style="table 1" x="0" y="0" width="186" height="14" uuid="9ebb05f2-5856-4dfc-8516-a2fa7f4644c4"/>
 				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
-					<datasetRun subDataset="dataset1" uuid="c34538f0-4921-4c8b-95e2-f93ad24c5632">
+					<datasetRun subDataset="dataset1" uuid="8f02787f-2f1a-41d3-a057-dae032562493">
+						<datasetParameter name="fact_fact_table">
+							<datasetParameterExpression><![CDATA[$P{fact_fact}]]></datasetParameterExpression>
+						</datasetParameter>
 						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
 					</datasetRun>
 					<jr:column width="28" uuid="fb963e5e-f6aa-4c0b-8acc-d7d11fcfefb1">
+						<jr:columnHeader height="20" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="28" height="20" uuid="3ccec415-057c-4995-8c99-1dba67149763"/>
+								<box>
+									<pen lineWidth="0.0"/>
+									<topPen lineWidth="0.0"/>
+									<leftPen lineWidth="0.0"/>
+									<bottomPen lineWidth="0.0"/>
+									<rightPen lineWidth="0.0"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="9"/>
+								</textElement>
+								<text><![CDATA[COD]]></text>
+							</staticText>
+						</jr:columnHeader>
 						<jr:detailCell style="table 1_TD" height="20" rowSpan="1">
 							<textField>
 								<reportElement x="0" y="0" width="28" height="20" uuid="442c4db8-380a-4368-a8ba-74f4da19553f"/>
-								<textElement>
+								<textElement verticalAlignment="Middle">
 									<font fontName="Courier New" size="8"/>
 								</textElement>
 								<textFieldExpression><![CDATA[$F{codigo}]]></textFieldExpression>
@@ -240,10 +284,26 @@ WHERE SED.SEDE_SEDE = US.TIUS_SEDE AND US.TIUS_TIUS = FAC.FACT_TIUS AND FAC.FACT
 						</jr:detailCell>
 					</jr:column>
 					<jr:column width="90" uuid="fbb63097-effd-45fe-8105-4b117b732f2a">
+						<jr:columnHeader height="20" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="90" height="20" uuid="09c984fd-b3fa-4bd8-89f2-1a902c198fc0"/>
+								<box>
+									<pen lineWidth="0.0"/>
+									<topPen lineWidth="0.0"/>
+									<leftPen lineWidth="0.0"/>
+									<bottomPen lineWidth="0.0"/>
+									<rightPen lineWidth="0.0"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="9"/>
+								</textElement>
+								<text><![CDATA[DESCRIPCION]]></text>
+							</staticText>
+						</jr:columnHeader>
 						<jr:detailCell style="table 1_TD" height="20" rowSpan="1">
 							<textField>
 								<reportElement x="0" y="0" width="90" height="20" uuid="ce16e3f1-8fcd-4a6b-aa73-94956efd9a60"/>
-								<textElement>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
 									<font fontName="Courier New" size="8"/>
 								</textElement>
 								<textFieldExpression><![CDATA[$F{descripcion}]]></textFieldExpression>
@@ -251,10 +311,26 @@ WHERE SED.SEDE_SEDE = US.TIUS_SEDE AND US.TIUS_TIUS = FAC.FACT_TIUS AND FAC.FACT
 						</jr:detailCell>
 					</jr:column>
 					<jr:column width="27" uuid="3f888b4c-dd95-4cc0-91f0-8f861c0dca53">
+						<jr:columnHeader height="20" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="27" height="20" uuid="14474887-99a7-4ac9-a80d-c92170239562"/>
+								<box>
+									<pen lineWidth="0.0"/>
+									<topPen lineWidth="0.0"/>
+									<leftPen lineWidth="0.0"/>
+									<bottomPen lineWidth="0.0"/>
+									<rightPen lineWidth="0.0"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="9"/>
+								</textElement>
+								<text><![CDATA[CANT]]></text>
+							</staticText>
+						</jr:columnHeader>
 						<jr:detailCell style="table 1_TD" height="20" rowSpan="1">
 							<textField>
 								<reportElement x="0" y="0" width="27" height="20" uuid="fbcdf97e-2c17-486e-ba82-64a6661419c4"/>
-								<textElement>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
 									<font fontName="Courier New" size="8"/>
 								</textElement>
 								<textFieldExpression><![CDATA[$F{can}]]></textFieldExpression>
@@ -262,10 +338,26 @@ WHERE SED.SEDE_SEDE = US.TIUS_SEDE AND US.TIUS_TIUS = FAC.FACT_TIUS AND FAC.FACT
 						</jr:detailCell>
 					</jr:column>
 					<jr:column width="66" uuid="fad84375-adae-460e-b2e8-779fa02bf72b">
+						<jr:columnHeader height="20" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="66" height="20" uuid="7c7c873b-d096-4025-a2c0-a0b2d03fbf24"/>
+								<box>
+									<pen lineWidth="0.0"/>
+									<topPen lineWidth="0.0"/>
+									<leftPen lineWidth="0.0"/>
+									<bottomPen lineWidth="0.0"/>
+									<rightPen lineWidth="0.0"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="9"/>
+								</textElement>
+								<text><![CDATA[VALOR]]></text>
+							</staticText>
+						</jr:columnHeader>
 						<jr:detailCell style="table 1_TD" height="20" rowSpan="1">
 							<textField>
 								<reportElement x="0" y="0" width="66" height="20" uuid="830e78a8-e3e0-4a00-82f5-4ff0a7941d61"/>
-								<textElement>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
 									<font fontName="Courier New" size="8"/>
 								</textElement>
 								<textFieldExpression><![CDATA[$F{valor}]]></textFieldExpression>
@@ -276,36 +368,4 @@ WHERE SED.SEDE_SEDE = US.TIUS_SEDE AND US.TIUS_TIUS = FAC.FACT_TIUS AND FAC.FACT
 			</componentElement>
 		</band>
 	</detail>
-	<columnFooter>
-		<band height="50">
-			<staticText>
-				<reportElement x="63" y="-45" width="52" height="10" uuid="80a60137-7042-4caa-aa38-6eaf2d78b1a6"/>
-				<textElement textAlignment="Right">
-					<font fontName="Courier New" size="8"/>
-				</textElement>
-				<text><![CDATA[TOTAL IVA:]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="62" y="-35" width="52" height="10" uuid="d67ddc63-ea50-42f2-afae-e7e4a8aea9bd"/>
-				<textElement textAlignment="Right">
-					<font fontName="Courier New" size="8"/>
-				</textElement>
-				<text><![CDATA[TOTAL:]]></text>
-			</staticText>
-			<textField>
-				<reportElement x="115" y="-45" width="71" height="10" uuid="3403c7c9-358f-4d00-8d8b-d4ce0e1a7d19"/>
-				<textElement>
-					<font fontName="Courier New" size="8"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{totiva}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="115" y="-35" width="71" height="10" uuid="d9dca3be-bd08-4c04-922f-d9efbd242687"/>
-				<textElement>
-					<font fontName="Courier New" size="8"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{total}]]></textFieldExpression>
-			</textField>
-		</band>
-	</columnFooter>
 </jasperReport>

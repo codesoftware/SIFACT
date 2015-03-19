@@ -173,16 +173,16 @@ public class FacturacionLogica {
         String rta = "Ok";
 
         Connection conn = null;
-        try (EnvioFuncion function = new EnvioFuncion()) {
+        try{
             conn = this.generarConexion();
             String ubicacionReporte = ruta;
             Map<String, Object> properties = new HashMap<String, Object>();
-            properties.put("fact_fact", Integer.parseInt(fact_fact));
+            properties.put("fact_fact", fact_fact);
             JasperReport jasperReport = (JasperReport) JRLoader.loadObject(ubicacionReporte);
             JasperPrint print = JasperFillManager.fillReport(jasperReport, properties, conn);
             JasperExportManager.exportReportToPdfFile(print, rutaDestino);
         } catch (Exception e) {
-            System.out.println("Error Rep_ReporteLogica.generarFactura " + e);
+            e.printStackTrace();
             rta = "Error " + e;
         } finally {
             try {
@@ -197,7 +197,7 @@ public class FacturacionLogica {
     public Connection generarConexion() {
         Connection con = null;
         try {
-            ResourceBundle rb = ResourceBundle.getBundle("co.com.sigemco.alfa.archivos.BASECONFIG");
+            ResourceBundle rb = ResourceBundle.getBundle("co.com.codesoftware.archivos.BASECONFIG");
             String host = rb.getString("HOST").trim();
             String user = rb.getString("USER").trim();
             String pass = rb.getString("PASSWORD").trim();
