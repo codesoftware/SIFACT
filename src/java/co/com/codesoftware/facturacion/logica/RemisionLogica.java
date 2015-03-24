@@ -87,4 +87,49 @@ public class RemisionLogica {
         return rta;
     }
 
+    /**
+     * Funcion encargada de realizar la logica para buscar una remision por
+     * medio del codigo
+     *
+     * @param rmce_codigo parametro de busqueda 
+     * @return Objeto entity Remision
+     */
+    public String consultaRemisionXImei(String rmce_imei) {
+        RemisionEntity objDto = null;
+        String objJson = "";
+        try (EnvioFuncion function = new EnvioFuncion()) {
+            RemisionDao objDao = new RemisionDao();
+            objDao.setRmce_imei(rmce_imei);
+            ResultSet rs = function.enviarSelect(objDao.buscaRemisionXImei());
+            if (rs.next()) {
+                if (objDto == null) {
+                    objDto = new RemisionEntity();
+                }
+                objDto.setRmce_rmce(rs.getString("rmce_rmce"));
+                objDto.setRmce_refe(rs.getString("rmce_refe"));
+                objDto.setRmce_imei(rs.getString("rmce_imei"));
+                objDto.setRmce_iccid(rs.getString("rmce_iccid"));
+                objDto.setRmce_valor(rs.getString("rmce_valor"));
+                objDto.setRmce_comision(rs.getString("rmce_comision"));
+                objDto.setRmce_tppl(rs.getString("rmce_tppl"));
+                objDto.setRmce_fcve(rs.getString("rmce_fcve"));
+                objDto.setRmce_fcsl(rs.getString("rmce_fcsl"));
+                objDto.setRmce_fcen(rs.getString("rmce_fcen"));
+                objDto.setRmce_tius_ent(rs.getString("rmce_tius_ent"));
+                objDto.setRmce_tius_sal(rs.getString("rmce_tius_sal"));
+                objDto.setRmce_codigo(rs.getString("rmce_codigo"));
+                objDto.setRmce_sede(rs.getString("rmce_sede"));
+                objDto.setRmce_estado(rs.getString("rmce_estado"));
+                objDto.setRmce_pagado(rs.getString("rmce_pagado"));
+                objDto.setRmce_comdev(rs.getString("rmce_comdev"));
+                objDto.setRmce_fact(rs.getString("rmce_fact"));
+            }
+            Utilidades utilidades = new Utilidades();
+            objJson = utilidades.convertirObjetoJSON(objDto);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return objJson;
+    }
+
 }

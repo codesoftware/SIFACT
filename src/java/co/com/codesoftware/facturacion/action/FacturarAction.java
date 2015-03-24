@@ -7,15 +7,18 @@ package co.com.codesoftware.facturacion.action;
 
 import co.com.codesoftware.facturacion.entity.ClienteEntity;
 import co.com.codesoftware.facturacion.logica.FacturacionLogica;
+import co.com.codesoftware.usuario.entity.UsuarioEntity;
 import co.com.codesoftware.usuario.logica.UsuarioLogica;
 import com.opensymphony.xwork2.ActionSupport;
 import java.util.List;
+import java.util.Map;
+import org.apache.struts2.interceptor.SessionAware;
 
 /**
  *
  * @author ACER
  */
-public class FacturarAction extends ActionSupport {
+public class FacturarAction extends ActionSupport implements SessionAware {
 
     private List remisionFact;
     private List prodFact;
@@ -23,6 +26,7 @@ public class FacturarAction extends ActionSupport {
     private String accion;
     private String usuario;
     private String fact_fact;
+    private Map session;
 
     public String facturar() {
         FacturacionLogica logica = new FacturacionLogica();
@@ -31,13 +35,17 @@ public class FacturarAction extends ActionSupport {
             if (idTrans != null) {
                 String rtaTemp = logica.insertarTemporalProductos(prodFact, idTrans);
                 if ("Ok".equalsIgnoreCase(rtaTemp)) {
+                    //Obtentgo el identificador primario del usuario que facturo
+                    UsuarioLogica logicaUsu = new UsuarioLogica();
+                    UsuarioEntity objUsu = logicaUsu.buscaUsuarioXusuario(usuario);
+                    logicaUsu = null;
                     //Aqui hago la facturacion
-                    String valida = logica.creaFacturacion(idTrans, usuario, cliente.getClien_clien());
-                    String []facturo = valida.split("-");
-                    if(!"Ok".equalsIgnoreCase(facturo[0])){
+                    String valida = logica.creaFacturacion(idTrans, objUsu.getTius_tius(), cliente.getClien_clien());
+                    String[] facturo = valida.split("-");
+                    if (!"Ok".equalsIgnoreCase(facturo[0])) {
                         addActionError(valida);
                         return ERROR;
-                    }else{
+                    } else {
                         fact_fact = facturo[1];
                     }
                 } else {
@@ -56,7 +64,7 @@ public class FacturarAction extends ActionSupport {
         if ("facturar".equalsIgnoreCase(accion)) {
             UsuarioLogica usuarioLogica = new UsuarioLogica();
             String valida = usuarioLogica.validaSedeUsuaSedeFactura(usuario);
-            if(!"Ok".equalsIgnoreCase(valida)){
+            if (!"Ok".equalsIgnoreCase(valida)) {
                 addActionError(valida);
             }
             usuarioLogica = null;
@@ -109,5 +117,13 @@ public class FacturarAction extends ActionSupport {
 
     public void setFact_fact(String fact_fact) {
         this.fact_fact = fact_fact;
+    }
+
+    public Map getSession() {
+        return session;
+    }
+
+    public void setSession(Map session) {
+        this.session = session;
     }
 }

@@ -20,6 +20,9 @@
         <action name="buscaProdXId" class="co.com.codesoftware.facturacion.ajax.controlador.AjaxControllerFacturacion" method="traeProductoXid">
         </action>       
         
+        <action name="buscaRemcXImei" class="co.com.codesoftware.facturacion.ajax.controlador.AjaxControllerFacturacion" method="buscaRemisionXImei">
+        </action>
+        
     </package>
 
 </struts>

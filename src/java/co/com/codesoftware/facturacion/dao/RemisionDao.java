@@ -28,6 +28,7 @@ public class RemisionDao {
     private String rmce_estado;
     private String rmce_pagado;
     private String rmce_comdev;
+    private String rmce_fact;
 
     public String getRmce_rmce() {
         return rmce_rmce;
@@ -165,6 +166,14 @@ public class RemisionDao {
         this.rmce_comdev = rmce_comdev;
     }
 
+    public String getRmce_fact() {
+        return rmce_fact;
+    }
+
+    public void setRmce_fact(String rmce_fact) {
+        this.rmce_fact = rmce_fact;
+    }
+
     /**
      * Funcion encargada de Realizar el Query para la cosulta de una remision en
      * especifico
@@ -200,5 +209,23 @@ public class RemisionDao {
         select += "   AND rmce_refe = refe_refe                                                                         \n";
         select += "   AND rmce_rmce = " + this.getRmce_rmce() + "";
         return select;
+    }
+
+    /**
+     * Funcion encargada de realizar el query de busqueda para las remisiones
+     * teniendo en cuenta el codigo de la remision
+     *
+     * @return
+     */
+    public String buscaRemisionXImei() {
+        String sql = "";
+        sql += "SELECT rmce_rmce     , rmce_refe     , rmce_imei     , rmce_iccid    , \n";
+        sql += "to_char(rmce_valor,'LFM9,999,999,999,999.00') rmce_valor    , rmce_comision , rmce_tppl     , rmce_fcve     ,        \n";
+        sql += "rmce_fcsl     , rmce_fcen     , rmce_tius_ent , rmce_tius_sal ,        \n";
+        sql += "rmce_codigo   , rmce_sede     , rmce_estado   , rmce_pagado   ,        \n";
+        sql += "rmce_comdev   , rmce_fact                                              \n";
+        sql += "  FROM in_trmce                                                        \n";
+        sql += " WHERE rmce_imei LIKE '%"+this.getRmce_imei()+"%'                      \n";
+        return sql;
     }
 }

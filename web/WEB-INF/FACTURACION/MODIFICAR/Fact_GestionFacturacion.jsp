@@ -80,6 +80,15 @@
                     </thead>
                     <tbody id="bodyConsulta">
                         <tr>
+                            <td colspan="4"> 
+                                <b>Buscar por Imei:</b> <input type="checkbox" id="buscaImei" /> <input type="text" id="IdImei" placeholder="IMEI" style="display: none;" class="form-control"/>
+                            </td>
+                            <td colspan="4">
+                                <b>Pago con:</b>&nbsp;&nbsp;&nbsp;&nbsp;Tarjeta&nbsp;<input type="radio" name="pago" value="T"  class="rPago"/>&nbsp;&nbsp;Efectivo&nbsp;<input type="radio" name="pago" value="E" class="rPago" checked="true" />
+                                <input type="text" id="IdVoucher" placeholder="ID VOUCHER" style="display: none;" class="form-control"/>
+                            </td>
+                        </tr>
+                        <tr>
                             <td><b>CODIGO:</b></td>
                             <td colspan="3">
                                 <s:textfield cssClass="form-control" name="codigoBarras" required="true" id="codigoBarras" theme="simple" />

@@ -25,6 +25,7 @@ public class AjaxControllerFacturacion extends ActionSupport {
     private String refe_refe;
     private String rmce_rmce;
     private String cantidad;
+    private String rmce_imei;
 
     /**
      * Funcion encargada de obtener los datos de un producto
@@ -92,6 +93,21 @@ public class AjaxControllerFacturacion extends ActionSupport {
             e.printStackTrace();
         }
     }
+    /**
+     * Funcion encargada de realizar la acciond buscar una remision por 
+     */
+    public void buscaRemisionXImei() {
+        RemisionLogica logica = new RemisionLogica();
+        try {
+            HttpServletResponse response = ServletActionContext.getResponse();
+            response.setContentType("text/plain;charset=utf-8");
+            PrintWriter out = response.getWriter();
+            String objJson = logica.consultaRemisionXImei(rmce_imei);
+            out.print(objJson);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
     public String getCodigoBarras() {
         return codigoBarras;
@@ -132,4 +148,13 @@ public class AjaxControllerFacturacion extends ActionSupport {
     public void setRmce_rmce(String rmce_rmce) {
         this.rmce_rmce = rmce_rmce;
     }
+
+    public String getRmce_imei() {
+        return rmce_imei;
+    }
+
+    public void setRmce_imei(String rmce_imei) {
+        this.rmce_imei = rmce_imei;
+    }
+
 }

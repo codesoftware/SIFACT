@@ -139,14 +139,9 @@ public class FacturacionLogica {
      */
     public String creaFacturacion(String idTrans, String usuario, String cliente) {
         String rta = "";
-        String idTius = "";
         try (EnvioFuncion function = new EnvioFuncion()) {
-            UsuarioLogica logicaUsu = new UsuarioLogica();
-            UsuarioEntity objUsu = logicaUsu.buscaUsuarioXusuario(usuario);
-            logicaUsu = null;
-            idTius = objUsu.getTius_tius();
             function.adicionarNombre("FA_CREA_FACTURA_COMPLETO");
-            function.adicionarNumeric(idTius);
+            function.adicionarNumeric(usuario);
             function.adicionarNumeric(cliente);
             function.adicionarNumeric(idTrans);
             function.adicionarNumeric(ParametrosEntity.SEDE);

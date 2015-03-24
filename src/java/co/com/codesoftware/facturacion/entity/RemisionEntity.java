@@ -10,7 +10,7 @@ package co.com.codesoftware.facturacion.entity;
  * @author Personal
  */
 public class RemisionEntity {
-    
+
     private String rmce_rmce;
     private String rmce_refe;
     private String rmce_imei;
@@ -28,6 +28,8 @@ public class RemisionEntity {
     private String rmce_estado;
     private String rmce_pagado;
     private String rmce_comdev;
+    private String rmce_fact;
+
     //Fechas necesarias para crear las sentencias con los beteewen
     private String valorBeteween;
     private String fechaBeteween;
@@ -220,4 +222,13 @@ public class RemisionEntity {
     public void setValorSinFiltros(String valorSinFiltros) {
         this.valorSinFiltros = valorSinFiltros;
     }
+
+    public String getRmce_fact() {
+        return rmce_fact;
+    }
+
+    public void setRmce_fact(String rmce_fact) {
+        this.rmce_fact = rmce_fact;
+    }
+
 }

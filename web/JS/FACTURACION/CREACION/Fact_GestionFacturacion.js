@@ -69,9 +69,71 @@ $(document).ready(function() {
         var totalPagar = sumasValorTotalPagar();
         $('#vlrTotalPagarText').html(totalPagar);
     });
-    $('#enviaFacturar').click(function(){
+    $('#enviaFacturar').click(function() {
         //alert('Envio formulario de Facturacion');
         document.getElementById("Fac_Facturar").submit();
+    });
+    $('#buscaImei').click(function() {
+        if ($(this).is(':checked')) {
+            $('#IdImei').show('slow');
+            $('#IdImei').focus();
+        } else {
+            $('#IdImei').hide('fast');
+        }
+    });
+    $('.rPago').click(function() {
+        var pago = $('input:radio[name=pago]:checked').val();
+        if (pago == 'T') {
+            $('#IdVoucher').show();
+
+        }
+        if (pago == 'E') {
+            $('#IdVoucher').hide();
+        }
+    });
+    $('#IdImei').keypress(function(event) {
+        var keycode = (event.keyCode ? event.keyCode : event.which);
+        if (keycode == '13') {
+            var datos = new Object();
+            datos.rmce_imei = $('#IdImei').val();
+            $.ajax({
+                type: 'POST',
+                url: RutaSitio + '/buscaRemcXImei.html',
+                data: datos,
+                async: false,
+                success: function(data, textStatus, jqXHR) {
+                    var objeto = JSON.parse(data);
+                    if (objeto.respuesta = "OK") {
+                        $('#filaConsultaProd').remove();
+                        $('#filaConsultaRem').remove();
+                        $('#codigoBarras').val(objeto.objeto.rmce_codigo);
+                        tbody = '<tr id=\"filaConsultaRem\" >' +
+                                '<td>Imei:</td>' +
+                                '<td>' + objeto.objeto.rmce_imei + '</td>' +
+                                '<td>Valor:</td>' +
+                                '<td>' + objeto.objeto.rmce_valor + '</td>' +
+                                '<td>Tipo de plan:</td>';
+                        var plan = '';
+                        if(objeto.objeto.rmce_tppl  == 'pr'){
+                            plan = 'Prepago';
+                        }else{
+                            plan = 'Postpago';
+                        }
+                        tbody += '<td>' + plan + '</td>' +
+                                '<td>Fecha de vencimiento:</td>' +
+                                '<td>' + objeto.objeto.rmce_fcve + '</td>' +
+                                '</tr>';
+                        $('#bodyConsulta').append(tbody);
+                        $('#cantidad').val('1');
+                        $('#btnAgregarProdRem').focus();
+                        $('#IdImei').hide('fast');   
+                        $('#IdImei').val('');
+                        var imei=document.getElementById('buscaImei');
+                        imei.checked = false;
+                    }
+                }
+            });
+        }
     });
 });
 
@@ -128,7 +190,7 @@ function validaDatos() {
 
     }
     var duplicados = validaProdExistente(codigo);
-    if(duplicados== false){
+    if (duplicados == false) {
         $('#msnInfo').html('El producto que desea ingresar ya se encuentra en la lista de productos');
         $('#informacionPopUp').modal('show');
         return false;
@@ -136,17 +198,17 @@ function validaDatos() {
     return true;
 }
 
-function validaProdExistente(cod){
-    var codigos =  document.getElementsByClassName('codigoProd');
-    if(codigos.length = 0){
-        return true;        
-    }else{
-        for(var i = 0; i < codigos.length; i++){
+function validaProdExistente(cod) {
+    var codigos = document.getElementsByClassName('codigoProd');
+    if (codigos.length = 0) {
+        return true;
+    } else {
+        for (var i = 0; i < codigos.length; i++) {
             var codigo = codigos[i].value;
-            if(codigo == cod){
+            if (codigo == cod) {
                 return false;
             }
-        }       
+        }
     }
     return true;
 }
@@ -202,7 +264,7 @@ function adicionaProductoFactura(objeto) {
             '<td>' + objeto.precioUnidad + '</td>' +
             '<td>' + objeto.ivaUnidad + '</td>' +
             '<td>' + objeto.valortotal + '<input type=\"hidden\" class=\"valor\" value=\"' + objeto.totalProdSf + '\" /></td>' +
-            '<td>' + objeto.ivaTotal + '<input type=\"hidden\" class=\"iva\" value=\"' + objeto.totalIvaSf + '\" /> <input type=\"hidden\" name=\"prodFact\" value=\"' + objeto.dska_dska + '&'+ objeto.cantidad +'\" /></td>' +
+            '<td>' + objeto.ivaTotal + '<input type=\"hidden\" class=\"iva\" value=\"' + objeto.totalIvaSf + '\" /> <input type=\"hidden\" name=\"prodFact\" value=\"' + objeto.dska_dska + '&' + objeto.cantidad + '\" /></td>' +
             '<td>' + objeto.totalPagar + '<input type=\"hidden\" class=\"total\" value=\"' + objeto.totalPagarSf + '\" /></td>' +
             '<td>' +
             '<button type=\"button\" class=\"btn btn-danger elimnarFilaProd\">' +
@@ -223,7 +285,7 @@ function adicionaRemisionFactura(objeto) {
     var fila = '<tr class=\"filaProdFact\">' +
             '<td>' + objeto.rmce_valor + '<input type=\"hidden\" class=\"total\" value=\"' + objeto.valorSinFiltros + '\" /> </td>' +
             '<td>' + objeto.rmce_tppl + '<input type=\"hidden\" class=\"valor\" value=\"' + objeto.valorSinFiltros + '\" /> </td>' +
-            '<td>' + objeto.rmce_fcve + '<input type=\"hidden\" name=\"remisionFact\" value=\"' + objeto.rmce_rmce +'\" /></td>' +
+            '<td>' + objeto.rmce_fcve + '<input type=\"hidden\" name=\"remisionFact\" value=\"' + objeto.rmce_rmce + '\" /></td>' +
             '<td>' + objeto.rmce_comision + '</td>' +
             '<td>' +
             '<button type=\"button\" class=\"btn btn-danger elimnarFilaProd\">' +
@@ -286,11 +348,28 @@ function sumasValorTotalPagar() {
     }
 }
 
-function facturar(){
-    $('#usuarioFacturador').modal('show');    
+function facturar() {
+    var valida = validaDatosBeforeFac();
+    if (valida) {
+        $('#usuarioFacturador').modal('show');
+    }
 }
 
-function buscaCodigoXIdProducto(id){
+function validaDatosBeforeFac() {
+    var pago = $('input:radio[name=pago]:checked').val();
+    if (pago == 'T') {
+        var idVoucher = $('#IdVoucher').val();
+        if (idVoucher == '') {
+            $('#msnInfo').html('Si el pago es con tajeta no puede ser nulo el Id del Vaucher');
+            $('#informacionPopUp').modal('show');
+            $('#IdVoucher').focus();
+            return false;
+        }
+    }
+    return true;
+}
+
+function buscaCodigoXIdProducto(id) {
     var codigo = "";
     var datos = new Object();
     datos.dska_dska = id;
