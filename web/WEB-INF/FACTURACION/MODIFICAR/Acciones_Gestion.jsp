@@ -7,7 +7,26 @@
         <s:include value="/WEB-INF/TEMPLATES/cabecera.jsp"></s:include>
         <script type="text/javascript" src="<%=RutaSitio%>/JS/FACTURACION/MODIFICAR/Acciones_Gestion.js"></script>
     </head>
-    <body onload="generarSticker('1')">
-        <h1>Aqui tengo las opciones</h1>
-    </body>
+    <body>
+        <br/>
+        <br/>
+        <br/>
+    <center>
+        <a class="btn btn-primary" href="<%=RutaSitio%>/homeFacturacion.jsp">FACTURA NUEVA</a>
+    </center>
+    <s:if test="%{fact_fact != null}">
+        <script>
+                generarSticker('<s:text name="fact_fact"/>');
+        </script>
+    </s:if>
+    <s:else>
+    </s:else>
+    <s:if test="%{idRemision != null}" >
+        <script>
+                generaRemision('<s:text name="idRemision" />');
+        </script>
+    </s:if>
+    <s:else>
+    </s:else>
+</body>
 </html>

@@ -64,11 +64,26 @@ public class TempProductoFactDao {
         sql = "SELECT nextval('co_temp_tran_factu_sec') secuencia ";
         return sql;
     }
-    
+    /**
+     * Funcion encargada de realizar el Query para eliminar los datos temporales de facturacion
+     * @param idTrans
+     * @return 
+     */
     public String borraDatosXIdTrans(String idTrans){
         String sql = "";
         sql = "DELETE FROM co_ttem_fact WHERE tem_fact_trans = " + idTrans;
         return sql;
     }
+    /**
+     * Funcion encargada de realizar el Query para obtener la secuencia de transaccion para una 
+     * @return 
+     */
+    public String obtieneSecuenciaTemRemision() {
+        String sql = "";
+        sql = "SELECT nextval('in_tsec_trans_rmce') secuencia ";
+        return sql;
+    }
+    
+    
     
 }

@@ -49,7 +49,7 @@ $(document).ready(function() {
                     } else {
                         $('#filaConsultaProd').remove();
                         $('#filaConsultaRem').remove();
-                        $('#msnInfo').html('Producto Inexistente por favor intente de nuevo');
+                        $('#msnInfo').html('Producto Inexistente o ya no se encuentra en esta sede por favor intente de nuevo');
                         $('#informacionPopUp').modal('show');
                     }
                 }
@@ -160,7 +160,7 @@ function adicionaProducto() {
                 }
                 else {
                     $('#filaConsultaProd').remove();
-                    $('#msnInfo').html('Producto Inexistente por favor intente de nuevo');
+                    $('#msnInfo').html('Producto Inexistente o ya no se encuentra en esta sede por favor intente de nuevo');
                     $('#informacionPopUp').modal('show');
                 }
             }

@@ -28,7 +28,8 @@ public class RemisionDao {
     private String rmce_estado;
     private String rmce_pagado;
     private String rmce_comdev;
-    private String rmce_fact;
+    private String rmce_trans;
+    private String rmce_clien;
 
     public String getRmce_rmce() {
         return rmce_rmce;
@@ -166,12 +167,20 @@ public class RemisionDao {
         this.rmce_comdev = rmce_comdev;
     }
 
-    public String getRmce_fact() {
-        return rmce_fact;
+    public String getRmce_trans() {
+        return rmce_trans;
     }
 
-    public void setRmce_fact(String rmce_fact) {
-        this.rmce_fact = rmce_fact;
+    public void setRmce_trans(String rmce_trans) {
+        this.rmce_trans = rmce_trans;
+    }
+
+    public String getRmce_clien() {
+        return rmce_clien;
+    }
+
+    public void setRmce_clien(String rmce_clien) {
+        this.rmce_clien = rmce_clien;
     }
 
     /**
@@ -184,7 +193,8 @@ public class RemisionDao {
         String select = "SELECT rmce_rmce, rmce_refe, rmce_imei, rmce_iccid, to_char(rmce_valor,'LFM9,999,999,999,999.00') rmce_valor , rmce_comision, ";
         select += "case when rmce_tppl='pr' then 'Prepago' else 'postpago' end rmce_tppl, rmce_fcve, rmce_fcsl, rmce_fcen, rmce_tius_ent, rmce_tius_sal,rmce_codigo, rmce_sede, rmce_estado, rmce_pagado, rmce_comdev FROM in_trmce where rmce_codigo='"
                 .concat(this.getRmce_codigo())
-                .concat("'");
+                .concat("' ")
+                .concat("and rmce_estado = 'E'");
         return select;
     }
 
@@ -223,9 +233,28 @@ public class RemisionDao {
         sql += "to_char(rmce_valor,'LFM9,999,999,999,999.00') rmce_valor    , rmce_comision , rmce_tppl     , rmce_fcve     ,        \n";
         sql += "rmce_fcsl     , rmce_fcen     , rmce_tius_ent , rmce_tius_sal ,        \n";
         sql += "rmce_codigo   , rmce_sede     , rmce_estado   , rmce_pagado   ,        \n";
-        sql += "rmce_comdev   , rmce_fact                                              \n";
+        sql += "rmce_comdev   , rmce_trans , rmce_clien                                \n";
         sql += "  FROM in_trmce                                                        \n";
-        sql += " WHERE rmce_imei LIKE '%"+this.getRmce_imei()+"%'                      \n";
+        sql += " WHERE rmce_imei LIKE '%" + this.getRmce_imei() + "%'                  \n";
         return sql;
     }
+
+    /**
+     * Funcion encargada de realizar el query que genera la actualizacion para
+     * realizar la remision
+     *
+     * @return
+     */
+    public String generaRemision() {
+        String sql = "";
+        sql += "update in_trmce        \n";
+        sql += "set rmce_fcsl = now(), \n";
+        sql += "rmce_tius_sal = " + this.getRmce_tius_sal() + ",     \n";
+        sql += "rmce_estado = 'V',     \n";
+        sql += "rmce_trans = " + this.getRmce_trans() + ",        \n";
+        sql += "rmce_clien = " + this.getRmce_clien() + "         \n";
+        sql += "where rmce_rmce = " + this.getRmce_rmce() + "    \n";
+        return sql;
+    }
+
 }

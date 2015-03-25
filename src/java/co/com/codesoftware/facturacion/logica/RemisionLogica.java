@@ -14,6 +14,7 @@ import co.com.codesoftware.utilidades.Utilidades;
 import com.google.gson.Gson;
 import java.sql.ResultSet;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -122,7 +123,7 @@ public class RemisionLogica {
                 objDto.setRmce_estado(rs.getString("rmce_estado"));
                 objDto.setRmce_pagado(rs.getString("rmce_pagado"));
                 objDto.setRmce_comdev(rs.getString("rmce_comdev"));
-                objDto.setRmce_fact(rs.getString("rmce_fact"));
+                objDto.setRmce_trans(rs.getString("rmce_trans"));
             }
             Utilidades utilidades = new Utilidades();
             objJson = utilidades.convertirObjetoJSON(objDto);
@@ -130,6 +131,33 @@ public class RemisionLogica {
             e.printStackTrace();
         }
         return objJson;
+    }
+    /**
+     * 
+     * @param remisiones
+     * @param tius_tius
+     * @param clien_clien
+     * @param idTrans
+     * @return 
+     */
+    public String generaRemision(List remisiones, String tius_tius, String clien_clien, String idTrans){
+        String rta = "";
+        try(EnvioFuncion function = new EnvioFuncion()) {
+            RemisionDao objDao = new RemisionDao();
+            objDao.setRmce_trans(idTrans);
+            objDao.setRmce_clien(clien_clien);
+            objDao.setRmce_tius_sal(tius_tius);
+            for(Object obj : remisiones){
+                String rmce_rmce = (String) obj;
+                objDao.setRmce_rmce(rmce_rmce);
+                function.enviarUpdate(objDao.generaRemision());                
+            }
+            rta="Ok";
+        } catch (Exception e) {
+            e.printStackTrace();
+            rta= "Error " + e;
+        }
+        return rta;
     }
 
 }

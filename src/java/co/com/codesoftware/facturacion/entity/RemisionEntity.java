@@ -28,7 +28,7 @@ public class RemisionEntity {
     private String rmce_estado;
     private String rmce_pagado;
     private String rmce_comdev;
-    private String rmce_fact;
+    private String rmce_trans;
 
     //Fechas necesarias para crear las sentencias con los beteewen
     private String valorBeteween;
@@ -223,12 +223,15 @@ public class RemisionEntity {
         this.valorSinFiltros = valorSinFiltros;
     }
 
-    public String getRmce_fact() {
-        return rmce_fact;
+    public String getRmce_trans() {
+        return rmce_trans;
     }
 
-    public void setRmce_fact(String rmce_fact) {
-        this.rmce_fact = rmce_fact;
+    public void setRmce_trans(String rmce_trans) {
+        this.rmce_trans = rmce_trans;
     }
+    
+    
+
 
 }

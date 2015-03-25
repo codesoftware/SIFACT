@@ -207,5 +207,29 @@ public class FacturacionLogica {
         }
         return con;
     }
+    
+    /**
+     * Obtiene el valor de la secuencia in_tsec_trans_rmce el cual se
+     * utilizara como id de la transaccion de facturacion
+     *
+     * @return
+     */
+    public String obtieneValorSecuenciaTempRemison() {
+        String sec = "";
+        TempProductoFactDao objDao = null;
+        try (EnvioFuncion function = new EnvioFuncion()) {
+            objDao = new TempProductoFactDao();
+            ResultSet rs = function.enviarSelect(objDao.obtieneSecuenciaTemRemision());
+            if (rs.next()) {
+                sec = rs.getString("secuencia");
+            } else {
+                sec = null;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            sec = null;
+        }
+        return sec;
+    }
 
 }
