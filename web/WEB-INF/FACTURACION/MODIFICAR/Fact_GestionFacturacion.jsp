@@ -36,86 +36,87 @@
             </div>
             <div class="col-md-1 col-xs-0 col-sm-0"></div>
         </div>
-        <div class="row">
-            <div class="col-md-1 col-xs-0 col-sm-0"></div>
-            <div class="col-md-10 col-xs-12 col-sm-12">
-                <div class="Mensajes" style="display: none;">
-                    <s:if test="hasActionErrors()">
-                        <div class="alert alert-danger" id="info" role="alert" ><h4><s:actionerror /></h4></div>
-                        <script>
-                            mostrarMsn();
-                        </script>
-                    </s:if>
-                </div>
-                <div class="MensajesOk" style="display: none;">
-                    <s:if test="hasActionMessages()">
-                        <div class="alert alert-success" id="info" role="alert" ><h4><s:actionmessage/></h4></div>
-                        <script>
-                            mostrarMsnOk();
-                        </script>
-                    </s:if>
-                </div>
-                <table class="table table-bordered">
-                    <tr>
-                        <td class="alert alert-info text-center" colspan="6" ><h3>Valores de Facturaci&oacute;n</h3></td>
-                    </tr>
-                    <tr>
-                        <s:if test="%{factura != null}">
-                        </s:if>
-                        <s:else>
-                            <td style="width: 15%;"><b>Vlr Iva:</b></td>
-                            <td style="width: 18%;">$<span id="vlrIvaText">0</span></td>
-                            <td style="width: 15%;"><b>Vlr Totales:</b></td>
-                            <td style="width: 18%;">$<span id="vlrTotalProdText">0</span></td>
-                            <td style="width: 15%;"><b>Total a Pagar:</b> </td>
-                            <td style="width: 17%;">$<span id="vlrTotalPagarText">0</span></td>
-                        </s:else>
-                    </tr>
-                </table>
-                <table class="table table-bordered">
-                    <thead>
-                        <tr>
-                            <td class="alert alert-info text-center" colspan="8" ><h3>Consultar Producto</h3></td>
-                        </tr>
-                    </thead>
-                    <tbody id="bodyConsulta">
-                        <tr>
-                            <td colspan="4"> 
-                                <b>Buscar por Imei:</b> <input type="checkbox" id="buscaImei" /> <input type="text" id="IdImei" placeholder="IMEI" style="display: none;" class="form-control"/>
-                            </td>
-                            <td colspan="4">
-                                <b>Pago con:</b>&nbsp;&nbsp;&nbsp;&nbsp;Tarjeta&nbsp;<input type="radio" name="pago" value="T"  class="rPago"/>&nbsp;&nbsp;Efectivo&nbsp;<input type="radio" name="pago" value="E" class="rPago" checked="true" />
-                                <input type="text" id="IdVoucher" placeholder="ID VOUCHER" style="display: none;" class="form-control"/>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td><b>CODIGO:</b></td>
-                            <td colspan="3">
-                                <s:textfield cssClass="form-control" name="codigoBarras" required="true" id="codigoBarras" theme="simple" />
-                            </td>
-                            <td>
-                                <b>CANTIDAD:</b>
-                            </td>
-                            <td colspan="3">
-                                <s:textfield cssClass="form-control" name="cantidad" required="true" id="cantidad" theme="simple" onkeypress="return validaNumeros(event)"/>
-                            </td>                                
-                        </tr>
-                    </tbody> 
-                    <tfoot>
-                        <tr>
-                            <td style="width:10%;text-align: right;" colspan="8">
-                                <button type="button" class="btn btn-default" id="btnAgregarProdRem" onclick="adicionaProducto()">
-                                    <span class="glyphicon glyphicon-plus"></span>&nbsp;Agregar
-                                </button>
-                            </td>
-                        </tr>
-                    </tfoot>
-                </table>
-                <div class="result"></div>
-            </div>
-            <div class="col-md-1 col-xs-0 col-sm-0"></div>
-        </div>
         <s:form action="Fac_Facturar" id="Fac_Facturar" theme="simple">
+            <div class="row">
+                <div class="col-md-1 col-xs-0 col-sm-0"></div>
+                <div class="col-md-10 col-xs-12 col-sm-12">
+                    <div class="Mensajes" style="display: none;">
+                        <s:if test="hasActionErrors()">
+                            <div class="alert alert-danger" id="info" role="alert" ><h4><s:actionerror /></h4></div>
+                            <script>
+                                mostrarMsn();
+                            </script>
+                        </s:if>
+                    </div>
+                    <div class="MensajesOk" style="display: none;">
+                        <s:if test="hasActionMessages()">
+                            <div class="alert alert-success" id="info" role="alert" ><h4><s:actionmessage/></h4></div>
+                            <script>
+                                mostrarMsnOk();
+                            </script>
+                        </s:if>
+                    </div>
+                    <table class="table table-bordered">
+                        <tr>
+                            <td class="alert alert-info text-center" colspan="6" ><h3>Valores de Facturaci&oacute;n</h3></td>
+                        </tr>
+                        <tr>
+                            <s:if test="%{factura != null}">
+                            </s:if>
+                            <s:else>
+                                <td style="width: 15%;"><b>Vlr Iva:</b></td>
+                                <td style="width: 18%;">$<span id="vlrIvaText">0</span></td>
+                                <td style="width: 15%;"><b>Vlr Totales:</b></td>
+                                <td style="width: 18%;">$<span id="vlrTotalProdText">0</span></td>
+                                <td style="width: 15%;"><b>Total a Pagar:</b> </td>
+                                <td style="width: 17%;">$<span id="vlrTotalPagarText">0</span></td>
+                            </s:else>
+                        </tr>
+                    </table>
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <td class="alert alert-info text-center" colspan="8" ><h3>Consultar Producto</h3></td>
+                            </tr>
+                        </thead>
+                        <tbody id="bodyConsulta">
+                            <tr>
+                                <td colspan="4"> 
+                                    <b>Buscar por Imei:</b> <input type="checkbox" id="buscaImei" /> <input type="text" id="IdImei" placeholder="IMEI" style="display: none;" class="form-control"/>
+                                </td>
+                                <td colspan="4">
+                                    <b>Pago con:</b>&nbsp;&nbsp;&nbsp;&nbsp;Tarjeta&nbsp;<input type="radio" name="pago.tipoPago" value="T"  class="rPago" />&nbsp;&nbsp;Efectivo&nbsp;<input type="radio" name="pago.tipoPago" value="E" class="rPago" checked/>
+                                    <input type="text" id="IdVoucher" placeholder="ID VOUCHER" style="display: none;" name="pago.idVucher" class="form-control"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><b>CODIGO:</b></td>
+                                <td colspan="3">
+                                    <s:textfield cssClass="form-control" name="codigoBarras" required="true" id="codigoBarras" theme="simple" />
+                                </td>
+                                <td>
+                                    <b>CANTIDAD:</b>
+                                </td>
+                                <td colspan="3">
+                                    <s:textfield cssClass="form-control" name="cantidad" required="true" id="cantidad" theme="simple" onkeypress="return validaNumeros(event)"/>
+                                </td>                                
+                            </tr>
+                        </tbody> 
+                        <tfoot>
+                            <tr>
+                                <td style="width:10%;text-align: right;" colspan="8">
+                                    <button type="button" class="btn btn-default" id="btnAgregarProdRem" onclick="adicionaProducto()">
+                                        <span class="glyphicon glyphicon-plus"></span>&nbsp;Agregar
+                                    </button>
+                                </td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                    <div class="result"></div>
+                </div>
+                <div class="col-md-1 col-xs-0 col-sm-0"></div>
+            </div>
+
             <s:textfield name="accion" cssStyle="display:none" value="facturar"/>
             <s:textfield name="cliente.clien_cedula" cssStyle="display:none"/>
             <s:textfield name="cliente.clien_clien"  cssStyle="display:none"/>

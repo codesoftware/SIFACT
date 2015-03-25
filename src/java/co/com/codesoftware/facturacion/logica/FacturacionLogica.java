@@ -6,6 +6,7 @@
 package co.com.codesoftware.facturacion.logica;
 
 import co.com.codesoftware.facturacion.dao.TempProductoFactDao;
+import co.com.codesoftware.facturacion.entity.PagoEntity;
 import co.com.codesoftware.facturacion.entity.TempProductoFactEntity;
 import co.com.codesoftware.general.persistencia.EnvioFuncion;
 import co.com.codesoftware.parametros.ParametrosEntity;
@@ -137,7 +138,7 @@ public class FacturacionLogica {
      * @param idTrans
      * @return
      */
-    public String creaFacturacion(String idTrans, String usuario, String cliente) {
+    public String creaFacturacion(String idTrans, String usuario, String cliente, PagoEntity pago) {
         String rta = "";
         try (EnvioFuncion function = new EnvioFuncion()) {
             function.adicionarNombre("FA_CREA_FACTURA_COMPLETO");
@@ -145,6 +146,12 @@ public class FacturacionLogica {
             function.adicionarNumeric(cliente);
             function.adicionarNumeric(idTrans);
             function.adicionarNumeric(ParametrosEntity.SEDE);
+            function.adicionarParametro(pago.getTipoPago());
+            if(pago.getIdVucher() == null || "".equalsIgnoreCase(pago.getIdVucher())){
+                function.adicionarNull();
+            }else{
+                function.adicionarNumeric(pago.getIdVucher());
+            }
             rta = function.llamarFunction(function.getSql());
             function.recuperarString();
             String[] rtaVector = rta.split("-");

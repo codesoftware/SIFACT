@@ -243,6 +243,12 @@ pr.dtpr_cant CAN, to_char(pr.dtpr_vlr_venta_uni,'LFM9,999,999,999.00') VALOR
 				</textElement>
 				<textFieldExpression><![CDATA[$F{subtotal}]]></textFieldExpression>
 			</textField>
+			<line>
+				<reportElement x="0" y="154" width="186" height="1" uuid="8177a2bc-297e-4063-8343-6ddb09a41c7b"/>
+				<graphicElement>
+					<pen lineStyle="Dashed"/>
+				</graphicElement>
+			</line>
 		</band>
 	</title>
 	<detail>

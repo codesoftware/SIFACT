@@ -82,7 +82,7 @@ $(document).ready(function() {
         }
     });
     $('.rPago').click(function() {
-        var pago = $('input:radio[name=pago]:checked').val();
+        var pago = $('.rPago:checked').val();
         if (pago == 'T') {
             $('#IdVoucher').show();
 
@@ -356,7 +356,7 @@ function facturar() {
 }
 
 function validaDatosBeforeFac() {
-    var pago = $('input:radio[name=pago]:checked').val();
+    var pago = $('.rPago:checked').val();
     if (pago == 'T') {
         var idVoucher = $('#IdVoucher').val();
         if (idVoucher == '') {

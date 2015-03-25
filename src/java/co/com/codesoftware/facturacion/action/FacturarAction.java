@@ -6,6 +6,7 @@
 package co.com.codesoftware.facturacion.action;
 
 import co.com.codesoftware.facturacion.entity.ClienteEntity;
+import co.com.codesoftware.facturacion.entity.PagoEntity;
 import co.com.codesoftware.facturacion.logica.FacturacionLogica;
 import co.com.codesoftware.facturacion.logica.RemisionLogica;
 import co.com.codesoftware.usuario.entity.UsuarioEntity;
@@ -29,6 +30,7 @@ public class FacturarAction extends ActionSupport implements SessionAware {
     private String fact_fact;
     private String idRemision;
     private Map session;
+    private PagoEntity pago;
 
     public String facturar() {
         FacturacionLogica logica = new FacturacionLogica();
@@ -44,7 +46,7 @@ public class FacturarAction extends ActionSupport implements SessionAware {
                     String rtaTemp = logica.insertarTemporalProductos(prodFact, idTrans);
                     if ("Ok".equalsIgnoreCase(rtaTemp)) {
                         //Aqui hago la facturacion
-                        String valida = logica.creaFacturacion(idTrans, objUsu.getTius_tius(), cliente.getClien_clien());
+                        String valida = logica.creaFacturacion(idTrans, objUsu.getTius_tius(), cliente.getClien_clien(),pago);
                         String[] facturo = valida.split("-");
                         if (!"Ok".equalsIgnoreCase(facturo[0])) {
                             addActionError(valida);
@@ -64,8 +66,8 @@ public class FacturarAction extends ActionSupport implements SessionAware {
                     RemisionLogica logicaRemision = new RemisionLogica();
                     String valida = logicaRemision.generaRemision(remisionFact, objUsu.getTius_tius(), cliente.getClien_clien(), idRemision);
                     if (!valida.equalsIgnoreCase("Ok")) {
-                        addActionError(valida);                        
-                    }else{
+                        addActionError(valida);
+                    } else {
                         this.idRemision = idRemision;
                     }
                 }
@@ -153,4 +155,13 @@ public class FacturarAction extends ActionSupport implements SessionAware {
     public void setIdRemision(String idRemision) {
         this.idRemision = idRemision;
     }
+
+    public PagoEntity getPago() {
+        return pago;
+    }
+
+    public void setPago(PagoEntity pago) {
+        this.pago = pago;
+    }
+
 }

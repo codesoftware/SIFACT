@@ -16,7 +16,7 @@
     </center>
     <s:if test="%{fact_fact != null}">
         <script>
-                generarSticker('<s:text name="fact_fact"/>');
+                generarFactura('<s:text name="fact_fact"/>');
         </script>
     </s:if>
     <s:else>
