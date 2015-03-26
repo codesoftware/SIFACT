@@ -8,11 +8,6 @@
         <script type="text/javascript" src="<%=RutaSitio%>/JS/FACTURACION/CREACION/Fact_GestionFacturacion.js"></script>
     </head>
     <body>
-        <s:div cssClass="navigator">
-            <s:include value="/WEB-INF/NEWTEMPLATE/menu.jsp">
-                <s:param name="title"><s:property value="usuario.usuario" /></s:param>
-            </s:include> 
-        </s:div>
         <div class="row">
             <div class="col-md-1 col-xs-0 col-sm-0"></div>
             <div class="col-md-10 col-xs-12 col-sm-12">

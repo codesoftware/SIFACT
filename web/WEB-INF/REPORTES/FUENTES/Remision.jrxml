@@ -1,0 +1,291 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="226" pageHeight="700" columnWidth="186" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="7d627bcf-4474-4259-84b4-e7ae2f8eff2a">
+	<property name="ireport.zoom" value="2.253944402704733"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="128"/>
+	<style name="table">
+		<box>
+			<topPen lineWidth="1.0" lineColor="#FFFFFF"/>
+			<bottomPen lineWidth="1.0" lineColor="#FFFFFF"/>
+		</box>
+	</style>
+	<style name="table_TH" mode="Opaque" backcolor="#FFFABF">
+		<box>
+			<topPen lineWidth="0.5" lineColor="#FFFFFF"/>
+			<bottomPen lineWidth="0.5" lineColor="#FFFFFF"/>
+		</box>
+	</style>
+	<style name="table_CH" mode="Opaque" backcolor="#FFFDE6">
+		<box>
+			<topPen lineWidth="0.5" lineColor="#FFFFFF"/>
+			<bottomPen lineWidth="0.5" lineColor="#FFFFFF"/>
+		</box>
+	</style>
+	<style name="table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<topPen lineWidth="0.5" lineColor="#FFFFFF"/>
+			<bottomPen lineWidth="0.5" lineColor="#FFFFFF"/>
+		</box>
+	</style>
+	<style name="table 1">
+		<box>
+			<topPen lineWidth="1.0" lineColor="#FFFFFF"/>
+			<bottomPen lineWidth="1.0" lineColor="#FFFFFF"/>
+		</box>
+	</style>
+	<style name="table 1_TH" mode="Opaque" backcolor="#BFFFFF">
+		<box>
+			<topPen lineWidth="0.5" lineColor="#FFFFFF"/>
+			<bottomPen lineWidth="0.5" lineColor="#FFFFFF"/>
+		</box>
+	</style>
+	<style name="table 1_CH" mode="Opaque" backcolor="#E6FFFF">
+		<box>
+			<topPen lineWidth="0.5" lineColor="#FFFFFF"/>
+			<bottomPen lineWidth="0.5" lineColor="#FFFFFF"/>
+		</box>
+	</style>
+	<style name="table 1_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<topPen lineWidth="0.5" lineColor="#FFFFFF"/>
+			<bottomPen lineWidth="0.5" lineColor="#FFFFFF"/>
+		</box>
+	</style>
+	<style name="table 2">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 2_TH" mode="Opaque" backcolor="#FF0000">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 2_CH" mode="Opaque" backcolor="#FFE6E6">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 2_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<subDataset name="tabla" uuid="a628c945-1ab8-47d7-8bf8-30c431aa94ac">
+		<queryString>
+			<![CDATA[select rmce_imei, case when rmce_tppl = 'ps' then 'POSTPAGO' ELSE 'PREPAGO' END plan , RMCE_VALOR
+from in_trmce 
+]]>
+		</queryString>
+		<field name="rmce_imei" class="java.lang.String">
+			<fieldDescription><![CDATA[Identificador unico de celular. ]]></fieldDescription>
+		</field>
+		<field name="plan" class="java.lang.String"/>
+		<field name="rmce_valor" class="java.math.BigDecimal">
+			<fieldDescription><![CDATA[Valor por el cual fue vendido el celular]]></fieldDescription>
+		</field>
+	</subDataset>
+	<parameter name="rmce_trans" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT  (select para_valor from em_tpara where para_clave = 'NOMBREEMPRESA') NOMBRE,
+         'NIT:'||(select para_valor from em_tpara where para_clave = 'NIT') NIT,
+        (select para_valor from em_tpara where para_clave = 'DIRECCION' )DIRECCION,
+        (select para_valor from em_tpara where para_clave = 'TELEFONOS')TELEFONOS,
+        (select para_valor from em_tpara where para_clave = 'CIUDAD')CIUDAD,
+        sum(rmce_valor) valor,
+        to_char(rmce_fcsl,'dd/mm/yyyy') fecha,
+        pers_apellido || ' ' ||pers_nombre  as vendedor,
+        clien_apellidos || ' ' || clien_nombres as comprador,
+        clien_cedula 
+from in_trmce, us_ttius, us_tpers, us_tclien
+where rmce_trans = cast($P{rmce_trans} as int)
+and tius_tius = rmce_tius_sal
+and tius_pers = pers_pers
+and clien_clien = rmce_clien
+group by rmce_valor, rmce_fcsl, pers_nombre,pers_apellido, clien_apellidos, clien_nombres,clien_cedula]]>
+	</queryString>
+	<field name="nombre" class="java.lang.String"/>
+	<field name="nit" class="java.lang.String"/>
+	<field name="direccion" class="java.lang.String"/>
+	<field name="telefonos" class="java.lang.String"/>
+	<field name="ciudad" class="java.lang.String"/>
+	<field name="valor" class="java.math.BigDecimal"/>
+	<field name="fecha" class="java.lang.String"/>
+	<field name="vendedor" class="java.lang.String"/>
+	<field name="comprador" class="java.lang.String"/>
+	<field name="clien_cedula" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[Cedula del cliente]]></fieldDescription>
+	</field>
+	<title>
+		<band height="130" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="80" width="186" height="10" uuid="b7abf9fa-78e8-4b47-af5c-8f09e13d2621"/>
+				<textElement textAlignment="Center">
+					<font fontName="Courier New" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{vendedor}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="70" width="85" height="10" uuid="6a198e9a-d17f-4283-a3c0-10e855fc2ccc"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Courier New" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Remision No.]]></text>
+			</staticText>
+			<line>
+				<reportElement x="0" y="55" width="186" height="1" uuid="1524158e-a4a2-42ba-82ba-6aecdd2ee6de"/>
+				<graphicElement>
+					<pen lineStyle="Dashed"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="0" y="90" width="186" height="1" uuid="d69df514-7f9a-42ab-a4c9-dfe905db91c2"/>
+				<graphicElement>
+					<pen lineStyle="Dashed"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="0" y="120" width="186" height="1" uuid="a4aa9d7e-21e0-48b9-9a39-e102f481cab1"/>
+				<graphicElement>
+					<pen lineStyle="Dashed"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement x="0" y="120" width="52" height="10" uuid="d67ddc63-ea50-42f2-afae-e7e4a8aea9bd"/>
+				<textElement textAlignment="Right">
+					<font fontName="Courier New" size="8"/>
+				</textElement>
+				<text><![CDATA[TOTAL:]]></text>
+			</staticText>
+			<line>
+				<reportElement x="0" y="129" width="186" height="1" uuid="8177a2bc-297e-4063-8343-6ddb09a41c7b"/>
+				<graphicElement>
+					<pen lineStyle="Dashed"/>
+				</graphicElement>
+			</line>
+			<textField>
+				<reportElement x="0" y="0" width="186" height="15" uuid="4d43879c-8126-4afd-818c-eb1600443543"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{nombre}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="15" width="186" height="15" uuid="fac46206-47cf-4140-bd8b-0223ec6c52fa"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{nit}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="30" width="186" height="15" uuid="5653046c-911c-4854-95e4-0e101d90bad1"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{direccion}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="45" width="186" height="10" uuid="8263f477-8685-411c-8542-d804a650b11c"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{ciudad}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="55" width="186" height="15" uuid="2d34562e-404c-447e-8e69-d2f06c458b7e"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{fecha}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="85" y="70" width="100" height="10" uuid="2830ebd0-76e8-4063-8b06-d572613f1c69"/>
+				<textElement verticalAlignment="Middle">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{rmce_trans}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="91" width="186" height="14" uuid="54ee7458-b17d-4bf9-bc4a-978cc1c0f4ae"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{comprador}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="105" width="186" height="15" uuid="afe09bd4-857d-4377-bbaa-9cb1d57549cc"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{clien_cedula}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="62" y="120" width="123" height="10" uuid="a1336af9-d543-4f79-b3bb-e2feec330d9e"/>
+				<textElement verticalAlignment="Middle">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{valor}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<detail>
+		<band height="14" splitType="Stretch">
+			<componentElement>
+				<reportElement key="table 2" style="table 2" x="0" y="0" width="186" height="14" uuid="d175454a-0311-4966-a538-9e7a6ba0eaca"/>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<datasetRun subDataset="tabla" uuid="fc3013fd-864c-4202-aed9-1a71985d671b">
+						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					</datasetRun>
+					<jr:column width="90" uuid="197230ea-c94a-4a57-9d7d-9863aae7a153">
+						<jr:tableHeader style="table 1" height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="90" height="30" uuid="bc9a155e-12a1-48dd-a958-5698c15b62f6"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="12" isBold="true"/>
+								</textElement>
+								<text><![CDATA[IMEI]]></text>
+							</staticText>
+						</jr:tableHeader>
+						<jr:detailCell style="table 2_TD" height="20" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="90" height="20" uuid="724a230e-4988-4ef4-9dd8-b91e41105aac"/>
+								<textElement textAlignment="Center"/>
+								<textFieldExpression><![CDATA[$F{rmce_imei}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="90" uuid="f8a474b7-a7b1-4ea0-ae6d-34b9ae6477f1">
+						<jr:tableHeader style="table" height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="90" height="30" uuid="5a6453fe-c80b-4f01-9303-ff0499f66a23"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="12" isBold="true"/>
+								</textElement>
+								<text><![CDATA[PLAN]]></text>
+							</staticText>
+						</jr:tableHeader>
+						<jr:detailCell style="table 2_TD" height="20" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="90" height="20" uuid="b920b644-c7a5-4425-a355-a0fd7f92a8e0"/>
+								<textElement textAlignment="Center"/>
+								<textFieldExpression><![CDATA[$F{plan}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="179" uuid="3192c930-fb8d-48a5-a4b0-192f7826049c">
+						<jr:tableHeader style="table 1" height="30" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="179" height="30" uuid="619192bf-494a-451e-ae56-2d4222629d4c"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="12" isBold="true"/>
+								</textElement>
+								<text><![CDATA[VALOR]]></text>
+							</staticText>
+						</jr:tableHeader>
+						<jr:detailCell style="table 2_TD" height="20" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="179" height="20" uuid="e67d9674-e40e-43d2-bb4b-8f4a04419550"/>
+								<textElement textAlignment="Center"/>
+								<textFieldExpression><![CDATA[$F{rmce_valor}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+				</jr:table>
+			</componentElement>
+		</band>
+	</detail>
+</jasperReport>
