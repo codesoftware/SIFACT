@@ -195,6 +195,31 @@ public class FacturacionLogica {
         }
         return rta;
     }
+    
+    public String generarRemision(String rmce_trans, String ruta, String rutaDestino) {
+        String rta = "Ok";
+
+        Connection conn = null;
+        try{
+            conn = this.generarConexion();
+            String ubicacionReporte = ruta;
+            Map<String, Object> properties = new HashMap<String, Object>();
+            properties.put("rmce_trans", rmce_trans);
+            JasperReport jasperReport = (JasperReport) JRLoader.loadObject(ubicacionReporte);
+            JasperPrint print = JasperFillManager.fillReport(jasperReport, properties, conn);
+            JasperExportManager.exportReportToPdfFile(print, rutaDestino);
+        } catch (Exception e) {
+            e.printStackTrace();
+            rta = "Error " + e;
+        } finally {
+            try {
+                conn.close();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+        }
+        return rta;
+    }
 
     public Connection generarConexion() {
         Connection con = null;

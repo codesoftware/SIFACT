@@ -5,5 +5,6 @@ function generarFactura(id) {
 }
 
 function generaRemision(id){
-    alert('Genero Remision');
+    var url = "fact_GeneraRemision.html?remision.rmce_trans=" + 10 ;
+    window.open(url, "_blank", "directories=no, status=no,width=400, height=300,top=0,left=0");
 }

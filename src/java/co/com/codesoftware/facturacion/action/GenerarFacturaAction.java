@@ -6,6 +6,7 @@
 package co.com.codesoftware.facturacion.action;
 
 import co.com.codesoftware.facturacion.entity.FacturaEntity;
+import co.com.codesoftware.facturacion.entity.RemisionEntity;
 import co.com.codesoftware.facturacion.logica.FacturacionLogica;
 import com.opensymphony.xwork2.ActionSupport;
 import java.io.File;
@@ -28,7 +29,11 @@ public class GenerarFacturaAction extends ActionSupport implements SessionAware 
     private long contentLength;
     private String contentName;
     private FacturaEntity factura;
-
+    private RemisionEntity remision;
+    /***
+     * Funcion la cual genera la Factura (Pdf)
+     * @return 
+     */
     public String generarFactura() {
         HttpServletRequest request = ServletActionContext.getRequest();
         File reporte = new File(request.getSession().getServletContext().getRealPath("/WEB-INF/REPORTES/FUENTES/" + nombreJasper));
@@ -43,6 +48,31 @@ public class GenerarFacturaAction extends ActionSupport implements SessionAware 
                 this.contentName = "factura_"+factura.getFact_fact()+".pdf";
             }else{
                 addActionError("Error al generar factura " + factura.getFact_fact() +" \n" + rta);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        
+        return SUCCESS;
+    }
+    /**
+     * Funcion encargada de realizar la accion de generar el pdf de Remision
+     * @return 
+     */
+    public String generarRemision() {
+        HttpServletRequest request = ServletActionContext.getRequest();
+        File reporte = new File(request.getSession().getServletContext().getRealPath("/WEB-INF/REPORTES/FUENTES/" + nombreJasper));
+        File reporteDestino = new File(request.getSession().getServletContext().getRealPath("/IMAGENES/REPORTES/remision_" + remision.getRmce_trans() + ".pdf"));
+        try {
+            String path = reporte.getPath();
+            FacturacionLogica logica = new FacturacionLogica();
+             String rta = logica.generarRemision(remision.getRmce_trans(), path,reporteDestino.getPath());
+             if(rta.equalsIgnoreCase("Ok")){
+                fileInputStream = new FileInputStream(reporteDestino);
+                this.contentLength = reporteDestino.length();
+                this.contentName = "remision_"+remision.getRmce_trans()+".pdf";
+            }else{
+                addActionError("Error al generar factura " + remision.getRmce_trans() +" \n" + rta);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -97,6 +127,14 @@ public class GenerarFacturaAction extends ActionSupport implements SessionAware 
 
     public void setContentName(String contentName) {
         this.contentName = contentName;
+    }
+
+    public RemisionEntity getRemision() {
+        return remision;
+    }
+
+    public void setRemision(RemisionEntity remision) {
+        this.remision = remision;
     }
 
 }
