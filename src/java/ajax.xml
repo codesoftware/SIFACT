@@ -5,7 +5,7 @@
 <struts>
     
     <!--<constant name="struts.devMode" value="true"/> --><!-- Etiqueta usada para que se recargue el struts.xml por cada accion realizada-->
-    <constant name="struts.action.extension" value="html"/>
+    <!--<constant name="struts.action.extension" value="html"/>-->
         
     <package name="ajax" namespace="/" extends="struts-default">  
         <action name="traeProducto" class="co.com.codesoftware.facturacion.ajax.controlador.AjaxControllerFacturacion" method="traeProducto">
@@ -21,8 +21,6 @@
         </action>       
         
         <action name="buscaRemcXImei" class="co.com.codesoftware.facturacion.ajax.controlador.AjaxControllerFacturacion" method="buscaRemisionXImei">
-        </action>
-        
+        </action>        
     </package>
-
 </struts>

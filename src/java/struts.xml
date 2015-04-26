@@ -4,7 +4,6 @@
 
 <struts>
     <!-- Configuration for the default package. -->
-
     <package name="default"  extends="struts-default" >
         <action name="logeo" class="co.com.codesoftware.general.action.LoginAction">
             <result name="facturador">/WEB-INF/FACTURACION/homeFacturacion.jsp</result>
@@ -29,7 +28,23 @@
             <result name="input">/WEB-INF/FACTURACION/MODIFICAR/Fact_GestionFacturacion.jsp</result>
             <result name="success">/WEB-INF/FACTURACION/MODIFICAR/Acciones_Gestion.jsp</result>
         </action>
+        <action name="Inv_ConsultaProductos" class="co.com.codesoftware.facturacion.action.FacturarAction" method="facturar">
+            <result name="error">/WEB-INF/FACTURACION/MODIFICAR/Fact_GestionFacturacion.jsp</result>
+            <result name="input">/WEB-INF/FACTURACION/MODIFICAR/Fact_GestionFacturacion.jsp</result>
+            <result name="success">/WEB-INF/FACTURACION/MODIFICAR/Acciones_Gestion.jsp</result>
+        </action>
+        <action name="Inv_EscojeSede" class="co.com.codesoftware.sede.action.SedeAction" method="obtieneSedeFacturacion">
+            <result name="error">/WEB-INF/EleccionSede.jsp</result>
+            <result name="input">/WEB-INF/EleccionSede.jsp</result>
+            <result name="success">/WEB-INF/FACTURACION/MODIFICAR/Acciones_Gestion.jsp</result>
+        </action>        
+        <action name="EleccionSede" class="co.com.codesoftware.sede.action.SedeAction" method="obtieneSedes">
+            <result name="error">/WEB-INF/EleccionSede.jsp</result>
+            <result name="input">/WEB-INF/EleccionSede.jsp</result>
+            <result name="success">/WEB-INF/EleccionSede.jsp</result>
+        </action>
     </package>
     <include file="ajax.xml" />
     <include file="report.xml" />
+    <include file="acciones.xml" />
 </struts>

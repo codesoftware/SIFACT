@@ -3,15 +3,16 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+package co.com.codesoftware.utilidades;
 
-package co.com.codesoftware.parametros;
+import co.com.codesoftware.parametros.Parametro;
 
 /**
  *
- * @author Nicolas
+ * @author nicolas
  */
-public class ParametrosEntity {
+public interface ParametrosActivos {
     
-    public static String SEDE = "1";
+    public void setParametro(Parametro parametro);
     
 }

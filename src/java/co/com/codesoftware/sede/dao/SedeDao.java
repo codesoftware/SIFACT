@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package co.com.codesoftware.sede.logica;
+package co.com.codesoftware.sede.dao;
 
 /**
  *
@@ -87,6 +87,20 @@ public class SedeDao {
         sql += "  FROM em_tsede                                                          \n";
         sql += " WHERE sede_sede = " + this.getSede_sede() + "";
         return sql;
+    }
+    
+    /**
+     * Funcion encargada de encontrar las sedes las cuales se encuentran activas
+     *
+     * @return
+     */
+    public String buscaSedesActivas() {
+        StringBuilder sql = new StringBuilder();
+        sql.append("SELECT sede_sede, sede_nombre, sede_direccion, sede_telefono, sede_fecin, ");
+        sql.append("       sede_tius, sede_estado ");
+        sql.append("FROM em_tsede ");
+        sql.append("WHERE sede_estado = 'A'");
+        return sql.toString();
     }
 
 }

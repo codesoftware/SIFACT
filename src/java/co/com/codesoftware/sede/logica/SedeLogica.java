@@ -5,8 +5,11 @@
  */
 package co.com.codesoftware.sede.logica;
 
+import co.com.codesoftware.sede.dao.SedeDao;
 import co.com.codesoftware.general.persistencia.EnvioFuncion;
 import java.sql.ResultSet;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  *
@@ -31,6 +34,31 @@ public class SedeLogica {
                 rta = rs.getString("sede_nombre");
             } else {
                 rta = null;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return rta;
+    }
+
+    /**
+     * Funcion encargada de realizar la logica para obtener las sedes activas en
+     * el sistema en un mapa
+     *
+     * @return
+     */
+    public Map buscaSedesActivasMapa() {
+        Map rta = null;
+        try (EnvioFuncion function = new EnvioFuncion()) {
+            SedeDao objDao = new SedeDao();
+            ResultSet rs = function.enviarSelect(objDao.buscaSedesActivas());
+            while(rs.next()){
+                if(rta == null){
+                    rta = new HashMap<String, String>();
+                }
+                String id = rs.getString("sede_sede");
+                String nombre = rs.getString("sede_nombre");
+                rta.put(id, nombre);
             }
         } catch (Exception e) {
             e.printStackTrace();

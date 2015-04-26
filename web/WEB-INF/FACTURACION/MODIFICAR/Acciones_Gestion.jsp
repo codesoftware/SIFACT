@@ -8,25 +8,34 @@
         <script type="text/javascript" src="<%=RutaSitio%>/JS/FACTURACION/MODIFICAR/Acciones_Gestion.js"></script>
     </head>
     <body>
-        <br/>
-        <br/>
-        <br/>
-    <center>
-        <a class="btn btn-primary" href="<%=RutaSitio%>/homeFacturacion.jsp">FACTURA NUEVA</a>
-    </center>
-    <s:if test="%{fact_fact != null}">
-        <script>
-                generarFactura('<s:text name="fact_fact"/>');
-        </script>
-    </s:if>
-    <s:else>
-    </s:else>
-    <s:if test="%{idRemision != null}" >
-        <script>
-                generaRemision('<s:text name="idRemision" />');
-        </script>
-    </s:if>
-    <s:else>
-    </s:else>
+        <div class="row">
+            <div class="col-md-1 col-xs-1 col-sm-1"></div>
+            <div class="col-md-10 col-xs-10 col-sm-10" style="text-transform: uppercase;">
+                <h6 class="alert alert-danger text-center">RECUERDE QUE SE ENCUENTRA EN LA SEDE <s:text name="parametro.sedeNombre" /> POR LO TANTO FACTURARA Y CONSULTARA LOS DATOS DE ESTA SEDE</h6>
+            </div>
+            <div class="col-md-1 col-xs-1 col-sm-1"></div>
+        </div>
+    </div>
+    <br/>
+    <br/>
+    <br/>
+<center>
+    <a class="btn btn-primary" href="<%=RutaSitio%>/homeFacturacion.jsp">FACTURA NUEVA</a>
+    <a class="btn btn-primary" href="<%=RutaSitio%>/homeFacturacion.jsp">CONSULTA PRODUCTOS</a>
+</center>
+<s:if test="%{fact_fact != null}">
+    <script>
+        generarFactura('<s:text name="fact_fact"/>');
+    </script>
+</s:if>
+<s:else>
+</s:else>
+<s:if test="%{idRemision != null}" >
+    <script>
+        generaRemision('<s:text name="idRemision" />');
+    </script>
+</s:if>
+<s:else>
+</s:else>
 </body>
 </html>
