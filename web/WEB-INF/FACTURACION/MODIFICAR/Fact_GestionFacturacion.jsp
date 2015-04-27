@@ -8,7 +8,12 @@
         <script type="text/javascript" src="<%=RutaSitio%>/JS/FACTURACION/CREACION/Fact_GestionFacturacion.js"></script>
     </head>
     <body>
-        <div class="row">
+        <div class="row" style="position: fixed;z-index: 500;top:0px;width: 100%;">
+            <div class="col-md-12 col-xs-12 col-sm-12" style="text-transform: uppercase;">
+                <h6 class="alert alert-danger text-center">RECUERDE QUE SE ENCUENTRA EN LA SEDE <s:text name="parametros.sedeNombre" /> POR LO TANTO FACTURARA Y CONSULTARA LOS DATOS DE ESTA SEDE</h6>
+            </div>
+        </div>
+        <div class="row" style="margin-top: 80px;" >
             <div class="col-md-1 col-xs-0 col-sm-0"></div>
             <div class="col-md-10 col-xs-12 col-sm-12">
                 <table class="table table-bordered">

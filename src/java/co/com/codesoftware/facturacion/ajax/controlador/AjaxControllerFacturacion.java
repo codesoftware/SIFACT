@@ -6,18 +6,21 @@
 package co.com.codesoftware.facturacion.ajax.controlador;
 
 import co.com.codesoftware.facturacion.logica.RemisionLogica;
+import co.com.codesoftware.parametros.Parametro;
 import co.com.codesoftware.producto.entity.Producto;
 import co.com.codesoftware.producto.logica.ProductoLogica;
 import com.opensymphony.xwork2.ActionSupport;
 import java.io.PrintWriter;
+import java.util.Map;
 import javax.servlet.http.HttpServletResponse;
 import org.apache.struts2.ServletActionContext;
+import org.apache.struts2.interceptor.SessionAware;
 
 /**
  *
  * @author Personal
  */
-public class AjaxControllerFacturacion extends ActionSupport {
+public class AjaxControllerFacturacion extends ActionSupport implements SessionAware{
 
     private static final long serialVersionUID = 1L;
     private String codigoBarras;
@@ -26,11 +29,14 @@ public class AjaxControllerFacturacion extends ActionSupport {
     private String rmce_rmce;
     private String cantidad;
     private String rmce_imei;
+    private Map session;
+    private Parametro parametros;
 
     /**
      * Funcion encargada de obtener los datos de un producto
      */
     public void traeProducto() {
+        obtieneObjParametros();
         String respuesta = "";
         ProductoLogica logica = new ProductoLogica();
         RemisionLogica logicaR = new RemisionLogica();
@@ -40,7 +46,7 @@ public class AjaxControllerFacturacion extends ActionSupport {
             PrintWriter out = response.getWriter();
             String[] elementos = codigoBarras.split("-");
             if (elementos[0].equalsIgnoreCase("1")) {
-                respuesta = logica.buscaProductoXCodigoBarras(codigoBarras);
+                respuesta = logica.buscaProductoXCodigoBarras(codigoBarras,parametros.getSede());
             } else {
                 respuesta = logicaR.consultaRemisionXId(codigoBarras);
             }
@@ -54,11 +60,12 @@ public class AjaxControllerFacturacion extends ActionSupport {
     public void traeProductoXid() {
         String respuesta = "";
         ProductoLogica logica = new ProductoLogica();
+        obtieneObjParametros();
         try {
             HttpServletResponse response = ServletActionContext.getResponse();
             response.setContentType("text/plain;charset=utf-8");
             PrintWriter out = response.getWriter();
-            respuesta = logica.buscaProdXIdProducto(dska_dska);
+            respuesta = logica.buscaProdXIdProducto(dska_dska,parametros.getSede());
             out.print(respuesta);
             out.flush();
         } catch (Exception e) {
@@ -68,13 +75,13 @@ public class AjaxControllerFacturacion extends ActionSupport {
 
     public void obtieneDatosFact() {
         ProductoLogica logica = new ProductoLogica();
+        obtieneObjParametros();
         try {
             HttpServletResponse response = ServletActionContext.getResponse();
             response.setContentType("text/plain;charset=utf-8");
             PrintWriter out = response.getWriter();
-            String objJson = logica.adicionProdFactura(dska_dska, cantidad);
+            String objJson = logica.adicionProdFactura(dska_dska, cantidad,parametros.getSede());
             out.print(objJson);
-
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -105,6 +112,14 @@ public class AjaxControllerFacturacion extends ActionSupport {
             String objJson = logica.consultaRemisionXImei(rmce_imei);
             out.print(objJson);
         } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
+    public void obtieneObjParametros(){
+        try {
+            parametros = (Parametro) session.get("parametros");            
+        }catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -157,4 +172,19 @@ public class AjaxControllerFacturacion extends ActionSupport {
         this.rmce_imei = rmce_imei;
     }
 
+    public Map getSession() {
+        return session;
+    }
+
+    public void setSession(Map session) {
+        this.session = session;
+    }
+
+    public Parametro getParametros() {
+        return parametros;
+    }
+
+    public void setParametros(Parametro parametros) {
+        this.parametros = parametros;
+    }
 }

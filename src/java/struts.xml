@@ -12,12 +12,7 @@
         <action name="Fac_consCliente" class="co.com.codesoftware.facturacion.action.ClienteAction">
             <result name="facturador">/WEB-INF/FACTURACION/homeFacturacion.jsp</result>
             <result name="error">/inicio.jsp</result>
-        </action>
-        <action name="Fac_consClienteID" class="co.com.codesoftware.facturacion.action.ClienteAction" method="consultaClienteIniFactura">
-            <result name="inexistente">/WEB-INF/FACTURACION/CREACION/Fac_InsertCliFactura.jsp</result>
-            <result name="input">/WEB-INF/FACTURACION/CREACION/Fac_InsertCliFactura.jsp</result>
-            <result name="success">/WEB-INF/FACTURACION/MODIFICAR/Fact_GestionFacturacion.jsp</result>
-        </action>
+        </action>        
         <action name="Fac_nuevoCliente" class="co.com.codesoftware.facturacion.action.ClienteAction" method="insertarCliente">
             <result name="error">/WEB-INF/FACTURACION/CREACION/Fac_InsertCliFactura.jsp</result>
             <result name="input">/WEB-INF/FACTURACION/CREACION/Fac_InsertCliFactura.jsp</result>

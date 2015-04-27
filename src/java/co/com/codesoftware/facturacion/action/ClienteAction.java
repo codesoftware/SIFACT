@@ -8,6 +8,8 @@ package co.com.codesoftware.facturacion.action;
 import co.com.codesoftware.facturacion.entity.ClienteEntity;
 import co.com.codesoftware.usuario.entity.Usuario;
 import co.com.codesoftware.facturacion.logica.ClienteLogica;
+import co.com.codesoftware.parametros.Parametro;
+import co.com.codesoftware.utilidades.ParametrosActivos;
 import com.opensymphony.xwork2.ActionSupport;
 import java.util.Map;
 import org.apache.struts2.interceptor.SessionAware;
@@ -24,6 +26,7 @@ public class ClienteAction extends ActionSupport implements SessionAware {
     private ClienteEntity cliente;
     private String accion;
     private String existeCliente;
+    private Parametro parametros;
 
     public String execute() {
         return "facturador";
@@ -73,6 +76,18 @@ public class ClienteAction extends ActionSupport implements SessionAware {
         }
         return SUCCESS;
     }
+    
+    public void obtieneObjParametros() {
+        try {
+            parametros = (Parametro) session.get("parametros");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
+    public void validate(){
+        obtieneObjParametros();
+    }
 
     public Usuario getUsuario() {
         return usuario;
@@ -114,4 +129,11 @@ public class ClienteAction extends ActionSupport implements SessionAware {
         this.existeCliente = existeCliente;
     }
 
+    public Parametro getParametros() {
+        return parametros;
+    }
+
+    public void setParametros(Parametro parametros) {
+        this.parametros = parametros;
+    }
 }

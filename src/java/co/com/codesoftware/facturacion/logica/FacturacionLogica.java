@@ -9,9 +9,6 @@ import co.com.codesoftware.facturacion.dao.TempProductoFactDao;
 import co.com.codesoftware.facturacion.entity.PagoEntity;
 import co.com.codesoftware.facturacion.entity.TempProductoFactEntity;
 import co.com.codesoftware.general.persistencia.EnvioFuncion;
-import co.com.codesoftware.parametros.ParametrosEntity;
-import co.com.codesoftware.usuario.entity.UsuarioEntity;
-import co.com.codesoftware.usuario.logica.UsuarioLogica;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -21,8 +18,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
@@ -138,14 +133,14 @@ public class FacturacionLogica {
      * @param idTrans
      * @return
      */
-    public String creaFacturacion(String idTrans, String usuario, String cliente, PagoEntity pago) {
+    public String creaFacturacion(String idTrans, String usuario, String cliente, PagoEntity pago, String sede_sede) {
         String rta = "";
         try (EnvioFuncion function = new EnvioFuncion()) {
             function.adicionarNombre("FA_CREA_FACTURA_COMPLETO");
             function.adicionarNumeric(usuario);
             function.adicionarNumeric(cliente);
             function.adicionarNumeric(idTrans);
-            function.adicionarNumeric(ParametrosEntity.SEDE);
+            function.adicionarNumeric(sede_sede);
             function.adicionarParametro(pago.getTipoPago());
             if(pago.getIdVucher() == null || "".equalsIgnoreCase(pago.getIdVucher())){
                 function.adicionarNull();

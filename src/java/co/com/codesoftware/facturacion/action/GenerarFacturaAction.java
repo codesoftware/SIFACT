@@ -8,6 +8,7 @@ package co.com.codesoftware.facturacion.action;
 import co.com.codesoftware.facturacion.entity.FacturaEntity;
 import co.com.codesoftware.facturacion.entity.RemisionEntity;
 import co.com.codesoftware.facturacion.logica.FacturacionLogica;
+import co.com.codesoftware.parametros.Parametro;
 import com.opensymphony.xwork2.ActionSupport;
 import java.io.File;
 import java.io.FileInputStream;
@@ -30,6 +31,7 @@ public class GenerarFacturaAction extends ActionSupport implements SessionAware 
     private String contentName;
     private FacturaEntity factura;
     private RemisionEntity remision;
+    private Parametro parametros;
     /***
      * Funcion la cual genera la Factura (Pdf)
      * @return 
@@ -137,4 +139,11 @@ public class GenerarFacturaAction extends ActionSupport implements SessionAware 
         this.remision = remision;
     }
 
+    public Parametro getParametros() {
+        return parametros;
+    }
+
+    public void setParametros(Parametro parametros) {
+        this.parametros = parametros;
+    }
 }

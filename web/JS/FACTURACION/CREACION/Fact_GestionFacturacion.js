@@ -9,7 +9,7 @@ $(document).ready(function() {
             $.ajax({
                 type: 'GET',
                 data: datos,
-                url: RutaSitio + '/traeProducto.html',
+                url: RutaSitio + '/traeProducto.action',
                 async: false,
                 success: function(response) {
                     var datos = JSON.parse(response);
@@ -98,7 +98,7 @@ $(document).ready(function() {
             datos.rmce_imei = $('#IdImei').val();
             $.ajax({
                 type: 'POST',
-                url: RutaSitio + '/buscaRemcXImei.html',
+                url: RutaSitio + '/buscaRemcXImei.action',
                 data: datos,
                 async: false,
                 success: function(data, textStatus, jqXHR) {
@@ -146,7 +146,7 @@ function adicionaProducto() {
         $.ajax({
             type: 'GET',
             data: datos,
-            url: RutaSitio + '/traeProducto.html',
+            url: RutaSitio + '/traeProducto.action',
             async: false,
             success: function(response) {
                 var datos = JSON.parse(response);
@@ -195,11 +195,32 @@ function validaDatos() {
         $('#informacionPopUp').modal('show');
         return false;
     }
+    var duplicadosRem = validaRemExistente(codigo);
+    if(duplicadosRem == false){
+        $('#msnInfo').html('El equipo ceular que desea ingresar ya se encuentra en la lista.');
+        $('#informacionPopUp').modal('show');
+        return false;        
+    }
     return true;
 }
 
 function validaProdExistente(cod) {
     var codigos = document.getElementsByClassName('codigoProd');
+    if (codigos.length = 0) {
+        return true;
+    } else {
+        for (var i = 0; i < codigos.length; i++) {
+            var codigo = codigos[i].value;
+            if (codigo == cod) {
+                return false;
+            }
+        }
+    }
+    return true;
+}
+
+function validaRemExistente(cod) {
+    var codigos = document.getElementsByClassName('codigoRem');
     if (codigos.length = 0) {
         return true;
     } else {
@@ -219,7 +240,7 @@ function agregaProductos(dska_dska) {
     datos.dska_dska = dska_dska;
     datos.cantidad = $('#cantidad').val();
     $.ajax({
-        url: RutaSitio + "/adicionaFactura.html",
+        url: RutaSitio + "/adicionaFactura.action",
         data: datos,
         async: false,
         success: function(data, textStatus, jqXHR) {
@@ -239,7 +260,7 @@ function agregaRemisiones(rmce_rmce) {
     datos.rmce_rmce = rmce_rmce;
     $('#cantidad').val('1');
     $.ajax({
-        url: RutaSitio + "/adicionaFacturaRem.html",
+        url: RutaSitio + "/adicionaFacturaRem.action",
         data: datos,
         async: false,
         success: function(data, textStatus, jqXHR) {
@@ -286,7 +307,7 @@ function adicionaRemisionFactura(objeto) {
             '<td>' + objeto.rmce_valor + '<input type=\"hidden\" class=\"total\" value=\"' + objeto.valorSinFiltros + '\" /> </td>' +
             '<td>' + objeto.rmce_tppl + '<input type=\"hidden\" class=\"valor\" value=\"' + objeto.valorSinFiltros + '\" /> </td>' +
             '<td>' + objeto.rmce_fcve + '<input type=\"hidden\" name=\"remisionFact\" value=\"' + objeto.rmce_rmce + '\" /></td>' +
-            '<td>' + objeto.rmce_comision + '</td>' +
+            '<td>' + objeto.rmce_comision + '<input type=\"hidden\" class=\"codigoRem\" value=\"' + objeto.rmce_codigo + '\" /></td>' +
             '<td>' +
             '<button type=\"button\" class=\"btn btn-danger elimnarFilaProd\">' +
             '<span class=\"glyphicon glyphicon-remove\" ></span> </button>' +
@@ -376,7 +397,7 @@ function buscaCodigoXIdProducto(id) {
     $.ajax({
         data: datos,
         async: false,
-        url: RutaSitio + "/buscaProdXId.html",
+        url: RutaSitio + "/buscaProdXId.action",
         success: function(data, textStatus, jqXHR) {
             var datosRta = JSON.parse(data);
             codigo = datosRta.objeto.dska_cod;

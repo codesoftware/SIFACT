@@ -7,7 +7,6 @@ package co.com.codesoftware.producto.logica;
 
 import co.com.codesoftware.facturacion.entity.CalculoProdEntity;
 import co.com.codesoftware.general.persistencia.EnvioFuncion;
-import co.com.codesoftware.parametros.ParametrosEntity;
 import co.com.codesoftware.producto.dao.ProductoDao;
 import co.com.codesoftware.producto.entity.Producto;
 import co.com.codesoftware.utilidades.Utilidades;
@@ -30,7 +29,7 @@ public class ProductoLogica {
      * @param dska_dska
      * @return
      */
-    public String buscaProdXIdProducto(String dska_dska) {
+    public String buscaProdXIdProducto(String dska_dska, String sede_sede) {
         String rta = "";
         Producto prd = null;
         ProductoDao objDao = null;
@@ -53,7 +52,7 @@ public class ProductoLogica {
                 prd.setDska_refe(rs.getString("dska_refe"));
                 prd.setPrecio(obtienePrecioProductoXId(prd.getDska_dska()));
                 //Obtengo la cantidad existente de productos en la sede
-                prd.setCantExis(obtenerExistenciasPorSede(prd.getDska_dska(), ParametrosEntity.SEDE));
+                prd.setCantExis(obtenerExistenciasPorSede(prd.getDska_dska(), sede_sede));
             }
             Utilidades utilidades = new Utilidades();
             rta = utilidades.convertirObjetoJSON(prd);
@@ -71,7 +70,7 @@ public class ProductoLogica {
      * @param dska_cod
      * @return
      */
-    public String buscaProductoXCodigoBarras(String dska_cod) {
+    public String buscaProductoXCodigoBarras(String dska_cod, String sede_sede) {
         String rta = "";
         Producto prd = null;
         ProductoDao objDao = null;
@@ -94,7 +93,7 @@ public class ProductoLogica {
                 prd.setDska_refe(rs.getString("dska_refe"));
                 prd.setPrecio(obtienePrecioProductoXId(prd.getDska_dska()));
                 //Obtengo la cantidad existente de productos en la sede
-                prd.setCantExis(obtenerExistenciasPorSede(prd.getDska_dska(), ParametrosEntity.SEDE));
+                prd.setCantExis(obtenerExistenciasPorSede(prd.getDska_dska(), sede_sede));
             }
             Utilidades utilidades = new Utilidades();
             rta = utilidades.convertirObjetoJSON(prd);
@@ -138,14 +137,14 @@ public class ProductoLogica {
      * @param cantidad
      * @return
      */
-    public String adicionProdFactura(String dska_dska, String cantidad) {
+    public String adicionProdFactura(String dska_dska, String cantidad,String sede_sede) {
         String rta = "";
         Map<String, Object> respuesta = null;
         respuesta = new HashMap<String, Object>();
         Gson gson = new Gson();
         ProductoDao objDao = new ProductoDao();
         try (EnvioFuncion function = new EnvioFuncion()) {
-            String cantiExisSede = obtenerExistenciasPorSede(dska_dska, ParametrosEntity.SEDE);
+            String cantiExisSede = obtenerExistenciasPorSede(dska_dska, sede_sede);
             int cantExisSede = Integer.parseInt(cantiExisSede);
             if (cantExisSede == 0) {
                 respuesta.put("respuesta", "Error");
@@ -161,7 +160,7 @@ public class ProductoLogica {
                 return rta;
             }
             objDao.setDska_dska(dska_dska);
-            objDao.setSede(ParametrosEntity.SEDE);
+            objDao.setSede(sede_sede);
             objDao.setCantidad("" + cantCliente);
             ResultSet rs = function.enviarSelect(objDao.calculosFactura());
             while (rs.next()) {

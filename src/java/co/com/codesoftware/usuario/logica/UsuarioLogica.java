@@ -6,7 +6,6 @@
 package co.com.codesoftware.usuario.logica;
 
 import co.com.codesoftware.general.persistencia.EnvioFuncion;
-import co.com.codesoftware.parametros.ParametrosEntity;
 import co.com.codesoftware.usuario.dao.UsuarioDao;
 import co.com.codesoftware.usuario.entity.UsuarioEntity;
 import java.sql.ResultSet;
@@ -24,12 +23,12 @@ public class UsuarioLogica {
      * @param tius_usuario
      * @return
      */
-    public String validaSedeUsuaSedeFactura(String tius_usuario) {
+    public String validaSedeUsuaSedeFactura(String tius_usuario, String sede_sede) {
         String rta = "";
         try (EnvioFuncion function = new EnvioFuncion()) {
             UsuarioDao objDao = new UsuarioDao();
             objDao.setTius_usuario(tius_usuario);
-            objDao.setTius_sede(ParametrosEntity.SEDE);
+            objDao.setTius_sede(sede_sede);
             ResultSet rs = function.enviarSelect(objDao.validaSedeYFacturacion());
             if (rs.next()) {
                 String validaU = rs.getString("valUsua");

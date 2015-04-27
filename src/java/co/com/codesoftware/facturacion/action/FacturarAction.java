@@ -9,6 +9,7 @@ import co.com.codesoftware.facturacion.entity.ClienteEntity;
 import co.com.codesoftware.facturacion.entity.PagoEntity;
 import co.com.codesoftware.facturacion.logica.FacturacionLogica;
 import co.com.codesoftware.facturacion.logica.RemisionLogica;
+import co.com.codesoftware.parametros.Parametro;
 import co.com.codesoftware.usuario.entity.UsuarioEntity;
 import co.com.codesoftware.usuario.logica.UsuarioLogica;
 import com.opensymphony.xwork2.ActionSupport;
@@ -31,6 +32,7 @@ public class FacturarAction extends ActionSupport implements SessionAware {
     private String idRemision;
     private Map session;
     private PagoEntity pago;
+    private Parametro parametros;
 
     public String facturar() {
         FacturacionLogica logica = new FacturacionLogica();
@@ -46,7 +48,7 @@ public class FacturarAction extends ActionSupport implements SessionAware {
                     String rtaTemp = logica.insertarTemporalProductos(prodFact, idTrans);
                     if ("Ok".equalsIgnoreCase(rtaTemp)) {
                         //Aqui hago la facturacion
-                        String valida = logica.creaFacturacion(idTrans, objUsu.getTius_tius(), cliente.getClien_clien(),pago);
+                        String valida = logica.creaFacturacion(idTrans, objUsu.getTius_tius(), cliente.getClien_clien(), pago,parametros.getSede());
                         String[] facturo = valida.split("-");
                         if (!"Ok".equalsIgnoreCase(facturo[0])) {
                             addActionError(valida);
@@ -79,9 +81,10 @@ public class FacturarAction extends ActionSupport implements SessionAware {
     }
 
     public void validate() {
+        obtieneObjParametros();
         if ("facturar".equalsIgnoreCase(accion)) {
             UsuarioLogica usuarioLogica = new UsuarioLogica();
-            String valida = usuarioLogica.validaSedeUsuaSedeFactura(usuario);
+            String valida = usuarioLogica.validaSedeUsuaSedeFactura(usuario,parametros.getSede());
             if (!"Ok".equalsIgnoreCase(valida)) {
                 addActionError(valida);
             }
@@ -164,4 +167,19 @@ public class FacturarAction extends ActionSupport implements SessionAware {
         this.pago = pago;
     }
 
+    public Parametro getParametros() {
+        return parametros;
+    }
+
+    public void setParametros(Parametro parametros) {
+        this.parametros = parametros;
+    }
+
+    public void obtieneObjParametros() {
+        try {
+            parametros = (Parametro) session.get("parametros");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }

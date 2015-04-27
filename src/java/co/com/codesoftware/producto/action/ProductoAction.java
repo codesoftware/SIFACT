@@ -5,6 +5,7 @@
  */
 package co.com.codesoftware.producto.action;
 
+import co.com.codesoftware.parametros.Parametro;
 import co.com.codesoftware.usuario.entity.Usuario;
 import com.opensymphony.xwork2.ActionSupport;
 import java.util.Map;
@@ -21,6 +22,7 @@ public class ProductoAction extends ActionSupport implements SessionAware {
     private Map sedes;
     private Map referecias;
     private Map categorias;
+    private Parametro parametros;
     /**
      * Funcion encargada de realizar el reenvio y recargar las listas necesarias
      * para la consulta de productos antes de facturar
@@ -79,6 +81,12 @@ public class ProductoAction extends ActionSupport implements SessionAware {
     public void setCategorias(Map categorias) {
         this.categorias = categorias;
     }
-    
-    
+
+    public Parametro getParametros() {
+        return parametros;
+    }
+
+    public void setParametros(Parametro parametros) {
+        this.parametros = parametros;
+    }
 }
