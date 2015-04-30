@@ -9,5 +9,9 @@
             <result name="input">/WEB-INF/FACTURACION/CREACION/Fac_InsertCliFactura.jsp</result>
             <result name="success">/WEB-INF/FACTURACION/MODIFICAR/Fact_GestionFacturacion.jsp</result>
         </action>
+        <action name="Inv_consProductos" class="co.com.codesoftware.producto.action.ProductoAction" method="redireccionConsultaProductos">
+            <result name="input">/WEB-INF/PRODUCTOS/CONSULTA/Inv_ConsProductos.jsp</result>
+            <result name="success">/WEB-INF/PRODUCTOS/CONSULTA/Inv_ConsProductos.jsp</result>
+        </action>
     </package>
 </struts>

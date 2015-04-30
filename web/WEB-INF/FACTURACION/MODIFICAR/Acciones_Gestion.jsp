@@ -21,8 +21,11 @@
     <br/>
 <center>
     <a class="btn btn-primary" href="<%=RutaSitio%>/homeFacturacion.jsp">FACTURA NUEVA</a>
-    <a class="btn btn-primary" href="<%=RutaSitio%>/homeFacturacion.jsp">CONSULTA PRODUCTOS</a>
+    <a class="btn btn-primary" onclick="enviaConsultaGeneral()">CONSULTA PRODUCTOS</a>
 </center>
+    <s:form action="Inv_consProductos" id="Inv_consProductos" theme="simple">
+        <s:textfield name="accion" value="consultaGeneralProductos"/>
+    </s:form>
 <s:if test="%{fact_fact != null}">
     <script>
         generarFactura('<s:text name="fact_fact"/>');

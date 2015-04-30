@@ -5,6 +5,8 @@
  */
 package co.com.codesoftware.producto.action;
 
+import co.com.codesoftware.inventario.logica.CategoriaLogica;
+import co.com.codesoftware.inventario.logica.ReferenciaLogica;
 import co.com.codesoftware.parametros.Parametro;
 import co.com.codesoftware.usuario.entity.Usuario;
 import com.opensymphony.xwork2.ActionSupport;
@@ -23,6 +25,8 @@ public class ProductoAction extends ActionSupport implements SessionAware {
     private Map referecias;
     private Map categorias;
     private Parametro parametros;
+    private String accion;
+
     /**
      * Funcion encargada de realizar el reenvio y recargar las listas necesarias
      * para la consulta de productos antes de facturar
@@ -31,15 +35,22 @@ public class ProductoAction extends ActionSupport implements SessionAware {
      */
     public String redireccionConsultaProductos() {
         try {
-            
-        }catch (Exception e) {
+
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return SUCCESS;
     }
 
     public void validate() {
+        obtieneObjParametros();
+        if ("consultaGeneralProductos".equalsIgnoreCase(accion)) {
+            ReferenciaLogica logicaRef = new ReferenciaLogica();
+            CategoriaLogica logicaCat = new CategoriaLogica();
 
+            this.referecias = logicaRef.obtieneIdDescrReferenciaActivos();
+            this.categorias = logicaCat.obtieneCategoriasActivasMap();
+        }
     }
 
     public Usuario getUsuario() {
@@ -88,5 +99,21 @@ public class ProductoAction extends ActionSupport implements SessionAware {
 
     public void setParametros(Parametro parametros) {
         this.parametros = parametros;
+    }
+
+    public String getAccion() {
+        return accion;
+    }
+
+    public void setAccion(String accion) {
+        this.accion = accion;
+    }
+
+    public void obtieneObjParametros() {
+        try {
+            parametros = (Parametro) session.get("parametros");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
