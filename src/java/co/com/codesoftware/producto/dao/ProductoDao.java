@@ -311,7 +311,26 @@ public class ProductoDao {
         sql.append("FROM in_tdska, in_trefe, in_tcate ");
         sql.append(" WHERE dska_refe = refe_refe ");
         sql.append("   AND cate_cate = dska_cate ");
+        sql.append(armaWhere());
         return sql.toString();
+    }
+    
+    public String armaWhere(){
+        StringBuilder where = new StringBuilder();
+        if(!"-1".equalsIgnoreCase(this.getDska_cate())){
+            where.append(" AND DSKA_CATE = ");
+            where.append(this.getDska_cate());
+        }
+        if(!"-1".equalsIgnoreCase(this.getDska_refe())){
+            where.append(" AND dska_refe = ");
+            where.append(this.getDska_refe());
+        }
+        if(!"".equalsIgnoreCase(this.getDska_cod().trim())){
+            where.append(" AND dska_cod = '");
+            where.append(this.getDska_cod().trim());
+            where.append("'");
+        }
+        return where.toString();
     }
 
     /**

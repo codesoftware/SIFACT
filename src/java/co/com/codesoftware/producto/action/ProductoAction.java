@@ -154,4 +154,12 @@ public class ProductoAction extends ActionSupport implements SessionAware {
     public void setProductos(List productos) {
         this.productos = productos;
     }
+
+    public Producto getProducto() {
+        return producto;
+    }
+
+    public void setProducto(Producto producto) {
+        this.producto = producto;
+    }
 }

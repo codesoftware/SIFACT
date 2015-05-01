@@ -24,7 +24,7 @@
     <a class="btn btn-primary" onclick="enviaConsultaGeneral()">CONSULTA PRODUCTOS</a>
 </center>
     <s:form action="Inv_consProductos" id="Inv_consProductos" theme="simple">
-        <s:textfield name="accion" value="consultaGeneralProductos"/>
+        <s:textfield name="accion" value="consultaGeneralProductos" cssStyle="display:none;"/>
     </s:form>
 <s:if test="%{fact_fact != null}">
     <script>

@@ -281,7 +281,7 @@ public class ProductoLogica {
             objDao = poblarDao(objEntity);
             objDao.setSede(sede);
             ResultSet rs = function.enviarSelect(objDao.obtieneProductoXFiltros());
-            if (rs.next()) {
+            while (rs.next()) {
                 if (rta == null) {
                     rta = new ArrayList<Producto>();
                 }
@@ -344,6 +344,7 @@ public class ProductoLogica {
         try {
             objDao.setDska_cod(objEntity.getDska_cod());
             objDao.setDska_cate(objEntity.getDska_cate());
+            objDao.setDska_refe(objEntity.getDska_refe());
         } catch (Exception e) {
             e.printStackTrace();
         }
