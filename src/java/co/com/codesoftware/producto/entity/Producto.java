@@ -22,6 +22,7 @@ public class Producto {
     private String dska_estado;
     private String dska_fec_ingreso;
     private String dska_cate;
+    private String dska_sbcu;
     private String filtros; //Indica S como se le debe mostrar al cliente y N como se le debe enviar a la base de datos
     private String cantExis; //Numero de cantidades existentes de cada producto
     private String precio;
@@ -30,6 +31,8 @@ public class Producto {
     private String totalPagarSf;    
     private String totalIvaSf;
     private String totalProdSf;
+    private String cateNombre;
+    private String refeNombre;
     
 
     public String getDska_dska() {
@@ -174,5 +177,29 @@ public class Producto {
 
     public void setTotalProdSf(String totalProdSf) {
         this.totalProdSf = totalProdSf;
+    }
+
+    public String getDska_sbcu() {
+        return dska_sbcu;
+    }
+
+    public void setDska_sbcu(String dska_sbcu) {
+        this.dska_sbcu = dska_sbcu;
+    }
+
+    public String getCateNombre() {
+        return cateNombre;
+    }
+
+    public void setCateNombre(String cateNombre) {
+        this.cateNombre = cateNombre;
+    }
+
+    public String getRefeNombre() {
+        return refeNombre;
+    }
+
+    public void setRefeNombre(String refeNombre) {
+        this.refeNombre = refeNombre;
     }
 }

@@ -22,6 +22,7 @@ public class ProductoDao {
     private String dska_estado;
     private String dska_fec_ingreso;
     private String dska_cate;
+    private String dska_sbcu;
     private String cantExis;
     //Informacion adicional del producto
     private String precio;
@@ -176,6 +177,14 @@ public class ProductoDao {
         this.totalProdSf = totalProdSf;
     }
 
+    public String getDska_sbcu() {
+        return dska_sbcu;
+    }
+
+    public void setDska_sbcu(String dska_sbcu) {
+        this.dska_sbcu = dska_sbcu;
+    }
+
     /**
      * Funcion encargada de realizar el query para obtener la informacion de un
      * producto teniendo como referencia el codigo del producto
@@ -218,6 +227,7 @@ public class ProductoDao {
         sql += "FROM in_tprpr                                                    \n";
         sql += "WHERE prpr_estado = 'A'                                          \n";
         sql += "AND prpr_dska = " + this.getDska_dska() + " \n";
+        sql += " AND prpr_sede = " + this.getSede();
         return sql;
     }
 
@@ -286,5 +296,37 @@ public class ProductoDao {
         sql += "              ) param                                                                            \n";
         sql += "       ) tablaFinal                                                                              \n";
         return sql;
+    }
+
+    /**
+     * Funcion encargada de realizar el Query para obtener los procutos del
+     * sistema por medio de una serie de filtros
+     *
+     * @return
+     */
+    public String obtieneProductoXFiltros() {
+        StringBuilder sql = new StringBuilder();
+        sql.append("SELECT dska_dska, dska_refe, dska_cod, dska_nom_prod, dska_desc, dska_iva, dska_porc_iva, dska_marca, dska_estado, dska_fec_ingreso, dska_cate, dska_sbcu, ");
+        sql.append(" refe_desc, cate_desc ");
+        sql.append("FROM in_tdska, in_trefe, in_tcate ");
+        sql.append(" WHERE dska_refe = refe_refe ");
+        sql.append("   AND cate_cate = dska_cate ");
+        return sql.toString();
+    }
+
+    /**
+     * Funcion encargada de realizar el Query para consultar el precio de un
+     * producto en una sede con impuestos
+     *
+     * @return
+     */
+    public String obtieneCostosXProducto() {
+        StringBuilder sql = new StringBuilder();
+        sql.append("SELECT prpr_precio, to_char(((prpr_precio * (select cast(para_valor as numeric) from em_tpara where para_clave = 'IVAPR'))/100) + prpr_precio,'9,999,999,999,999.00') as precioConIva ");
+        sql.append("FROM in_tprpr ");
+        sql.append("WHERE prpr_estado = 'A' ");
+        sql.append("  AND prpr_sede = " + this.getSede());
+        sql.append("  AND prpr_dska = " + this.getDska_dska());
+        return sql.toString();
     }
 }

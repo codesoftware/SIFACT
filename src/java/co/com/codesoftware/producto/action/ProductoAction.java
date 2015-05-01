@@ -8,8 +8,11 @@ package co.com.codesoftware.producto.action;
 import co.com.codesoftware.inventario.logica.CategoriaLogica;
 import co.com.codesoftware.inventario.logica.ReferenciaLogica;
 import co.com.codesoftware.parametros.Parametro;
+import co.com.codesoftware.producto.entity.Producto;
+import co.com.codesoftware.producto.logica.ProductoLogica;
 import co.com.codesoftware.usuario.entity.Usuario;
 import com.opensymphony.xwork2.ActionSupport;
+import java.util.List;
 import java.util.Map;
 import org.apache.struts2.interceptor.SessionAware;
 
@@ -26,6 +29,8 @@ public class ProductoAction extends ActionSupport implements SessionAware {
     private Map categorias;
     private Parametro parametros;
     private String accion;
+    private List productos;
+    private Producto producto;
 
     /**
      * Funcion encargada de realizar el reenvio y recargar las listas necesarias
@@ -42,9 +47,34 @@ public class ProductoAction extends ActionSupport implements SessionAware {
         return SUCCESS;
     }
 
+    /**
+     * Funcion encargada de realizar la accion de consultar los productos por
+     * medio de determinados filtros
+     *
+     * @return
+     */
+    public String ejecutaConsultaProd() {
+        ProductoLogica logica = new ProductoLogica();
+        try {
+            productos = logica.obtieneProductosXFiltros(producto, parametros.getSede());
+            if(productos == null){
+                addActionError("La consulta no arrojo ningun resultado");
+            }            
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return SUCCESS;
+    }
+
     public void validate() {
         obtieneObjParametros();
         if ("consultaGeneralProductos".equalsIgnoreCase(accion)) {
+            ReferenciaLogica logicaRef = new ReferenciaLogica();
+            CategoriaLogica logicaCat = new CategoriaLogica();
+
+            this.referecias = logicaRef.obtieneIdDescrReferenciaActivos();
+            this.categorias = logicaCat.obtieneCategoriasActivasMap();
+        }else if("ejecutaConsulta".equalsIgnoreCase(accion)){
             ReferenciaLogica logicaRef = new ReferenciaLogica();
             CategoriaLogica logicaCat = new CategoriaLogica();
 
@@ -115,5 +145,13 @@ public class ProductoAction extends ActionSupport implements SessionAware {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public List getProductos() {
+        return productos;
+    }
+
+    public void setProductos(List productos) {
+        this.productos = productos;
     }
 }

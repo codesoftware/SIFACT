@@ -13,5 +13,9 @@
             <result name="input">/WEB-INF/PRODUCTOS/CONSULTA/Inv_ConsProductos.jsp</result>
             <result name="success">/WEB-INF/PRODUCTOS/CONSULTA/Inv_ConsProductos.jsp</result>
         </action>
+        <action name="Inv_EjeConsProductos" class="co.com.codesoftware.producto.action.ProductoAction" method="ejecutaConsultaProd">
+            <result name="input">/WEB-INF/PRODUCTOS/CONSULTA/Inv_ConsProductos.jsp</result>
+            <result name="success">/WEB-INF/PRODUCTOS/CONSULTA/Inv_ConsProductos.jsp</result>
+        </action>
     </package>
 </struts>
