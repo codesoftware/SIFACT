@@ -6,6 +6,7 @@
 package co.com.codesoftware.facturacion.action;
 
 import co.com.codesoftware.facturacion.entity.ClienteEntity;
+import co.com.codesoftware.facturacion.entity.FacturaEntity;
 import co.com.codesoftware.facturacion.entity.PagoEntity;
 import co.com.codesoftware.facturacion.logica.FacturacionLogica;
 import co.com.codesoftware.facturacion.logica.RemisionLogica;
@@ -33,6 +34,10 @@ public class FacturarAction extends ActionSupport implements SessionAware {
     private Map session;
     private PagoEntity pago;
     private Parametro parametros;
+    private String fechaIni;
+    private String fechaFin;
+    private List facturas;
+    private FacturaEntity factura;
 
     public String facturar() {
         FacturacionLogica logica = new FacturacionLogica();
@@ -89,6 +94,20 @@ public class FacturarAction extends ActionSupport implements SessionAware {
         return SUCCESS;
     }
 
+    public String ejecutaConsulta() {
+        FacturacionLogica logica = null;
+        try {
+            logica = new FacturacionLogica();
+            facturas = logica.consultaFacturasXFiltros(factura);
+            if(facturas == null){
+                addActionError("La consulta no arrojo ningun resultado");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return SUCCESS;
+    }
+
     public void validate() {
         obtieneObjParametros();
         if ("facturar".equalsIgnoreCase(accion)) {
@@ -102,9 +121,10 @@ public class FacturarAction extends ActionSupport implements SessionAware {
             }
             usuarioLogica = null;
         }
-        System.out.println("Paso por aqui1");
-        if("reedireccion".equalsIgnoreCase(accion)){
-            System.out.println("Paso por aqui");
+        if ("reedireccion".equalsIgnoreCase(accion)) {
+        }
+        if ("ejecutaConsulta".equalsIgnoreCase(accion)){
+            
         }
     }
 
@@ -194,5 +214,29 @@ public class FacturarAction extends ActionSupport implements SessionAware {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public String getFechaIni() {
+        return fechaIni;
+    }
+
+    public void setFechaIni(String fechaIni) {
+        this.fechaIni = fechaIni;
+    }
+
+    public String getFechaFin() {
+        return fechaFin;
+    }
+
+    public void setFechaFin(String fechaFin) {
+        this.fechaFin = fechaFin;
+    }
+
+    public List getFacturas() {
+        return facturas;
+    }
+
+    public void setFacturas(List facturas) {
+        this.facturas = facturas;
     }
 }

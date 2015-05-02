@@ -362,8 +362,8 @@ pr.dtpr_cant CAN, '$' || to_char(pr.dtpr_vlr_venta_uni,'9,999,999,999.00') VALOR
 						</jr:columnHeader>
 						<jr:detailCell style="table 1_TD" height="20" rowSpan="1">
 							<textField>
-								<reportElement x="0" y="0" width="66" height="20" uuid="830e78a8-e3e0-4a00-82f5-4ff0a7941d61"/>
-								<textElement textAlignment="Center" verticalAlignment="Middle">
+								<reportElement x="0" y="0" width="64" height="20" uuid="830e78a8-e3e0-4a00-82f5-4ff0a7941d61"/>
+								<textElement verticalAlignment="Middle">
 									<font fontName="Courier New" size="8"/>
 								</textElement>
 								<textFieldExpression><![CDATA[$F{valor}]]></textFieldExpression>

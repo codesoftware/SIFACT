@@ -21,5 +21,9 @@
             <result name="input">/WEB-INF/PRODUCTOS/CONSULTA/Inv_ConsProductos.jsp</result>
             <result name="success">/WEB-INF/FACTURACION/CONSULTA/Inv_ConsultaGeneralFact.jsp</result>
         </action>
+        <action name="Fact_EjeConsFacturas" class="co.com.codesoftware.facturacion.action.FacturarAction" method="ejecutaConsulta">
+            <result name="input">/WEB-INF/PRODUCTOS/CONSULTA/Inv_ConsProductos.jsp</result>
+            <result name="success">/WEB-INF/FACTURACION/CONSULTA/Inv_ConsultaGeneralFact.jsp</result>
+        </action>
     </package>
 </struts>

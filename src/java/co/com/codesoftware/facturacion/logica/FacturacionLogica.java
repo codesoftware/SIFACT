@@ -5,7 +5,9 @@
  */
 package co.com.codesoftware.facturacion.logica;
 
+import co.com.codesoftware.facturacion.dao.FacturaDao;
 import co.com.codesoftware.facturacion.dao.TempProductoFactDao;
+import co.com.codesoftware.facturacion.entity.FacturaEntity;
 import co.com.codesoftware.facturacion.entity.PagoEntity;
 import co.com.codesoftware.facturacion.entity.TempProductoFactEntity;
 import co.com.codesoftware.general.persistencia.EnvioFuncion;
@@ -142,9 +144,9 @@ public class FacturacionLogica {
             function.adicionarNumeric(idTrans);
             function.adicionarNumeric(sede_sede);
             function.adicionarParametro(pago.getTipoPago());
-            if(pago.getIdVucher() == null || "".equalsIgnoreCase(pago.getIdVucher())){
+            if (pago.getIdVucher() == null || "".equalsIgnoreCase(pago.getIdVucher())) {
                 function.adicionarNull();
-            }else{
+            } else {
                 function.adicionarNumeric(pago.getIdVucher());
             }
             rta = function.llamarFunction(function.getSql());
@@ -170,7 +172,7 @@ public class FacturacionLogica {
         String rta = "Ok";
 
         Connection conn = null;
-        try{
+        try {
             conn = this.generarConexion();
             String ubicacionReporte = ruta;
             Map<String, Object> properties = new HashMap<String, Object>();
@@ -190,12 +192,12 @@ public class FacturacionLogica {
         }
         return rta;
     }
-    
+
     public String generarRemision(String rmce_trans, String ruta, String rutaDestino) {
         String rta = "Ok";
 
         Connection conn = null;
-        try{
+        try {
             conn = this.generarConexion();
             String ubicacionReporte = ruta;
             Map<String, Object> properties = new HashMap<String, Object>();
@@ -234,10 +236,10 @@ public class FacturacionLogica {
         }
         return con;
     }
-    
+
     /**
-     * Obtiene el valor de la secuencia in_tsec_trans_rmce el cual se
-     * utilizara como id de la transaccion de facturacion
+     * Obtiene el valor de la secuencia in_tsec_trans_rmce el cual se utilizara
+     * como id de la transaccion de facturacion
      *
      * @return
      */
@@ -257,6 +259,41 @@ public class FacturacionLogica {
             sec = null;
         }
         return sec;
+    }
+
+    public List consultaFacturasXFiltros(FacturaEntity objEntity) {
+        List<FacturaEntity> rta = null;
+        FacturaDao objDao = new FacturaDao();
+        try (EnvioFuncion function = new EnvioFuncion()) {
+            ResultSet rs = function.enviarSelect(objDao.consultaFacturasXFiltro(objEntity));
+            while (rs.next()) {
+                if (rta == null) {
+                    rta = new ArrayList<FacturaEntity>();
+                }
+                FacturaEntity aux = new FacturaEntity();
+                aux.setFact_fact(rs.getString("fact_fact"));
+                aux.setFact_tius(rs.getString("fact_tius"));
+                aux.setFact_fec_ini(rs.getString("fact_fec_ini"));
+                aux.setFact_fec_cierre(rs.getString("fact_fec_cierre"));
+                aux.setFact_clien(rs.getString("fact_clien"));
+                aux.setFact_vlr_total(rs.getString("fact_vlr_total"));
+                aux.setFact_vlr_iva(rs.getString("fact_vlr_iva"));
+                aux.setFact_tipo_pago(rs.getString("fact_tipo_pago"));
+                aux.setFact_id_voucher(rs.getString("fact_id_voucher"));
+                aux.setFact_cometarios(rs.getString("fact_cometarios"));
+                aux.setFact_estado(rs.getString("fact_estado"));
+                aux.setFact_naturaleza(rs.getString("fact_naturaleza"));
+                aux.setFact_devolucion(rs.getString("fact_devolucion"));
+                aux.setFact_original(rs.getString("fact_original"));
+                aux.setPagoTotal(rs.getString("pagoTotal"));
+                aux.setClien_nombres(rs.getString("nombres"));
+                aux.setClien_cedula(rs.getString("clien_cedula"));
+                rta.add(aux);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return rta;
     }
 
 }
