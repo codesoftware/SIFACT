@@ -22,6 +22,10 @@
 <center>
     <a class="btn btn-primary" href="<%=RutaSitio%>/homeFacturacion.jsp">FACTURA NUEVA</a>
     <a class="btn btn-primary" onclick="enviaConsultaGeneral()">CONSULTA PRODUCTOS</a>
+    <s:url action="Fact_RedirConsulta.action" var="aURL" />
+    <s:a href="%{aURL}?accion=reedireccion" cssClass="btn btn-primary">
+        CONSULTA FACTURACION
+    </s:a>
 </center>
     <s:form action="Inv_consProductos" id="Inv_consProductos" theme="simple">
         <s:textfield name="accion" value="consultaGeneralProductos" cssStyle="display:none;"/>

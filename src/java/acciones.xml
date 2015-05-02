@@ -17,5 +17,9 @@
             <result name="input">/WEB-INF/PRODUCTOS/CONSULTA/Inv_ConsProductos.jsp</result>
             <result name="success">/WEB-INF/PRODUCTOS/CONSULTA/Inv_ConsProductos.jsp</result>
         </action>
+        <action name="Fact_RedirConsulta" class="co.com.codesoftware.facturacion.action.FacturarAction" method="reedireccionConsulta">
+            <result name="input">/WEB-INF/PRODUCTOS/CONSULTA/Inv_ConsProductos.jsp</result>
+            <result name="success">/WEB-INF/FACTURACION/CONSULTA/Inv_ConsultaGeneralFact.jsp</result>
+        </action>
     </package>
 </struts>

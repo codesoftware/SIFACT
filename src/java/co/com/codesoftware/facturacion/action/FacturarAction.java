@@ -48,7 +48,7 @@ public class FacturarAction extends ActionSupport implements SessionAware {
                     String rtaTemp = logica.insertarTemporalProductos(prodFact, idTrans);
                     if ("Ok".equalsIgnoreCase(rtaTemp)) {
                         //Aqui hago la facturacion
-                        String valida = logica.creaFacturacion(idTrans, objUsu.getTius_tius(), cliente.getClien_clien(), pago,parametros.getSede());
+                        String valida = logica.creaFacturacion(idTrans, objUsu.getTius_tius(), cliente.getClien_clien(), pago, parametros.getSede());
                         String[] facturo = valida.split("-");
                         if (!"Ok".equalsIgnoreCase(facturo[0])) {
                             addActionError(valida);
@@ -80,11 +80,20 @@ public class FacturarAction extends ActionSupport implements SessionAware {
         return SUCCESS;
     }
 
+    /**
+     * Funcion encargada de reedireccionar a la pagina de consulta de facturas
+     *
+     * @return
+     */
+    public String reedireccionConsulta() {
+        return SUCCESS;
+    }
+
     public void validate() {
         obtieneObjParametros();
         if ("facturar".equalsIgnoreCase(accion)) {
             UsuarioLogica usuarioLogica = new UsuarioLogica();
-            String valida = usuarioLogica.validaSedeUsuaSedeFactura(usuario,parametros.getSede());
+            String valida = usuarioLogica.validaSedeUsuaSedeFactura(usuario, parametros.getSede());
             if (!"Ok".equalsIgnoreCase(valida)) {
                 addActionError(valida);
             }
@@ -92,6 +101,10 @@ public class FacturarAction extends ActionSupport implements SessionAware {
                 addActionError("La lista de Productos y equipos celulares se encuentra vacia");
             }
             usuarioLogica = null;
+        }
+        System.out.println("Paso por aqui1");
+        if("reedireccion".equalsIgnoreCase(accion)){
+            System.out.println("Paso por aqui");
         }
     }
 

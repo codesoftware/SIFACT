@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="226" pageHeight="700" columnWidth="186" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="7d627bcf-4474-4259-84b4-e7ae2f8eff2a">
 	<property name="ireport.zoom" value="2.0490403660952117"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="138"/>
+	<property name="ireport.y" value="76"/>
 	<style name="table">
 		<box>
 			<topPen lineWidth="1.0" lineColor="#FFFFFF"/>
@@ -57,7 +57,7 @@
 		</parameter>
 		<queryString>
 			<![CDATA[SELECT ds.dska_cod CODIGO,(dska_nom_prod||'-'||dska_marca)DESCRIPCION, 
-pr.dtpr_cant CAN, to_char(pr.dtpr_vlr_venta_uni,'LFM9,999,999,999.00') VALOR
+pr.dtpr_cant CAN, '$' || to_char(pr.dtpr_vlr_venta_uni,'9,999,999,999.00') VALOR
  FROM fa_tdtpr pr,in_tdska ds
  WHERE   dtpr_fact = cast($P{fact_fact_table} as int)
    and dtpr_dska = dska_dska]]>
@@ -94,9 +94,9 @@ pr.dtpr_cant CAN, to_char(pr.dtpr_vlr_venta_uni,'LFM9,999,999,999.00') VALOR
           FROM us_tclien, fa_tfact 
          WHERE fact_clien = clien_clien 
            AND fact_fact = cast($P{fact_fact} as int) )CEDULACLIENTE,
-(SELECT to_char(fact_vlr_iva,'LFM9,999,999,999.00') from fa_tfact where fact_fact  = cast($P{fact_fact} as int))TOTIVA,
-(SELECT to_char(fact_vlr_total,'LFM9,999,999,999.00') from fa_tfact where fact_fact  = cast($P{fact_fact} as int))SUBTOTAL,
-(SELECT to_char(cast((fact_vlr_total+fact_vlr_iva) as numeric),'LFM9,999,999,999.00') from fa_tfact where fact_fact  = cast($P{fact_fact} as int))TOTAL]]>
+(SELECT '$' || to_char(fact_vlr_iva,'9,999,999,999.00') from fa_tfact where fact_fact  = cast($P{fact_fact} as int))TOTIVA,
+(SELECT '$' ||  to_char(fact_vlr_total,'9,999,999,999.00') from fa_tfact where fact_fact  = cast($P{fact_fact} as int))SUBTOTAL,
+(SELECT '$' || to_char(cast((fact_vlr_total+fact_vlr_iva) as numeric),'9,999,999,999.00') from fa_tfact where fact_fact  = cast($P{fact_fact} as int))TOTAL]]>
 	</queryString>
 	<field name="nombre" class="java.lang.String"/>
 	<field name="nit" class="java.lang.String"/>
