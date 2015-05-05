@@ -40,7 +40,7 @@ public class FacturacionLogica {
      * @return
      */
     public String obtieneValorSecuenciaTemp() {
-        String sec = "";
+        String sec = null;
         TempProductoFactDao objDao = null;
         try (EnvioFuncion function = new EnvioFuncion()) {
             objDao = new TempProductoFactDao();

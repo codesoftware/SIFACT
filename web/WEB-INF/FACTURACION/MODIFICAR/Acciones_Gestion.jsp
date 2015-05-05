@@ -19,6 +19,28 @@
     <br/>
     <br/>
     <br/>
+    <div class="row">
+        <div class="col-md-1 col-xs-0 col-sm-0"></div>
+        <div class="col-md-10 col-xs-12 col-sm-12">
+            <div class="Mensajes" style="display: none;">
+                <s:if test="hasActionErrors()">
+                    <div class="alert alert-danger" id="info" role="alert" ><h4><s:actionerror /></h4></div>
+                    <script>
+                        mostrarMsn();
+                    </script>
+                </s:if>
+            </div>
+            <div class="MensajesOk" style="display: none;">
+                <s:if test="hasActionMessages()">
+                    <div class="alert alert-success" id="info" role="alert" ><h4><s:actionmessage/></h4></div>
+                    <script>
+                        mostrarMsnOk();
+                    </script>
+                </s:if>
+            </div>
+        </div>
+        <div class="col-md-1 col-xs-0 col-sm-0"></div>
+    </div>
 <center>
     <a class="btn btn-primary" href="<%=RutaSitio%>/homeFacturacion.jsp">FACTURA NUEVA</a>
     <a class="btn btn-primary" onclick="enviaConsultaGeneral()">CONSULTA PRODUCTOS</a>
@@ -27,9 +49,9 @@
         CONSULTA FACTURACION
     </s:a>
 </center>
-    <s:form action="Inv_consProductos" id="Inv_consProductos" theme="simple">
-        <s:textfield name="accion" value="consultaGeneralProductos" cssStyle="display:none;"/>
-    </s:form>
+<s:form action="Inv_consProductos" id="Inv_consProductos" theme="simple">
+    <s:textfield name="accion" value="consultaGeneralProductos" cssStyle="display:none;"/>
+</s:form>
 <s:if test="%{fact_fact != null}">
     <script>
         generarFactura('<s:text name="fact_fact"/>');

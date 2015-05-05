@@ -51,6 +51,13 @@ public class UsuarioLogica {
         return rta;
     }
 
+    /**
+     * Funcion encargada de realizar la consulta de los datos de usuario por
+     * medio de su usuario
+     *
+     * @param tius_usuario
+     * @return
+     */
     public UsuarioEntity buscaUsuarioXusuario(String tius_usuario) {
         UsuarioEntity usuario = null;
         try (EnvioFuncion function = new EnvioFuncion()) {

@@ -40,12 +40,13 @@ public class FacturarAction extends ActionSupport implements SessionAware {
     private FacturaEntity factura;
 
     public String facturar() {
-        FacturacionLogica logica = new FacturacionLogica();
+        FacturacionLogica logica = null;
         String tius_tius = "";
         try {
+            logica = new FacturacionLogica();
             //Obtentgo el identificador primario del usuario que facturo
             UsuarioLogica logicaUsu = new UsuarioLogica();
-            UsuarioEntity objUsu = logicaUsu.buscaUsuarioXusuario(usuario);
+            UsuarioEntity objUsu = logicaUsu.buscaUsuarioXusuario(usuario.trim());
             logicaUsu = null;
             if (prodFact != null) {
                 String idTrans = logica.obtieneValorSecuenciaTemp();
@@ -56,16 +57,23 @@ public class FacturarAction extends ActionSupport implements SessionAware {
                         String valida = logica.creaFacturacion(idTrans, objUsu.getTius_tius(), cliente.getClien_clien(), pago, parametros.getSede());
                         String[] facturo = valida.split("-");
                         if (!"Ok".equalsIgnoreCase(facturo[0])) {
-                            addActionError(valida);
+                            addActionError("Error al generar la Facturacion: " + valida);
                             return ERROR;
                         } else {
                             fact_fact = facturo[1];
                         }
                     } else {
                         addActionError("Error al generar la factura");
+                        return ERROR;
                     }
                     logica.borrarTemporalXidTransaccion(idTrans);
+                }else{
+                    addActionError("Error al obtner la secuencia para los movimientos de inventario");
+                    return ERROR;
                 }
+            } else {
+                addActionError("Error al obtener el usuario facturador");
+                return ERROR;
             }
             if (remisionFact != null) {
                 String idRemision = logica.obtieneValorSecuenciaTempRemison();
@@ -99,7 +107,7 @@ public class FacturarAction extends ActionSupport implements SessionAware {
         try {
             logica = new FacturacionLogica();
             facturas = logica.consultaFacturasXFiltros(factura);
-            if(facturas == null){
+            if (facturas == null) {
                 addActionError("La consulta no arrojo ningun resultado");
             }
         } catch (Exception e) {
@@ -114,7 +122,10 @@ public class FacturarAction extends ActionSupport implements SessionAware {
             UsuarioLogica usuarioLogica = new UsuarioLogica();
             String valida = usuarioLogica.validaSedeUsuaSedeFactura(usuario, parametros.getSede());
             if (!"Ok".equalsIgnoreCase(valida)) {
-                addActionError(valida);
+                addActionError("Error al validar Usuario: " + valida);
+            }
+            if (parametros.getSede() == null || "".equalsIgnoreCase(parametros.getSede())) {
+                addActionError("El sistema no puede obtener la sede en la cual se encuetra porfavor vaya al inicio y seleccione su sede e intente de nuevo");
             }
             if (prodFact == null & remisionFact == null) {
                 addActionError("La lista de Productos y equipos celulares se encuentra vacia");
@@ -123,8 +134,8 @@ public class FacturarAction extends ActionSupport implements SessionAware {
         }
         if ("reedireccion".equalsIgnoreCase(accion)) {
         }
-        if ("ejecutaConsulta".equalsIgnoreCase(accion)){
-            
+        if ("ejecutaConsulta".equalsIgnoreCase(accion)) {
+
         }
     }
 
