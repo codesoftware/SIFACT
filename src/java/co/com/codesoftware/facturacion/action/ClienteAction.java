@@ -64,19 +64,24 @@ public class ClienteAction extends ActionSupport implements SessionAware {
      */
     public String insertarCliente() {
         ClienteLogica logicaCliente = null;
-        try{
+        try {
             logicaCliente = new ClienteLogica();
             String rta = logicaCliente.insertaCliente(cliente);
-            if (!rta.equalsIgnoreCase("Ok")) {
+            String []rtaVector = rta.split("-");
+            if (!"Ok".equalsIgnoreCase(rtaVector[0].trim())) {
                 addActionError("Error al insertar el Cliente intente de nuevo");
                 return "error";
+            }else{
+                cliente.setClien_clien(rtaVector[1].trim());
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
+            addActionError("Error al insertar el Cliente intente de nuevo " + e);
+            return "error";
         }
         return SUCCESS;
     }
-    
+
     public void obtieneObjParametros() {
         try {
             parametros = (Parametro) session.get("parametros");
@@ -84,8 +89,8 @@ public class ClienteAction extends ActionSupport implements SessionAware {
             e.printStackTrace();
         }
     }
-    
-    public void validate(){
+
+    public void validate() {
         obtieneObjParametros();
     }
 

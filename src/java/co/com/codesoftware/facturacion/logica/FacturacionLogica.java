@@ -160,6 +160,8 @@ public class FacturacionLogica {
                     // Aqui verifico si la consulta fue exitosa
                     String rtaPg = function.getRespuesta();
                     return rtaPg;
+                }else{
+                    return rtaVector[1];
                 }
             }
         } catch (Exception e) {

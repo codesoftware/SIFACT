@@ -53,8 +53,8 @@ public class FacturarAction extends ActionSupport implements SessionAware {
                 if (idTrans != null) {
                     String rtaTemp = logica.insertarTemporalProductos(prodFact, idTrans);
                     if ("Ok".equalsIgnoreCase(rtaTemp)) {
-                        //Aqui hago la facturacion
-                        String valida = logica.creaFacturacion(idTrans, objUsu.getTius_tius(), cliente.getClien_clien(), pago, parametros.getSede());
+                        String valida;
+                        valida = logica.creaFacturacion(idTrans, objUsu.getTius_tius(), cliente.getClien_clien(), pago, parametros.getSede());
                         String[] facturo = valida.split("-");
                         if (!"Ok".equalsIgnoreCase(facturo[0])) {
                             addActionError("Error al generar la Facturacion: " + valida);

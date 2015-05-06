@@ -78,7 +78,7 @@ public class ClienteLogica {
                 String rtaFunc = function.getRespuesta();
                 String[] auxRta = rtaFunc.split("-");
                 if ((auxRta[0].trim()).equalsIgnoreCase("OK")) {
-                    return auxRta[0];
+                    return rtaFunc;
                 } else {
                     return "Error";
                 }
