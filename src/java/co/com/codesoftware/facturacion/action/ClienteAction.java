@@ -9,7 +9,6 @@ import co.com.codesoftware.facturacion.entity.ClienteEntity;
 import co.com.codesoftware.usuario.entity.Usuario;
 import co.com.codesoftware.facturacion.logica.ClienteLogica;
 import co.com.codesoftware.parametros.Parametro;
-import co.com.codesoftware.utilidades.ParametrosActivos;
 import com.opensymphony.xwork2.ActionSupport;
 import java.util.Map;
 import org.apache.struts2.interceptor.SessionAware;
