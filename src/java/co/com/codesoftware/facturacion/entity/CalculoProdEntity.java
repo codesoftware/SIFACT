@@ -25,6 +25,9 @@ public class CalculoProdEntity {
     private String totalPagarSf;
     private String totalIvaSf;
     private String totalProdSf;
+    private String descuento;
+    private String descuentoTotal;
+    private String precioSinDto;
 
     public String getDska_dska() {
         return dska_dska;
@@ -121,6 +124,29 @@ public class CalculoProdEntity {
     public void setTotalProdSf(String totalProdSf) {
         this.totalProdSf = totalProdSf;
     }
-    
-    
+
+    public String getDescuento() {
+        return descuento;
+    }
+
+    public void setDescuento(String descuento) {
+        this.descuento = descuento;
+    }
+
+    public String getPrecioSinDto() {
+        return precioSinDto;
+    }
+
+    public void setPrecioSinDto(String precioSinDto) {
+        this.precioSinDto = precioSinDto;
+    }
+
+    public String getDescuentoTotal() {
+        return descuentoTotal;
+    }
+
+    public void setDescuentoTotal(String descuentoTotal) {
+        this.descuentoTotal = descuentoTotal;
+    }
+
 }

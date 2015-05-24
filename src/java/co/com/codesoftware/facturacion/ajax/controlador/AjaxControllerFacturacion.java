@@ -20,7 +20,7 @@ import org.apache.struts2.interceptor.SessionAware;
  *
  * @author Personal
  */
-public class AjaxControllerFacturacion extends ActionSupport implements SessionAware{
+public class AjaxControllerFacturacion extends ActionSupport implements SessionAware {
 
     private static final long serialVersionUID = 1L;
     private String codigoBarras;
@@ -31,13 +31,15 @@ public class AjaxControllerFacturacion extends ActionSupport implements SessionA
     private String rmce_imei;
     private Map session;
     private Parametro parametros;
+    private String descuento;
 
     /**
      * Funcion encargada de obtener los datos de un producto
      */
     public void traeProducto() {
+        descuento = descuento.replaceAll("\\.", "");
         obtieneObjParametros();
-        String respuesta = "";
+        String respuesta;
         ProductoLogica logica = new ProductoLogica();
         RemisionLogica logicaR = new RemisionLogica();
         try {
@@ -46,7 +48,7 @@ public class AjaxControllerFacturacion extends ActionSupport implements SessionA
             PrintWriter out = response.getWriter();
             String[] elementos = codigoBarras.split("-");
             if (elementos[0].equalsIgnoreCase("1")) {
-                respuesta = logica.buscaProductoXCodigoBarras(codigoBarras,parametros.getSede());
+                respuesta = logica.buscaProductoXCodigoBarras(codigoBarras, parametros.getSede(), descuento);
             } else {
                 respuesta = logicaR.consultaRemisionXId(codigoBarras);
             }
@@ -65,7 +67,7 @@ public class AjaxControllerFacturacion extends ActionSupport implements SessionA
             HttpServletResponse response = ServletActionContext.getResponse();
             response.setContentType("text/plain;charset=utf-8");
             PrintWriter out = response.getWriter();
-            respuesta = logica.buscaProdXIdProducto(dska_dska,parametros.getSede());
+            respuesta = logica.buscaProdXIdProducto(dska_dska, parametros.getSede());
             out.print(respuesta);
             out.flush();
         } catch (Exception e) {
@@ -80,7 +82,7 @@ public class AjaxControllerFacturacion extends ActionSupport implements SessionA
             HttpServletResponse response = ServletActionContext.getResponse();
             response.setContentType("text/plain;charset=utf-8");
             PrintWriter out = response.getWriter();
-            String objJson = logica.adicionProdFactura(dska_dska, cantidad,parametros.getSede());
+            String objJson = logica.adicionProdFactura(dska_dska, cantidad, parametros.getSede(), descuento);
             out.print(objJson);
         } catch (Exception e) {
             e.printStackTrace();
@@ -100,8 +102,9 @@ public class AjaxControllerFacturacion extends ActionSupport implements SessionA
             e.printStackTrace();
         }
     }
+
     /**
-     * Funcion encargada de realizar la acciond buscar una remision por 
+     * Funcion encargada de realizar la acciond buscar una remision por
      */
     public void buscaRemisionXImei() {
         RemisionLogica logica = new RemisionLogica();
@@ -115,11 +118,11 @@ public class AjaxControllerFacturacion extends ActionSupport implements SessionA
             e.printStackTrace();
         }
     }
-    
-    public void obtieneObjParametros(){
+
+    public void obtieneObjParametros() {
         try {
-            parametros = (Parametro) session.get("parametros");            
-        }catch (Exception e) {
+            parametros = (Parametro) session.get("parametros");
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -187,4 +190,13 @@ public class AjaxControllerFacturacion extends ActionSupport implements SessionA
     public void setParametros(Parametro parametros) {
         this.parametros = parametros;
     }
+
+    public String getDescuento() {
+        return descuento;
+    }
+
+    public void setDescuento(String descuento) {
+        this.descuento = descuento;
+    }
+
 }

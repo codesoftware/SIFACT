@@ -72,7 +72,7 @@ public class ProductoLogica {
      * @param dska_cod
      * @return
      */
-    public String buscaProductoXCodigoBarras(String dska_cod, String sede_sede) {
+    public String buscaProductoXCodigoBarras(String dska_cod, String sede_sede, String descuento) {
         String rta = "";
         Producto prd = null;
         ProductoDao objDao = null;
@@ -93,7 +93,8 @@ public class ProductoLogica {
                 prd.setDska_nom_prod(rs.getString("dska_nom_prod"));
                 prd.setDska_porc_iva(rs.getString("dska_porc_iva"));
                 prd.setDska_refe(rs.getString("dska_refe"));
-                prd.setPrecio(obtienePrecioProductoXId(prd.getDska_dska(), sede_sede));
+                prd.setDescuento(descuento);
+                prd.setPrecio(obtienePrecioProductoXIdConDescuento(prd.getDska_dska(), sede_sede, descuento));
                 //Obtengo la cantidad existente de productos en la sede
                 prd.setCantExis(obtenerExistenciasPorSede(prd.getDska_dska(), sede_sede));
             }
@@ -131,6 +132,32 @@ public class ProductoLogica {
         }
         return precio;
     }
+    
+    /**
+     * Funcion la cual se encarga de realizar la logica para obtener el precio
+     * de un producto con un descuento basandose en el id del producto
+     *
+     * @param dska_dska
+     * @return
+     */
+    public String obtienePrecioProductoXIdConDescuento(String dska_dska, String sede_sede, String descuento) {
+        String precio = "";
+        try (EnvioFuncion function = new EnvioFuncion()) {
+            ProductoDao objDao = new ProductoDao();
+            objDao.setDska_dska(dska_dska);
+            objDao.setSede(sede_sede);
+            ResultSet rs = function.enviarSelect(objDao.obtienePrecioProductoXDescuento(descuento));
+            if (rs.next()) {
+                precio = rs.getString("prpr_precio");
+            } else {
+                precio = "0";
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            precio = "0";
+        }
+        return precio;
+    }
 
     /**
      * Fucion encargada de realizar la logica para adicionar un producto a una
@@ -138,13 +165,15 @@ public class ProductoLogica {
      *
      * @param dska_dska
      * @param cantidad
+     * @param sede_sede
+     * @param descuento
      * @return
      */
-    public String adicionProdFactura(String dska_dska, String cantidad, String sede_sede) {
+    public String adicionProdFactura(String dska_dska, String cantidad, String sede_sede, String descuento) {
         String rta = "";
-        Map<String, Object> respuesta = null;
-        respuesta = new HashMap<String, Object>();
-        Gson gson = new Gson();
+        Map<String, Object> respuesta = new HashMap<String, Object>();
+        Gson gson;
+        gson = new Gson();
         ProductoDao objDao = new ProductoDao();
         try (EnvioFuncion function = new EnvioFuncion()) {
             String cantiExisSede = obtenerExistenciasPorSede(dska_dska, sede_sede);
@@ -165,6 +194,7 @@ public class ProductoLogica {
             objDao.setDska_dska(dska_dska);
             objDao.setSede(sede_sede);
             objDao.setCantidad("" + cantCliente);
+            objDao.setDescuento(descuento);
             ResultSet rs = function.enviarSelect(objDao.calculosFactura());
             while (rs.next()) {
                 CalculoProdEntity prod = new CalculoProdEntity();
@@ -181,6 +211,9 @@ public class ProductoLogica {
                 prod.setTotalProdSf(rs.getString("vlrPagarSinFil"));
                 prod.setTotalPagarSf(rs.getString("totalPagarSinFil"));
                 prod.setDska_dska(rs.getString("dska_dska"));
+                prod.setPrecioSinDto(rs.getString("preciosindto"));
+                prod.setDescuento(rs.getString("descuento"));
+                prod.setDescuentoTotal(rs.getString("descuentoTotal"));
                 respuesta.put("objeto", prod);
             }
             rta = gson.toJson(respuesta);

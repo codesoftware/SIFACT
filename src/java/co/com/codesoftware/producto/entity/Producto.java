@@ -26,14 +26,14 @@ public class Producto {
     private String filtros; //Indica S como se le debe mostrar al cliente y N como se le debe enviar a la base de datos
     private String cantExis; //Numero de cantidades existentes de cada producto
     private String precio;
+    private String descuento;
     private String catidad;
     //Valores principales sin filtros
-    private String totalPagarSf;    
+    private String totalPagarSf;
     private String totalIvaSf;
     private String totalProdSf;
     private String cateNombre;
     private String refeNombre;
-    
 
     public String getDska_dska() {
         return dska_dska;
@@ -202,4 +202,13 @@ public class Producto {
     public void setRefeNombre(String refeNombre) {
         this.refeNombre = refeNombre;
     }
+
+    public String getDescuento() {
+        return descuento;
+    }
+
+    public void setDescuento(String descuento) {
+        this.descuento = descuento;
+    }
+
 }

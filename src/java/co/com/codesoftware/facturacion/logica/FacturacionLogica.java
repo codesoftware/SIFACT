@@ -73,6 +73,7 @@ public class FacturacionLogica {
                 auxDao.setTem_fact_trans(idTrans);
                 auxDao.setTem_fact_dska(objAux.getTem_fact_dska());
                 auxDao.setTem_fact_cant(objAux.getTem_fact_cant());
+                auxDao.setTem_fact_dcto(objAux.getTem_fact_dcto());
                 function.enviarSelect(auxDao.insertTemoral());
             }
             rta = "Ok";
@@ -101,9 +102,11 @@ public class FacturacionLogica {
                 String aux[] = cadena.split("&");
                 String auxDska = aux[0];
                 String auxCant = aux[1];
+                String auxDto = aux[2];
                 TempProductoFactEntity objAux = new TempProductoFactEntity();
                 objAux.setTem_fact_cant(auxCant);
                 objAux.setTem_fact_dska(auxDska);
+                objAux.setTem_fact_dcto(auxDto);
                 rta.add(objAux);
             }
         } catch (Exception e) {

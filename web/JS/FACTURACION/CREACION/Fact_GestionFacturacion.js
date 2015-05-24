@@ -6,6 +6,7 @@ $(document).ready(function() {
             codigoDeBarras = $('#codigoBarras').val();
             var datos = new Object();
             datos.codigoBarras = $('#codigoBarras').val();
+            datos.descuento = $('#descuento').val();
             $.ajax({
                 type: 'GET',
                 data: datos,
@@ -14,20 +15,22 @@ $(document).ready(function() {
                 success: function(response) {
                     var datos = JSON.parse(response);
                     if (datos.respuesta == 'OK') {
-
                         $('#filaConsultaProd').remove();
                         $('#filaConsultaRem').remove();
                         var tbody = '';
                         var codigo = codigoDeBarras;
-
+                        /*Logica cuando es un producto */
                         if (codigo.charAt(0) == '1') {
+                            var descuento = mascaraMonedaConValor(datos.objeto.descuento);
                             tbody = '<tr id=\"filaConsultaProd\" >' +
-                                    '<td>Descripcion:</td>' +
+                                    '<td>Referencia:</td>' +
                                     '<td>' + datos.objeto.dska_desc + '</td>' +
-                                    '<td>Nombre:</td>' +
-                                    '<td>' + datos.objeto.dska_nom_prod + '</td>' +
+                                    '<td>Descuento:</td>' +
+                                    '<td>$' + descuento + '</td>' +
+//                                    '<td>Nombre:</td>' +
+//                                    '<td>' + datos.objeto.dska_nom_prod + '</td>' +
                                     '<td>Precio:</td>' +
-                                    '<td>' + datos.objeto.precio + '</td>' +
+                                    '<td>$' + datos.objeto.precio + '</td>' +
                                     '<td>Existencias:</td>' +
                                     '<td>' + datos.objeto.cantExis + '</td>' +
                                     '</tr>';
@@ -143,17 +146,18 @@ function adicionaProducto() {
     if (valida) {
         var datos = new Object();
         datos.codigoBarras = $('#codigoBarras').val();
+        datos.descuento = $('#descuento').val();
         $.ajax({
             type: 'GET',
             data: datos,
             url: RutaSitio + '/traeProducto.action',
             async: false,
-            success: function(response) {
-                var datos = JSON.parse(response);
+            dataType: 'json',
+            success: function(datos) {
                 if (datos.respuesta == 'OK') {
                     codigoDeBarras = $('#codigoBarras').val();
                     if (codigoDeBarras.charAt(0) == '1') {
-                        agregaProductos(datos.objeto.dska_dska);
+                        agregaProductos(datos.objeto.dska_dska,datos.objeto.descuento);
                     } else {
                         agregaRemisiones(datos.objeto.rmce_rmce);
                     }
@@ -201,6 +205,10 @@ function validaDatos() {
         $('#informacionPopUp').modal('show');
         return false;        
     }
+    var descuento = $('#descuento').val();
+    if(descuento.trim() == ''){
+        $('#descuento').val('0');
+    }
     return true;
 }
 
@@ -235,10 +243,11 @@ function validaRemExistente(cod) {
 }
 
 
-function agregaProductos(dska_dska) {
+function agregaProductos(dska_dska,descuento) {
     var datos = new Object();
     datos.dska_dska = dska_dska;
     datos.cantidad = $('#cantidad').val();
+    datos.descuento = descuento;
     $.ajax({
         url: RutaSitio + "/adicionaFactura.action",
         data: datos,
@@ -282,11 +291,13 @@ function adicionaProductoFactura(objeto) {
             '<td>' + objeto.cantidad + '</td>' +
             '<td>' + objeto.dska_codigo + '<input type=\"hidden\" class=\"codigoProd\" value=\"' + objeto.dska_codigo + '\" /></td>' +
             '<td>' + objeto.nombre + '</td>' +
-            '<td>' + objeto.precioUnidad + '</td>' +
-            '<td>' + objeto.ivaUnidad + '</td>' +
-            '<td>' + objeto.valortotal + '<input type=\"hidden\" class=\"valor\" value=\"' + objeto.totalProdSf + '\" /></td>' +
-            '<td>' + objeto.ivaTotal + '<input type=\"hidden\" class=\"iva\" value=\"' + objeto.totalIvaSf + '\" /> <input type=\"hidden\" name=\"prodFact\" value=\"' + objeto.dska_dska + '&' + objeto.cantidad + '\" /></td>' +
-            '<td>' + objeto.totalPagar + '<input type=\"hidden\" class=\"total\" value=\"' + objeto.totalPagarSf + '\" /></td>' +
+            '<td>$' + mascaraMonedaConValor(objeto.precioSinDto) + '</td>' +
+            '<td>$' + mascaraMonedaConValor(objeto.descuentoTotal) + '</td>' +
+            '<td>$' + mascaraMonedaConValor(objeto.precioUnidad) + '</td>' +
+            '<td>$' + mascaraMonedaConValor(objeto.ivaUnidad) + '</td>' +
+            '<td>$' + mascaraMonedaConValor(objeto.valortotal) + '<input type=\"hidden\" class=\"valor\" value=\"' + objeto.totalProdSf + '\" /></td>' +
+            '<td>$' + mascaraMonedaConValor(objeto.ivaTotal) + '<input type=\"hidden\" class=\"iva\" value=\"' + objeto.totalIvaSf + '\" /> <input type=\"hidden\" name=\"prodFact\" value=\"' + objeto.dska_dska + '&' + objeto.cantidad + '&' + objeto.descuentoTotal+ '\" /></td>' +
+            '<td>$' + mascaraMonedaConValor(objeto.totalPagar) + '<input type=\"hidden\" class=\"total\" value=\"' + objeto.totalPagarSf + '\" /></td>' +
             '<td>' +
             '<button type=\"button\" class=\"btn btn-danger elimnarFilaProd\">' +
             '<span class=\"glyphicon glyphicon-remove\" ></span> </button>' +

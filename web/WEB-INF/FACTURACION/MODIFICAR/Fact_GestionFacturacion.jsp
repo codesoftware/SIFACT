@@ -84,17 +84,28 @@
                                 <td colspan="4"> 
                                     <b>Buscar por Imei:</b> <input type="checkbox" id="buscaImei" /> <input type="text" id="IdImei" placeholder="IMEI" style="display: none;" class="form-control"/>
                                 </td>
-                                <td colspan="4">
+                                <td colspan="5">
                                     <b>Pago con:</b>&nbsp;&nbsp;&nbsp;&nbsp;Tarjeta&nbsp;<input type="radio" name="pago.tipoPago" value="T"  class="rPago" />&nbsp;&nbsp;Efectivo&nbsp;<input type="radio" name="pago.tipoPago" value="E" class="rPago" checked/>
                                     <input type="text" id="IdVoucher" placeholder="ID VOUCHER" style="display: none;" name="pago.idVucher" class="form-control"/>
                                 </td>
                             </tr>
                             <tr>
-                                <td><b>CODIGO:</b></td>
-                                <td colspan="3">
+                                <td style="width: 10%;">
+                                    <b>CODIGO:</b>
+                                </td>
+                                <td colspan="2">                                    
                                     <s:textfield cssClass="form-control" name="codigoBarras" required="true" id="codigoBarras" theme="simple" />
                                 </td>
-                                <td>
+                                <td style="width: 10%;">
+                                    <b>Descuento:</b>
+                                </td>
+                                <td colspan="2">
+                                    <div class="input-group">
+                                        <span class="input-group-addon">$</span>
+                                        <s:textfield cssClass="form-control" name="descuento" required="true" id="descuento" theme="simple" onkeypress="return validaNumeros(event)" onkeyup="mascaraMoneda(this)" value="0" />
+                                    </div>                                    
+                                </td>
+                                <td style="width: 10%;">
                                     <b>CANTIDAD:</b>
                                 </td>
                                 <td colspan="3">
@@ -129,14 +140,16 @@
                     <table class="table table-hover">
                         <thead>
                             <tr>
-                                <td class="alert alert-info text-center" colspan="9" ><h3>Productos Factura</h3></td>
+                                <td class="alert alert-info text-center" colspan="11" ><h3>Productos Factura</h3></td>
                             </tr>
                         </thead>
                         <tbody id="tablaFactProd">
                             <tr class="alert alert-success">
                                 <td>Cant.</td>
-                                <td>Codigo</td>
-                                <td>Nombre</td>
+                                <td>Cod.</td>
+                                <td>Referencia</td>
+                                <td>Precio Sin Dto.</td>
+                                <td>Descto.</td>
                                 <td>Prod Unidad</td>
                                 <td>Iva Unidad</td>
                                 <td>Total Prod</td>

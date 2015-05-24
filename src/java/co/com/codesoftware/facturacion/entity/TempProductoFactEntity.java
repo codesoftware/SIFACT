@@ -3,18 +3,18 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package co.com.codesoftware.facturacion.entity;
 
 /**
  *
  * @author Nicolas
  */
-public class TempProductoFactEntity{
-    
+public class TempProductoFactEntity {
+
     private String tem_fact_trans;
     private String tem_fact_dska;
     private String tem_fact_cant;
+    private String tem_fact_dcto;
 
     public String getTem_fact_trans() {
         return tem_fact_trans;
@@ -38,5 +38,14 @@ public class TempProductoFactEntity{
 
     public void setTem_fact_cant(String tem_fact_cant) {
         this.tem_fact_cant = tem_fact_cant;
-    }    
+    }
+
+    public String getTem_fact_dcto() {
+        return tem_fact_dcto;
+    }
+
+    public void setTem_fact_dcto(String tem_fact_dcto) {
+        this.tem_fact_dcto = tem_fact_dcto;
+    }
+
 }

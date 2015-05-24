@@ -51,23 +51,28 @@ public class FacturarAction extends ActionSupport implements SessionAware {
             if (prodFact != null) {
                 String idTrans = logica.obtieneValorSecuenciaTemp();
                 if (idTrans != null) {
-                    String rtaTemp = logica.insertarTemporalProductos(prodFact, idTrans);
-                    if ("Ok".equalsIgnoreCase(rtaTemp)) {
-                        String valida;
-                        valida = logica.creaFacturacion(idTrans, objUsu.getTius_tius(), cliente.getClien_clien(), pago, parametros.getSede());
-                        String[] facturo = valida.split("-");
-                        if (!"Ok".equalsIgnoreCase(facturo[0])) {
-                            addActionError("Error al generar la Facturacion: " + valida);
-                            return ERROR;
+                    if (!"".equalsIgnoreCase(cliente.getClien_clien()) && cliente.getClien_clien() != null) {
+                        String rtaTemp = logica.insertarTemporalProductos(prodFact, idTrans);
+                        if ("Ok".equalsIgnoreCase(rtaTemp)) {
+                            String valida;
+                            valida = logica.creaFacturacion(idTrans, objUsu.getTius_tius(), cliente.getClien_clien(), pago, parametros.getSede());
+                            String[] facturo = valida.split("-");
+                            if (!"Ok".equalsIgnoreCase(facturo[0])) {
+                                addActionError("Error al generar la Facturacion: " + valida);
+                                return ERROR;
+                            } else {
+                                fact_fact = facturo[1];
+                            }
                         } else {
-                            fact_fact = facturo[1];
+                            addActionError("Error al generar la factura");
+                            return ERROR;
                         }
                     } else {
-                        addActionError("Error al generar la factura");
+                        addActionError("Error al obtener la informacion del cliente por Favor recupere de nuevo estos datos");
                         return ERROR;
                     }
                     logica.borrarTemporalXidTransaccion(idTrans);
-                }else{
+                } else {
                     addActionError("Error al obtner la secuencia para los movimientos de inventario");
                     return ERROR;
                 }
