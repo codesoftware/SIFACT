@@ -152,6 +152,14 @@ public class FacturacionLogica {
             } else {
                 function.adicionarNumeric(pago.getIdVucher());
             }
+            if (pago.getValorTarjeta() == null || "".equalsIgnoreCase(pago.getValorTarjeta())) {
+                function.adicionarNumeric("0");
+            } else {
+                String auxPago = pago.getValorTarjeta();
+                auxPago = auxPago.replaceAll("\\.", "");
+                System.out.println("Este es el pago: "  + auxPago);
+                function.adicionarNumeric(auxPago);
+            }
             rta = function.llamarFunction(function.getSql());
             function.recuperarString();
             String[] rtaVector = rta.split("-");

@@ -88,10 +88,21 @@ $(document).ready(function() {
         var pago = $('.rPago:checked').val();
         if (pago == 'T') {
             $('#IdVoucher').show();
-
+            $('#valorTarjeta').hide();
+            $('#labelVlrTarjeta').hide();
+            $('#spanVlrTarjeta').hide();
         }
         if (pago == 'E') {
             $('#IdVoucher').hide();
+            $('#valorTarjeta').hide();
+            $('#labelVlrTarjeta').hide();
+            $('#spanVlrTarjeta').hide();
+        }
+        if (pago == 'M'){
+            $('#IdVoucher').show();
+            $('#valorTarjeta').show();
+            $('#labelVlrTarjeta').show();
+            $('#spanVlrTarjeta').show();
         }
     });
     $('#IdImei').keypress(function(event) {
@@ -397,6 +408,25 @@ function validaDatosBeforeFac() {
             $('#IdVoucher').focus();
             return false;
         }
+    }
+    if(pago == 'M'){
+        var idVoucher = $('#IdVoucher').val();
+        var valorTarjeta = $('#valorTarjeta').val();
+        $('#IdVoucher').val(idVoucher.trim());
+        if (idVoucher.trim() == '') {
+            $('#msnInfo').html('Si el pago es Mixto (tarjeta y efectino) no puede ser nulo el Id del Vaucher');
+            $('#informacionPopUp').modal('show');
+            $('#IdVoucher').focus();
+            return false;
+        }
+        $('#valorTarjeta').val(valorTarjeta.trim());
+        if (valorTarjeta.trim() == '') {
+            $('#msnInfo').html('Si el pago es Mixto (tarjeta y efectivo) no puede ser nulo el valor del pago en TARJETA');
+            $('#informacionPopUp').modal('show');
+            $('#IdVoucher').focus();
+            return false;
+        }
+        
     }
     return true;
 }

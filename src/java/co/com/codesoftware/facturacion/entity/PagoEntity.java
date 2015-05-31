@@ -10,9 +10,10 @@ package co.com.codesoftware.facturacion.entity;
  * @author ACER
  */
 public class PagoEntity {
-    
+
     private String tipoPago;
     private String idVucher;
+    private String valorTarjeta;
 
     public String getTipoPago() {
         return tipoPago;
@@ -29,5 +30,13 @@ public class PagoEntity {
     public void setIdVucher(String idVucher) {
         this.idVucher = idVucher;
     }
-    
+
+    public String getValorTarjeta() {
+        return valorTarjeta;
+    }
+
+    public void setValorTarjeta(String valorTarjeta) {
+        this.valorTarjeta = valorTarjeta;
+    }
+
 }

@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="226" pageHeight="700" columnWidth="186" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="7d627bcf-4474-4259-84b4-e7ae2f8eff2a">
 	<property name="ireport.zoom" value="2.0490403660952117"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="172"/>
+	<property name="ireport.y" value="110"/>
 	<style name="table">
 		<box>
 			<topPen lineWidth="1.0" lineColor="#FFFFFF"/>
@@ -85,7 +85,7 @@ pr.dtpr_cant CAN, '$' || to_char(pr.dtpr_vlr_venta_uni,'9,999,999,999.00') VALOR
             AND us.tius_tius = fac.fact_tius 
             AND per.pers_pers = us.tius_pers
         )vendedor,
-        (SELECT 'FECHA:'||to_char(NOW(),'DD/MM/YYYY HH24:MI:SS'))FECHA,
+        (SELECT 'FECHA:'||to_char(fact_fec_ini,'DD/MM/YYYY') from fa_tfact where fact_fact  = cast($P{fact_fact} as int))FECHA,
         (SELECT (clien_nombres||' '||clien_apellidos) 
            FROM us_tclien, fa_tfact 
           WHERE fact_clien = clien_clien 
@@ -96,7 +96,10 @@ pr.dtpr_cant CAN, '$' || to_char(pr.dtpr_vlr_venta_uni,'9,999,999,999.00') VALOR
            AND fact_fact = cast($P{fact_fact} as int) )CEDULACLIENTE,
 (SELECT '$' || to_char(fact_vlr_iva,'9,999,999,999.00') from fa_tfact where fact_fact  = cast($P{fact_fact} as int))TOTIVA,
 (SELECT '$' ||  to_char(fact_vlr_total,'9,999,999,999.00') from fa_tfact where fact_fact  = cast($P{fact_fact} as int))SUBTOTAL,
-(SELECT '$' || to_char(cast((fact_vlr_total+fact_vlr_iva) as numeric),'9,999,999,999.00') from fa_tfact where fact_fact  = cast($P{fact_fact} as int))TOTAL]]>
+(SELECT '$' || to_char(cast((fact_vlr_total+fact_vlr_iva-fact_vlr_dcto) as numeric),'9,999,999,999.00') from fa_tfact where fact_fact  = cast($P{fact_fact} as int))TOTAL,
+(SELECT '$' || to_char(cast((fact_vlr_dcto) as numeric),'9,999,999,999.00') from fa_tfact where fact_fact  = cast($P{fact_fact} as int))descunento,
+(SELECT '$' || to_char(cast((FACT_VLR_EFECTIVO) as numeric),'9,999,999,999.00') from fa_tfact where fact_fact  = cast($P{fact_fact} as int))PGOEFEC,
+(SELECT '$' || to_char(cast((FACT_VLR_TARJETA) as numeric),'9,999,999,999.00') from fa_tfact where fact_fact  = cast($P{fact_fact} as int))PGOTARJETA]]>
 	</queryString>
 	<field name="nombre" class="java.lang.String"/>
 	<field name="nit" class="java.lang.String"/>
@@ -111,8 +114,11 @@ pr.dtpr_cant CAN, '$' || to_char(pr.dtpr_vlr_venta_uni,'9,999,999,999.00') VALOR
 	<field name="totiva" class="java.lang.String"/>
 	<field name="subtotal" class="java.lang.String"/>
 	<field name="total" class="java.lang.String"/>
+	<field name="descunento" class="java.lang.String"/>
+	<field name="pgoefec" class="java.lang.String"/>
+	<field name="pgotarjeta" class="java.lang.String"/>
 	<title>
-		<band height="155" splitType="Stretch">
+		<band height="185" splitType="Stretch">
 			<textField>
 				<reportElement x="0" y="0" width="186" height="15" uuid="d971adc5-19fa-4ffb-9769-f60de92ce268"/>
 				<textElement textAlignment="Center">
@@ -209,7 +215,7 @@ pr.dtpr_cant CAN, '$' || to_char(pr.dtpr_vlr_venta_uni,'9,999,999,999.00') VALOR
 				<text><![CDATA[TOTAL IVA:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="0" y="145" width="52" height="10" uuid="d67ddc63-ea50-42f2-afae-e7e4a8aea9bd"/>
+				<reportElement x="0" y="155" width="52" height="10" uuid="d67ddc63-ea50-42f2-afae-e7e4a8aea9bd"/>
 				<textElement textAlignment="Right">
 					<font fontName="Courier New" size="8"/>
 				</textElement>
@@ -237,18 +243,66 @@ pr.dtpr_cant CAN, '$' || to_char(pr.dtpr_vlr_venta_uni,'9,999,999,999.00') VALOR
 				<textFieldExpression><![CDATA[$F{subtotal}]]></textFieldExpression>
 			</textField>
 			<line>
-				<reportElement x="0" y="154" width="186" height="1" uuid="8177a2bc-297e-4063-8343-6ddb09a41c7b"/>
+				<reportElement x="0" y="164" width="186" height="1" uuid="8177a2bc-297e-4063-8343-6ddb09a41c7b"/>
 				<graphicElement>
 					<pen lineStyle="Dashed"/>
 				</graphicElement>
 			</line>
 			<textField>
-				<reportElement x="55" y="145" width="130" height="10" uuid="d9dca3be-bd08-4c04-922f-d9efbd242687"/>
+				<reportElement x="55" y="155" width="131" height="10" uuid="d9dca3be-bd08-4c04-922f-d9efbd242687"/>
 				<textElement>
 					<font fontName="Courier New" size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{total}]]></textFieldExpression>
 			</textField>
+			<textField>
+				<reportElement x="56" y="145" width="130" height="10" uuid="15c6a1dc-7f44-4b8b-8d3d-631824d1a8f9"/>
+				<textElement>
+					<font fontName="Courier New" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{descunento}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="145" width="52" height="10" uuid="1a73705d-a6d7-46a8-b5eb-898fb1eab48c"/>
+				<textElement textAlignment="Right">
+					<font fontName="Courier New" size="8"/>
+				</textElement>
+				<text><![CDATA[DESCUENTO:]]></text>
+			</staticText>
+			<line>
+				<reportElement x="0" y="184" width="186" height="1" uuid="46a29ee5-649a-4de6-b9c4-b30ec6367e78"/>
+				<graphicElement>
+					<pen lineStyle="Dashed"/>
+				</graphicElement>
+			</line>
+			<textField>
+				<reportElement x="55" y="165" width="131" height="10" uuid="7b98edc9-68c1-4fea-aa1e-6ef70363f92b"/>
+				<textElement>
+					<font fontName="Courier New" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{pgoefec}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="165" width="52" height="10" uuid="b2fd66ec-4bed-4349-af65-c3124c06d355"/>
+				<textElement textAlignment="Right">
+					<font fontName="Courier New" size="8"/>
+				</textElement>
+				<text><![CDATA[EFECTIVO:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="55" y="175" width="131" height="10" uuid="1133950b-56a8-424b-8228-c54820cac619"/>
+				<textElement>
+					<font fontName="Courier New" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{pgotarjeta}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="175" width="52" height="10" uuid="9b9dc3b5-cbce-46a8-9280-d82600401909"/>
+				<textElement textAlignment="Right">
+					<font fontName="Courier New" size="8"/>
+				</textElement>
+				<text><![CDATA[TARJETA:]]></text>
+			</staticText>
 		</band>
 	</title>
 	<detail>

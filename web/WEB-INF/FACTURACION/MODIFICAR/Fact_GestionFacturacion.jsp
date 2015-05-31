@@ -88,8 +88,17 @@
                                     <b>Buscar por Imei:</b> <input type="checkbox" id="buscaImei" /> <input type="text" id="IdImei" placeholder="IMEI" style="display: none;" class="form-control"/>
                                 </td>
                                 <td colspan="5">
-                                    <b>Pago con:</b>&nbsp;&nbsp;&nbsp;&nbsp;Tarjeta&nbsp;<input type="radio" name="pago.tipoPago" value="T"  class="rPago" />&nbsp;&nbsp;Efectivo&nbsp;<input type="radio" name="pago.tipoPago" value="E" class="rPago" checked/>
-                                    <input type="text" id="IdVoucher" placeholder="ID VOUCHER" style="display: none;" name="pago.idVucher" class="form-control"/>
+                                    <b>Pago con:</b>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;
+                                    Tarjeta&nbsp;<input type="radio" name="pago.tipoPago" value="T"  class="rPago" />&nbsp;&nbsp;
+                                    Efectivo&nbsp;<input type="radio" name="pago.tipoPago" value="E" class="rPago" checked/> &nbsp;&nbsp;
+                                    Mixto&nbsp;<input type="radio" name="pago.tipoPago" value="M" class="rPago" /> &nbsp;&nbsp;
+                                    <input type="text" id="IdVoucher" placeholder="ID VOUCHER" style="display: none;" name="pago.idVucher" class="form-control"/><br/>
+                                    <label id="labelVlrTarjeta" style="display:none;">Valor Tarjeta:</label>
+                                    <div class="input-group">
+                                        <span class="input-group-addon" id="spanVlrTarjeta" style="display: none;">$</span>
+                                        <input type="text" id="valorTarjeta" placeholder="$$$ Pago con Tarjeta" style="display: none;" name="pago.valorTarjeta" class="form-control" onkeypress="return validaNumeros(event)" onkeyup="mascaraMoneda(this)" /><br/>
+                                    </div>
                                 </td>
                             </tr>
                             <tr>
