@@ -199,7 +199,7 @@
             <div class="row">
                 <div class="col-md-5 col-xs-2 col-sm-2"></div>
                 <div class="col-md-2 col-xs-8 col-sm-8">
-                    <button type="button" class="btn btn-warning" id="btn-factura" onclick="facturar()" style="width: 100%">
+                    <button type="button" class="btn btn-warning" id="btn-factura" onclick="simulaMovimientoscontables()" style="width: 100%">
                         <span class="glyphicon glyphicon-shopping-cart"></span>&nbsp;Facturar
                     </button>                
                 </div>

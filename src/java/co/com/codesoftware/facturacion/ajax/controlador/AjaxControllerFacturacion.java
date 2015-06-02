@@ -12,6 +12,7 @@ import co.com.codesoftware.producto.logica.ProductoLogica;
 import com.opensymphony.xwork2.ActionSupport;
 import java.io.PrintWriter;
 import java.util.Map;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.interceptor.SessionAware;
@@ -32,6 +33,7 @@ public class AjaxControllerFacturacion extends ActionSupport implements SessionA
     private Map session;
     private Parametro parametros;
     private String descuento;
+    private String productosArray;
 
     /**
      * Funcion encargada de obtener los datos de un producto
@@ -127,6 +129,18 @@ public class AjaxControllerFacturacion extends ActionSupport implements SessionA
         }
     }
 
+    public void SimulaMoviContables() {
+        try {
+            HttpServletResponse response = ServletActionContext.getResponse();
+            response.setContentType("text/plain;charset=utf-8");
+            HttpServletRequest request = ServletActionContext.getRequest();
+            String productos = request.getParameter("Productos");
+            System.out.println("Hola todos");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     public String getCodigoBarras() {
         return codigoBarras;
     }
@@ -197,6 +211,14 @@ public class AjaxControllerFacturacion extends ActionSupport implements SessionA
 
     public void setDescuento(String descuento) {
         this.descuento = descuento;
+    }
+
+    public String getProductosArray() {
+        return productosArray;
+    }
+
+    public void setProductosArray(String productosArray) {
+        this.productosArray = productosArray;
     }
 
 }

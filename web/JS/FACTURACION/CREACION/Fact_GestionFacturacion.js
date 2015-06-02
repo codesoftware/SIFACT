@@ -1,6 +1,6 @@
 var codigoDeBarras = '';
-$(document).ready(function() {
-    $('#codigoBarras').keypress(function(event) {
+$(document).ready(function () {
+    $('#codigoBarras').keypress(function (event) {
         var keycode = (event.keyCode ? event.keyCode : event.which);
         if (keycode == '13') {
             codigoDeBarras = $('#codigoBarras').val();
@@ -12,7 +12,7 @@ $(document).ready(function() {
                 data: datos,
                 url: RutaSitio + '/traeProducto.action',
                 async: false,
-                success: function(response) {
+                success: function (response) {
                     var datos = JSON.parse(response);
                     if (datos.respuesta == 'OK') {
                         $('#filaConsultaProd').remove();
@@ -63,7 +63,7 @@ $(document).ready(function() {
             }
         }
     });
-    $(document).on('click', '.elimnarFilaProd', function() {
+    $(document).on('click', '.elimnarFilaProd', function () {
         $(this).closest('.filaProdFact').remove();
         var sumaIva = sumasValorIva();
         $('#vlrIvaText').html(sumaIva);
@@ -72,11 +72,11 @@ $(document).ready(function() {
         var totalPagar = sumasValorTotalPagar();
         $('#vlrTotalPagarText').html(totalPagar);
     });
-    $('#enviaFacturar').click(function() {
+    $('#enviaFacturar').click(function () {
         //alert('Envio formulario de Facturacion');
         document.getElementById("Fac_Facturar").submit();
     });
-    $('#buscaImei').click(function() {
+    $('#buscaImei').click(function () {
         if ($(this).is(':checked')) {
             $('#IdImei').show('slow');
             $('#IdImei').focus();
@@ -84,7 +84,7 @@ $(document).ready(function() {
             $('#IdImei').hide('fast');
         }
     });
-    $('.rPago').click(function() {
+    $('.rPago').click(function () {
         var pago = $('.rPago:checked').val();
         if (pago == 'T') {
             $('#IdVoucher').show();
@@ -98,14 +98,14 @@ $(document).ready(function() {
             $('#labelVlrTarjeta').hide();
             $('#spanVlrTarjeta').hide();
         }
-        if (pago == 'M'){
+        if (pago == 'M') {
             $('#IdVoucher').show();
             $('#valorTarjeta').show();
             $('#labelVlrTarjeta').show();
             $('#spanVlrTarjeta').show();
         }
     });
-    $('#IdImei').keypress(function(event) {
+    $('#IdImei').keypress(function (event) {
         var keycode = (event.keyCode ? event.keyCode : event.which);
         if (keycode == '13') {
             var datos = new Object();
@@ -115,7 +115,7 @@ $(document).ready(function() {
                 url: RutaSitio + '/buscaRemcXImei.action',
                 data: datos,
                 async: false,
-                success: function(data, textStatus, jqXHR) {
+                success: function (data, textStatus, jqXHR) {
                     var objeto = JSON.parse(data);
                     if (objeto.respuesta = "OK") {
                         $('#filaConsultaProd').remove();
@@ -128,9 +128,9 @@ $(document).ready(function() {
                                 '<td>' + objeto.objeto.rmce_valor + '</td>' +
                                 '<td>Tipo de plan:</td>';
                         var plan = '';
-                        if(objeto.objeto.rmce_tppl  == 'pr'){
+                        if (objeto.objeto.rmce_tppl == 'pr') {
                             plan = 'Prepago';
-                        }else{
+                        } else {
                             plan = 'Postpago';
                         }
                         tbody += '<td>' + plan + '</td>' +
@@ -140,9 +140,9 @@ $(document).ready(function() {
                         $('#bodyConsulta').append(tbody);
                         $('#cantidad').val('1');
                         $('#btnAgregarProdRem').focus();
-                        $('#IdImei').hide('fast');   
+                        $('#IdImei').hide('fast');
                         $('#IdImei').val('');
-                        var imei=document.getElementById('buscaImei');
+                        var imei = document.getElementById('buscaImei');
                         imei.checked = false;
                     }
                 }
@@ -164,11 +164,11 @@ function adicionaProducto() {
             url: RutaSitio + '/traeProducto.action',
             async: false,
             dataType: 'json',
-            success: function(datos) {
+            success: function (datos) {
                 if (datos.respuesta == 'OK') {
                     codigoDeBarras = $('#codigoBarras').val();
                     if (codigoDeBarras.charAt(0) == '1') {
-                        agregaProductos(datos.objeto.dska_dska,datos.objeto.descuento);
+                        agregaProductos(datos.objeto.dska_dska, datos.objeto.descuento);
                     } else {
                         agregaRemisiones(datos.objeto.rmce_rmce);
                     }
@@ -211,13 +211,13 @@ function validaDatos() {
         return false;
     }
     var duplicadosRem = validaRemExistente(codigo);
-    if(duplicadosRem == false){
+    if (duplicadosRem == false) {
         $('#msnInfo').html('El equipo ceular que desea ingresar ya se encuentra en la lista.');
         $('#informacionPopUp').modal('show');
-        return false;        
+        return false;
     }
     var descuento = $('#descuento').val();
-    if(descuento.trim() == ''){
+    if (descuento.trim() == '') {
         $('#descuento').val('0');
     }
     return true;
@@ -254,7 +254,7 @@ function validaRemExistente(cod) {
 }
 
 
-function agregaProductos(dska_dska,descuento) {
+function agregaProductos(dska_dska, descuento) {
     var datos = new Object();
     datos.dska_dska = dska_dska;
     datos.cantidad = $('#cantidad').val();
@@ -263,7 +263,7 @@ function agregaProductos(dska_dska,descuento) {
         url: RutaSitio + "/adicionaFactura.action",
         data: datos,
         async: false,
-        success: function(data, textStatus, jqXHR) {
+        success: function (data, textStatus, jqXHR) {
             var obj = JSON.parse(data);
             if (obj.respuesta == 'Error') {
                 $('#msnInfo').html(obj.mensaje);
@@ -283,7 +283,7 @@ function agregaRemisiones(rmce_rmce) {
         url: RutaSitio + "/adicionaFacturaRem.action",
         data: datos,
         async: false,
-        success: function(data, textStatus, jqXHR) {
+        success: function (data, textStatus, jqXHR) {
             var obj = JSON.parse(data);
             if (obj.respuesta == 'Error') {
                 $('#msnInfo').html(obj.mensaje);
@@ -299,7 +299,7 @@ function agregaRemisiones(rmce_rmce) {
 function adicionaProductoFactura(objeto) {
     var tabla = $('#tablaFactProd');
     var fila = '<tr class=\"filaProdFact\">' +
-            '<td>' + objeto.cantidad + '</td>' +
+            '<td>' + objeto.cantidad + '<input type=\"hidden\" class=\"id_prod_fact\" data-desc=\"' + objeto.descuentoTotal + '\" data-cant=\"' + objeto.cantidad + '\" value=\"' + objeto.dska_dska + '\" /></td>' +
             '<td>' + objeto.dska_codigo + '<input type=\"hidden\" class=\"codigoProd\" value=\"' + objeto.dska_codigo + '\" /></td>' +
             '<td>' + objeto.nombre + '</td>' +
             '<td>$' + mascaraMonedaConValor(objeto.precioSinDto) + '</td>' +
@@ -307,7 +307,7 @@ function adicionaProductoFactura(objeto) {
             '<td>$' + mascaraMonedaConValor(objeto.precioUnidad) + '</td>' +
             '<td>$' + mascaraMonedaConValor(objeto.ivaUnidad) + '</td>' +
             '<td>$' + mascaraMonedaConValor(objeto.valortotal) + '<input type=\"hidden\" class=\"valor\" value=\"' + objeto.totalProdSf + '\" /></td>' +
-            '<td>$' + mascaraMonedaConValor(objeto.ivaTotal) + '<input type=\"hidden\" class=\"iva\" value=\"' + objeto.totalIvaSf + '\" /> <input type=\"hidden\" name=\"prodFact\" value=\"' + objeto.dska_dska + '&' + objeto.cantidad + '&' + objeto.descuentoTotal+ '\" /></td>' +
+            '<td>$' + mascaraMonedaConValor(objeto.ivaTotal) + '<input type=\"hidden\" class=\"iva\" value=\"' + objeto.totalIvaSf + '\" /> <input type=\"hidden\" name=\"prodFact\" value=\"' + objeto.dska_dska + '&' + objeto.cantidad + '&' + objeto.descuentoTotal + '\" /></td>' +
             '<td>$' + mascaraMonedaConValor(objeto.totalPagar) + '<input type=\"hidden\" class=\"total\" value=\"' + objeto.totalPagarSf + '\" /></td>' +
             '<td>' +
             '<button type=\"button\" class=\"btn btn-danger elimnarFilaProd\">' +
@@ -351,7 +351,7 @@ function sumasValorIva() {
         return 0;
     } else {
         var sumatoria = 0;
-        $.each(valor, function(key, value) {
+        $.each(valor, function (key, value) {
             var aux = parseInt(value.value);
             sumatoria = sumatoria + aux;
         });
@@ -367,7 +367,7 @@ function sumasValorTotalProd() {
         return 0;
     } else {
         var sumatoria = 0;
-        $.each(valor, function(key, value) {
+        $.each(valor, function (key, value) {
             var aux = parseInt(value.value);
             sumatoria = sumatoria + aux;
         });
@@ -383,7 +383,7 @@ function sumasValorTotalPagar() {
         return 0;
     } else {
         var sumatoria = 0;
-        $.each(valor, function(key, value) {
+        $.each(valor, function (key, value) {
             var aux = parseInt(value.value);
             sumatoria = sumatoria + aux;
         });
@@ -409,7 +409,7 @@ function validaDatosBeforeFac() {
             return false;
         }
     }
-    if(pago == 'M'){
+    if (pago == 'M') {
         var idVoucher = $('#IdVoucher').val();
         var valorTarjeta = $('#valorTarjeta').val();
         $('#IdVoucher').val(idVoucher.trim());
@@ -426,7 +426,7 @@ function validaDatosBeforeFac() {
             $('#IdVoucher').focus();
             return false;
         }
-        
+
     }
     return true;
 }
@@ -439,10 +439,50 @@ function buscaCodigoXIdProducto(id) {
         data: datos,
         async: false,
         url: RutaSitio + "/buscaProdXId.action",
-        success: function(data, textStatus, jqXHR) {
+        success: function (data, textStatus, jqXHR) {
             var datosRta = JSON.parse(data);
             codigo = datosRta.objeto.dska_cod;
         }
     });
     return codigo;
 }
+
+
+function simulaMovimientoscontables() {
+    var productos = $('.id_prod_fact');
+    var productosArray = "[";
+    var bandera = false;
+    $.each(productos, function (key, value) {
+        if (key != '0') {
+            productosArray += ",";
+        }
+        productosArray += "{";
+        productosArray += '\"dska_dska\" : \"' + value.value + '\",';
+        productosArray += '\"dska_cant\" : \"' + $(value).data('cant') + '\",';
+        productosArray += '\"descuento\" : \"' + $(value).data('desc') + '\"';
+        bandera = true;
+        productosArray += "}";
+    });
+    productosArray += "]";
+    alert(productosArray);
+    if (!bandera) {
+        $('#msnInfo').html('Por Favor agregar al menos un producto a la lista de productos para poder facturar');
+        $('#informacionPopUp').modal('show');
+    } else {
+        var datos = new Object();
+        datos.productosArray = productosArray;
+        $.ajax({
+            url: RutaSitio + "/SimulaMoviContables.action",
+            cache: false,
+            dataType: 'json',
+            data: datos,
+            success: function (data, textStatus, jqXHR) {
+                alert('llego aqui');
+            }
+        });
+
+    }
+
+}
+//Se debe llamar la funcion facturar en el momento que acepte el asiento a realizar
+

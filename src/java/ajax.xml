@@ -21,6 +21,9 @@
         </action>       
         
         <action name="buscaRemcXImei" class="co.com.codesoftware.facturacion.ajax.controlador.AjaxControllerFacturacion" method="buscaRemisionXImei">
-        </action>        
+        </action>
+                
+        <action name="SimulaMoviContables" class="co.com.codesoftware.facturacion.ajax.controlador.AjaxControllerFacturacion" method="SimulaMoviContables">
+        </action>
     </package>
 </struts>
