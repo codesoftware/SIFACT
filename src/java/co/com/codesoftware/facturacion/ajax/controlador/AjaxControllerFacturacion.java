@@ -5,12 +5,21 @@
  */
 package co.com.codesoftware.facturacion.ajax.controlador;
 
+import co.com.codesoftware.contabilidad.logica.ContabilidadLogica;
+import co.com.codesoftware.facturacion.entity.ProductosFactEntitiy;
 import co.com.codesoftware.facturacion.logica.RemisionLogica;
 import co.com.codesoftware.parametros.Parametro;
-import co.com.codesoftware.producto.entity.Producto;
 import co.com.codesoftware.producto.logica.ProductoLogica;
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParser;
 import com.opensymphony.xwork2.ActionSupport;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -134,11 +143,38 @@ public class AjaxControllerFacturacion extends ActionSupport implements SessionA
             HttpServletResponse response = ServletActionContext.getResponse();
             response.setContentType("text/plain;charset=utf-8");
             HttpServletRequest request = ServletActionContext.getRequest();
-            String productos = request.getParameter("Productos");
+            ArrayList<ProductosFactEntitiy> productos = generaListaProductos();
+            String objJson = "";
+            Map<String,Object> rta = new HashMap<String, Object>();
+            if(productos.size()>0){
+                ContabilidadLogica logica = new ContabilidadLogica();
+                String valida = logica.generaSimulacionAsientoContable(productos);
+                if(!"Ok".equalsIgnoreCase(valida)){
+                    rta.put("respuesta", "error");
+                    rta.put("traza", valida);
+                }
+            }
             System.out.println("Hola todos");
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public ArrayList<ProductosFactEntitiy> generaListaProductos() {
+        JsonElement json = new JsonParser().parse(this.productosArray);
+        JsonArray array = json.getAsJsonArray();
+        Iterator iterator = array.iterator();
+        ArrayList<ProductosFactEntitiy> productosList = null;
+        while (iterator.hasNext()) {
+            if(productosList == null){
+                productosList = new ArrayList<>();
+            }
+            JsonElement json2 = (JsonElement) iterator.next();
+            Gson gson = new Gson();
+            ProductosFactEntitiy prod = gson.fromJson(json2, ProductosFactEntitiy.class);
+            productosList.add(prod);
+        }        
+        return productosList;
     }
 
     public String getCodigoBarras() {
