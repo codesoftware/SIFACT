@@ -471,13 +471,26 @@ function simulaMovimientoscontables() {
     } else {
         var datos = new Object();
         datos.productosArray = productosArray;
+        datos.tipoPago = $('.rPago').val();
+        var aux = $('#valorTarjeta').val();
+        if (aux.trim() == '') {
+            aux = '0';
+        }
+        datos.vlrTarjeta = aux;
+
         $.ajax({
             url: RutaSitio + "/SimulaMoviContables.action",
             cache: false,
             dataType: 'json',
             data: datos,
             success: function (data, textStatus, jqXHR) {
-                alert('llego aqui');
+                if (data.respuesta == 'Ok') {
+
+                } else {
+                    $('#msnInfo').html(data.traza);
+                    $('#informacionPopUp').modal('show');
+
+                }
             }
         });
 

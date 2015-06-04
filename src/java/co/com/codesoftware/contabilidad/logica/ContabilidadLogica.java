@@ -20,7 +20,17 @@ public class ContabilidadLogica {
 
     private List moviContable;
 
-    public String generaSimulacionAsientoContable(ArrayList<ProductosFactEntitiy> productos) {
+    /**
+     * Funcion encargada de realizar la logica para la simulacion de los
+     * asientos contables
+     *
+     * @param productos
+     * @param sede
+     * @param tipoPago
+     * @param vlrTarjeta
+     * @return
+     */
+    public String generaSimulacionAsientoContable(ArrayList<ProductosFactEntitiy> productos, String sede, String tipoPago, String vlrTarjeta) {
         String rta = null;
         try {
             String sec = this.obtieneSecuenciaTemporalSim();
@@ -28,7 +38,12 @@ public class ContabilidadLogica {
             if (sec != null) {
                 valida = this.insertaProductosTemporal(productos, sec);
                 if ("Ok".equalsIgnoreCase(valida)) {
-
+                    valida = this.generaSimulacionParaMoviContables(rta, sede, tipoPago, vlrTarjeta);
+                    if(!"Ok".equalsIgnoreCase(valida)){
+                        return valida;
+                    }else{
+                        return "Ok";
+                    }
                 } else {
                     rta = valida;
                 }
@@ -39,6 +54,12 @@ public class ContabilidadLogica {
         return rta;
     }
 
+    /**
+     * Funcion encargada de realizar la logica para obtener la secuencia o el id
+     * de transaccion para la simulacion de asientos contables
+     *
+     * @return
+     */
     private String obtieneSecuenciaTemporalSim() {
         String sec = null;
         try (EnvioFuncion function = new EnvioFuncion()) {
@@ -53,6 +74,14 @@ public class ContabilidadLogica {
         return sec;
     }
 
+    /**
+     * Funcion encargada de realizar la logica para insertar en la tabla
+     * temporal para saber que productos esta comprando
+     *
+     * @param productos
+     * @param sec
+     * @return
+     */
     private String insertaProductosTemporal(ArrayList<ProductosFactEntitiy> productos, String sec) {
         String rta = "Ok";
         try (EnvioFuncion function = new EnvioFuncion()) {
@@ -69,6 +98,35 @@ public class ContabilidadLogica {
         }
         return rta;
     }
+    
+    public String generaSimulacionParaMoviContables(String idTrans, String sede, String tipoPago, String valrTarjeta){
+        String rta = "";
+        try(EnvioFuncion function = new EnvioFuncion()) {
+            function.adicionarNombre("SIMULACION_MVTO_CONTABLES");
+            function.adicionarNumeric(idTrans);
+            function.adicionarNumeric(sede);
+            function.adicionarParametro(tipoPago);
+            function.adicionarNumeric(valrTarjeta);
+            rta = function.llamarFunction(function.getSql());
+            function.recuperarString();
+            String[] rtaVector = rta.split("-");
+            int tam = rtaVector.length;
+            if (tam == 2) {
+                // Este mensaje lo envia la funcion que envia la funcion de java que
+                // confirma que el llamado de a la funcion fue exitiso.
+                if (rtaVector[1].equalsIgnoreCase("Ok")) {
+                    // Aqui verifico si la consulta fue exitosa
+                    String rtaPg = function.getRespuesta();
+                    return rtaPg;
+                }else{
+                    return rtaVector[1];
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return rta;
+    }
 
     public List getMoviContable() {
         return moviContable;
@@ -77,5 +135,6 @@ public class ContabilidadLogica {
     public void setMoviContable(List moviContable) {
         this.moviContable = moviContable;
     }
+    
 
 }

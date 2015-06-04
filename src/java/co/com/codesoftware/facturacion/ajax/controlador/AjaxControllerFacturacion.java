@@ -43,6 +43,8 @@ public class AjaxControllerFacturacion extends ActionSupport implements SessionA
     private Parametro parametros;
     private String descuento;
     private String productosArray;
+    private String tipoPago;
+    private String vlrTarjeta;
 
     /**
      * Funcion encargada de obtener los datos de un producto
@@ -140,21 +142,30 @@ public class AjaxControllerFacturacion extends ActionSupport implements SessionA
 
     public void SimulaMoviContables() {
         try {
+            this.obtieneObjParametros();
             HttpServletResponse response = ServletActionContext.getResponse();
             response.setContentType("text/plain;charset=utf-8");
             HttpServletRequest request = ServletActionContext.getRequest();
-            ArrayList<ProductosFactEntitiy> productos = generaListaProductos();
+            PrintWriter out = response.getWriter();
             String objJson = "";
-            Map<String,Object> rta = new HashMap<String, Object>();
-            if(productos.size()>0){
-                ContabilidadLogica logica = new ContabilidadLogica();
-                String valida = logica.generaSimulacionAsientoContable(productos);
-                if(!"Ok".equalsIgnoreCase(valida)){
-                    rta.put("respuesta", "error");
-                    rta.put("traza", valida);
+            Map<String, Object> rta = new HashMap<String, Object>();
+            if (this.parametros == null) {
+                rta.put("respuesta", "error");
+                rta.put("traza", "sede nula");
+            } else {
+                ArrayList<ProductosFactEntitiy> productos = generaListaProductos();
+                if (productos.size() > 0) {
+                    ContabilidadLogica logica = new ContabilidadLogica();
+                    String valida = logica.generaSimulacionAsientoContable(productos, parametros.getSede(),tipoPago,vlrTarjeta);
+                    if (!"Ok".equalsIgnoreCase(valida)) {
+                        rta.put("respuesta", "error");
+                        rta.put("traza", valida);
+                    }
                 }
             }
-            System.out.println("Hola todos");
+            Gson gson = new Gson();
+            objJson = gson.toJson(rta);
+            out.print(objJson);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -166,14 +177,14 @@ public class AjaxControllerFacturacion extends ActionSupport implements SessionA
         Iterator iterator = array.iterator();
         ArrayList<ProductosFactEntitiy> productosList = null;
         while (iterator.hasNext()) {
-            if(productosList == null){
+            if (productosList == null) {
                 productosList = new ArrayList<>();
             }
             JsonElement json2 = (JsonElement) iterator.next();
             Gson gson = new Gson();
             ProductosFactEntitiy prod = gson.fromJson(json2, ProductosFactEntitiy.class);
             productosList.add(prod);
-        }        
+        }
         return productosList;
     }
 
@@ -255,6 +266,22 @@ public class AjaxControllerFacturacion extends ActionSupport implements SessionA
 
     public void setProductosArray(String productosArray) {
         this.productosArray = productosArray;
+    }
+
+    public String getTipoPago() {
+        return tipoPago;
+    }
+
+    public void setTipoPago(String tipoPago) {
+        this.tipoPago = tipoPago;
+    }
+
+    public String getVlrTarjeta() {
+        return vlrTarjeta;
+    }
+
+    public void setVlrTarjeta(String vlrTarjeta) {
+        this.vlrTarjeta = vlrTarjeta;
     }
 
 }
