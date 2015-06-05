@@ -473,11 +473,12 @@ function simulaMovimientoscontables() {
     } else {
         var datos = new Object();
         datos.productosArray = productosArray;
-        datos.tipoPago = $('.rPago').val();
+        datos.tipoPago = $('.rPago:checked').val();
         var aux = $('#valorTarjeta').val();
         if (aux.trim() == '') {
             aux = '0';
         }
+        aux = eliminarPuntos(aux);
         datos.vlrTarjeta = aux;
 
         $.ajax({
