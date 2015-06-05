@@ -149,6 +149,9 @@ $(document).ready(function () {
             });
         }
     });
+    $('#aceptoFacturacion').click(function(){
+        facturar();
+    });
 });
 
 
@@ -464,7 +467,6 @@ function simulaMovimientoscontables() {
         productosArray += "}";
     });
     productosArray += "]";
-    alert(productosArray);
     if (!bandera) {
         $('#msnInfo').html('Por Favor agregar al menos un producto a la lista de productos para poder facturar');
         $('#informacionPopUp').modal('show');
@@ -485,6 +487,40 @@ function simulaMovimientoscontables() {
             data: datos,
             success: function (data, textStatus, jqXHR) {
                 if (data.respuesta == 'Ok') {
+                    $('#tempMvco').val(data.idTransTem);
+                    var tabla = '';
+                    var cabezoteTabla = '<table class=\"table table-bordered table-hover\">' +
+                            '<thead>' +
+                            '<tr>' +
+                            '<th class=\"alert alert-info\"> Descripcion Cuenta </th>' +
+                            '<th class=\"alert alert-info\"> Subcuenta </th>' +
+                            '<th class=\"alert alert-info\"> Debitos </th>' +
+                            '<th class=\"alert alert-info\"> Creditos </th>' +
+                            '</tr>' +
+                            '</thead>'
+                    '<tbody>';
+                    var body = '';
+                    if (data.objeto.length != 0) {
+                        for (var i = 0; i < data.objeto.length; i++) {
+                            var objeto = data.objeto[i];
+                            var linea = '<tr>' +
+                                    '<td>' + objeto.sbcu_nombre + '</td>' +
+                                    '<td>' + objeto.sbcu_codigo + '</td>';
+                            if (objeto.debitos == 'N/A') {
+                                linea += '<td> </td>' +
+                                        '<td style=\"text-align:right\">' + objeto.creditos + '</td>';
+                            } else {
+                                linea += '<td style=\"text-align:right\">' + objeto.debitos + '</td>' +
+                                        '<td> </td>';
+                            }
+                            linea += '</tr>';
+                            body += linea;
+                        }
+                        body += '</tbody></table>';
+                    }
+                    tabla = cabezoteTabla + body;
+                    $('#tablaAsientocontable').html(tabla);
+                    $('#partidaDoble').modal('show');
 
                 } else {
                     $('#msnInfo').html(data.traza);

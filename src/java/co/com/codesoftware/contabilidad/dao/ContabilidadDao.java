@@ -33,4 +33,27 @@ public class ContabilidadDao {
         return sql;
     }
     
+    /**
+     * Funcion encargada de realizar el query para obtene el asiento contable de
+     * una transaccion
+     *
+     * @param idTrans
+     * @return
+     */
+    public String generaAsientoContable(String idTrans) {
+        String sql = "";
+        sql += "SELECT sbcu_nombre,sbcu_codigo,to_char(simc_valor,'9,999,999,999.00') debitos, 'N/A' creditos      \n";
+        sql += "  FROM co_tsimc,co_tsbcu                                                                       \n";
+        sql += " WHERE simc_trans = " + idTrans + "                                                            \n";
+        sql += "   AND simc_naturaleza = 'D'                                                                   \n";
+        sql += "   AND simc_sbcu = sbcu_sbcu                                                                   \n";
+        sql += " UNION all                                                                                     \n";
+        sql += "SELECT sbcu_nombre,sbcu_codigo, 'N/A' debitos, to_char(simc_valor,'9,999,999,999.00') creditos\n";
+        sql += "  FROM co_tsimc,co_tsbcu                                                                       \n";
+        sql += " WHERE simc_trans = " + idTrans+ "                                                   \n";
+        sql += "   AND simc_naturaleza = 'C'                                                                   \n";
+        sql += "   AND simc_sbcu = sbcu_sbcu                                                                   \n";
+        return sql;
+    }
+    
 }

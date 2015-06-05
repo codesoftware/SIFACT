@@ -6,6 +6,7 @@
 package co.com.codesoftware.contabilidad.logica;
 
 import co.com.codesoftware.contabilidad.dao.ContabilidadDao;
+import co.com.codesoftware.contabilidad.dto.MoviContableDto;
 import co.com.codesoftware.facturacion.entity.ProductosFactEntitiy;
 import co.com.codesoftware.general.persistencia.EnvioFuncion;
 import java.sql.ResultSet;
@@ -18,7 +19,7 @@ import java.util.List;
  */
 public class ContabilidadLogica {
 
-    private List moviContable;
+    private String idTrans;
 
     /**
      * Funcion encargada de realizar la logica para la simulacion de los
@@ -38,10 +39,12 @@ public class ContabilidadLogica {
             if (sec != null) {
                 valida = this.insertaProductosTemporal(productos, sec);
                 if ("Ok".equalsIgnoreCase(valida)) {
-                    valida = this.generaSimulacionParaMoviContables(rta, sede, tipoPago, vlrTarjeta);
-                    if(!"Ok".equalsIgnoreCase(valida)){
+                    valida = this.generaSimulacionParaMoviContables(sec, sede, tipoPago, vlrTarjeta);
+                    String []aux = valida.split("-");
+                    if (!"Ok".equalsIgnoreCase(aux[0])) {
                         return valida;
-                    }else{
+                    } else {
+                        this.idTrans = aux[1];
                         return "Ok";
                     }
                 } else {
@@ -98,10 +101,10 @@ public class ContabilidadLogica {
         }
         return rta;
     }
-    
-    public String generaSimulacionParaMoviContables(String idTrans, String sede, String tipoPago, String valrTarjeta){
+
+    public String generaSimulacionParaMoviContables(String idTrans, String sede, String tipoPago, String valrTarjeta) {
         String rta = "";
-        try(EnvioFuncion function = new EnvioFuncion()) {
+        try (EnvioFuncion function = new EnvioFuncion()) {
             function.adicionarNombre("SIMULACION_MVTO_CONTABLES");
             function.adicionarNumeric(idTrans);
             function.adicionarNumeric(sede);
@@ -118,7 +121,7 @@ public class ContabilidadLogica {
                     // Aqui verifico si la consulta fue exitosa
                     String rtaPg = function.getRespuesta();
                     return rtaPg;
-                }else{
+                } else {
                     return rtaVector[1];
                 }
             }
@@ -128,13 +131,42 @@ public class ContabilidadLogica {
         return rta;
     }
 
-    public List getMoviContable() {
-        return moviContable;
+    /**
+     * Funcion encargada de realizar la logica para obtener la informacion
+     * necesaria para un asiento contable
+     *
+     * @param simc_trans String id de la transaccion
+     * @return
+     */
+    public List<MoviContableDto> recuperaAsientoContableTemporal(String simc_trans) {
+        List<MoviContableDto> rta = null;
+        try (EnvioFuncion function = new EnvioFuncion()) {
+            ContabilidadDao objDao = new ContabilidadDao();
+            ResultSet rs = function.enviarSelect(objDao.generaAsientoContable(simc_trans));
+            while (rs.next()) {
+                if (rta == null) {
+                    rta = new ArrayList<>();
+                }
+                MoviContableDto aux = new MoviContableDto();
+                aux.setSbcu_nombre(rs.getString("sbcu_nombre"));
+                aux.setSbcu_codigo(rs.getString("sbcu_codigo"));
+                aux.setDebitos(rs.getString("debitos"));
+                aux.setCreditos(rs.getString("creditos"));
+                rta.add(aux);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            rta = null;
+        }
+        return rta;
     }
 
-    public void setMoviContable(List moviContable) {
-        this.moviContable = moviContable;
+    public String getIdTrans() {
+        return idTrans;
     }
-    
+
+    public void setIdTrans(String idTrans) {
+        this.idTrans = idTrans;
+    }
 
 }

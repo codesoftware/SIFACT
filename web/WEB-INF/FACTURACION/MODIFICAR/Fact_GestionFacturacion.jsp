@@ -40,6 +40,7 @@
             <div class="col-md-1 col-xs-0 col-sm-0"></div>
         </div>
         <s:form action="Fac_Facturar" id="Fac_Facturar" theme="simple">
+            <s:textfield name="tempMvco" id="tempMvco"  cssStyle="display:none" />
             <div class="row">
                 <div class="col-md-1 col-xs-0 col-sm-0"></div>
                 <div class="col-md-10 col-xs-12 col-sm-12">
@@ -240,6 +241,27 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">
+                            ACEPTAR
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- poup realizado para la creacion de asientos contables-->
+        <div class="modal fade" tabindex="-1" role="dialog" aria-hidden="true" id="partidaDoble">
+            <div class="modal-dialog">                
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">ASIENTO CONTABLE</h4>
+                    </div>
+                    <div class="modal-body">
+                        <span id="tablaAsientocontable"></span>
+                    </div>
+                    <div class="modal-footer">                        
+                        <button type="button" class="btn btn-default" data-dismiss="modal" >
+                            CANCELAR
+                        </button>
+                        <button type="button" class="btn btn-success" data-dismiss="modal" id="aceptoFacturacion">
                             ACEPTAR
                         </button>
                     </div>

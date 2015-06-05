@@ -148,18 +148,29 @@ public class AjaxControllerFacturacion extends ActionSupport implements SessionA
             HttpServletRequest request = ServletActionContext.getRequest();
             PrintWriter out = response.getWriter();
             String objJson = "";
-            Map<String, Object> rta = new HashMap<String, Object>();
+            Map<String, Object> rta = new HashMap<>();
             if (this.parametros == null) {
                 rta.put("respuesta", "error");
-                rta.put("traza", "sede nula");
+                rta.put("traza", "sede nula por favor inicie de nuevo y ingrese su sede");
             } else {
                 ArrayList<ProductosFactEntitiy> productos = generaListaProductos();
                 if (productos.size() > 0) {
                     ContabilidadLogica logica = new ContabilidadLogica();
-                    String valida = logica.generaSimulacionAsientoContable(productos, parametros.getSede(),tipoPago,vlrTarjeta);
+                    String valida = logica.generaSimulacionAsientoContable(productos, parametros.getSede(), tipoPago, vlrTarjeta);
                     if (!"Ok".equalsIgnoreCase(valida)) {
                         rta.put("respuesta", "error");
                         rta.put("traza", valida);
+                    } else {
+                        String idTrans = logica.getIdTrans();
+                        List movCont = logica.recuperaAsientoContableTemporal(idTrans);
+                        if (movCont == null) {
+                            rta.put("respuesta", "error");
+                            rta.put("traza", "Error al obtener el asiento contable auxiliar");
+                        }else{
+                            rta.put("respuesta", "Ok");
+                            rta.put("idTransTem", idTrans);
+                            rta.put("objeto", movCont);
+                        }
                     }
                 }
             }
