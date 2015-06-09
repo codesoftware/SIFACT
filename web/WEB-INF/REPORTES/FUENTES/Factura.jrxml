@@ -75,7 +75,7 @@ pr.dtpr_cant CAN, '$' || to_char(pr.dtpr_vlr_venta_uni,'9,999,999,999.00') VALOR
         (select para_valor from em_tpara where para_clave = 'TELEFONOS')TELEFONOS,
         (select para_valor from em_tpara where para_clave = 'CIUDAD')CIUDAD,
         (SELECT SED.SEDE_DIRECCION || '--'||SED.SEDE_NOMBRE||  '--Tel: '|| SED.SEDE_TELEFONO 
-           FROM  em_tsede sed, us_tpers per, us_ttius us,fa_tfact fac
+           FROM  em_tsede sed, us_ttius us,fa_tfact fac
           WHERE sed.sede_sede = us.tius_sede 
             AND us.tius_tius = fac.fact_tius 
             AND fac.fact_fact = cast($P{fact_fact} as int) ) ubicacion,
