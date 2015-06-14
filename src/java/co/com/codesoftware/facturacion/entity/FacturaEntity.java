@@ -26,6 +26,7 @@ public class FacturaEntity {
     private String fact_devolucion;
     private String fact_original;
     private String pagoTotal;
+    private String descuento;
     //Datos del cliente de la factura
     private String clien_nombres;
     private String clien_cedula;
@@ -184,4 +185,13 @@ public class FacturaEntity {
     public void setPagoTotal(String pagoTotal) {
         this.pagoTotal = pagoTotal;
     }
+
+    public String getDescuento() {
+        return descuento;
+    }
+
+    public void setDescuento(String descuento) {
+        this.descuento = descuento;
+    }
+
 }

@@ -92,6 +92,7 @@
                                 <td>Nombre Cliente</td>
                                 <td>Valor Total</td>
                                 <td>Valor Iva</td>
+                                <td>Descuento</td>
                                 <td>Total Pagado</td>
                             </tr>
                         </thead>
@@ -103,6 +104,7 @@
                                     <td><s:property value="clien_nombres" /></td>
                                     <td>$<s:property value="fact_vlr_total" /></td>
                                     <td>$<s:property value="fact_vlr_iva" /></td>
+                                    <td>$<s:property value="descuento" /></td>
                                     <td>$<s:property value="pagoTotal" /></td>
                                 </tr>
                             </s:iterator>

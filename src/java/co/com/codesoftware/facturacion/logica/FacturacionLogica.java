@@ -301,6 +301,7 @@ public class FacturacionLogica {
                 aux.setPagoTotal(rs.getString("pagoTotal"));
                 aux.setClien_nombres(rs.getString("nombres"));
                 aux.setClien_cedula(rs.getString("clien_cedula"));
+                aux.setDescuento(rs.getString("descuento"));
                 rta.add(aux);
             }
         } catch (Exception e) {

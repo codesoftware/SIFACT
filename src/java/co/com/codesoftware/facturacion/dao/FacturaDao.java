@@ -19,7 +19,8 @@ public class FacturaDao {
         sql.append("to_char(fact_vlr_total,'9,999,999,999.00') fact_vlr_total, to_char(fact_vlr_iva,'9,999,999,999.00') fact_vlr_iva, fact_tipo_pago, fact_id_voucher, ");
         sql.append("fact_cometarios, fact_estado, fact_naturaleza, fact_devolucion, ");
         sql.append("fact_original, clien_cedula, clien_apellidos || ' ' || clien_nombres nombres, ");
-        sql.append("to_char((fact_vlr_total + fact_vlr_iva),'9,999,999,999.00') pagoTotal ");
+        sql.append("to_char(((fact_vlr_total + fact_vlr_iva)-fact_vlr_dcto ),'9,999,999,999.00') pagoTotal, ");
+        sql.append(" to_char(fact_vlr_dcto,'9,999,999,999.00') descuento ");
         sql.append(" FROM fa_tfact, us_tclien ");
         sql.append(" WHERE fact_clien = clien_clien ");
         return sql.toString();
