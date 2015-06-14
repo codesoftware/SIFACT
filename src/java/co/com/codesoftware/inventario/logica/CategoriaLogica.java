@@ -11,6 +11,7 @@ import co.com.codesoftware.inventario.dto.CategoriaDto;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -183,7 +184,7 @@ public class CategoriaLogica {
             ResultSet rs = function.enviarSelect(objDao.consultaCategoriasActivas());
             while (rs.next()) {
                 if (rta == null) {
-                    rta = new HashMap<String, String>();
+                    rta = new LinkedHashMap<>();
                 }
                 rta.put(rs.getString("cate_cate"), rs.getString("cate_desc"));
             }

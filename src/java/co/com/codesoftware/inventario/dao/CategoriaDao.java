@@ -114,6 +114,7 @@ public class CategoriaDao {
         sql.append("SELECT cate_cate, cate_desc\n");
         sql.append("  FROM in_tcate            \n");
         sql.append(" WHERE cate_estado = 'A'   \n");
+        sql.append("  ORDER BY cate_desc ");
         return sql.toString();
     }
 

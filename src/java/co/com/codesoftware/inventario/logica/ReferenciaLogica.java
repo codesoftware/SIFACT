@@ -11,6 +11,7 @@ import co.com.codesoftware.inventario.dto.ReferenciaDTO;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
@@ -210,7 +211,7 @@ public class ReferenciaLogica {
             ResultSet rs = function.enviarSelect(objDao.consultaGeneralActivos());
             while (rs.next()) {
                 if (rta == null) {
-                    rta = new HashMap<String, String>();
+                    rta = new LinkedHashMap<>();
                 }
                 rta.put(rs.getString("refe_refe"), rs.getString("refe_desc"));
             }

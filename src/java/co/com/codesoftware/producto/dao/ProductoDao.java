@@ -373,6 +373,7 @@ public class ProductoDao {
         sql.append(" WHERE dska_refe = refe_refe ");
         sql.append("   AND cate_cate = dska_cate ");
         sql.append(armaWhere());
+        sql.append("   ORDER BY dska_dska ");
         return sql.toString();
     }
 
