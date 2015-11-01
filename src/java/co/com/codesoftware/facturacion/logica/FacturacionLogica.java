@@ -74,7 +74,10 @@ public class FacturacionLogica {
                 auxDao.setTem_fact_dska(objAux.getTem_fact_dska());
                 auxDao.setTem_fact_cant(objAux.getTem_fact_cant());
                 auxDao.setTem_fact_dcto(objAux.getTem_fact_dcto());
-                function.enviarSelect(auxDao.insertTemoral());
+                boolean valida = function.enviarUpdate(auxDao.insertTemoral());
+                if(!valida){
+                    return "Error";
+                }
             }
             rta = "Ok";
         } catch (Exception e) {

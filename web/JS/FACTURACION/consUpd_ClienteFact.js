@@ -25,3 +25,9 @@ function validaDatos() {
     }
     return true;
 }
+
+
+function enviaClienteGenerico(){
+    $('#cedulaCliente').val('0');
+    consultaCliente();
+}

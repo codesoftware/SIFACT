@@ -355,7 +355,6 @@ public class ProductoDao {
         sql.append("                        AND prpr_sede =                   ");
         sql.append(this.getSede());
         sql.append(") param) tablaFinal");
-        System.out.println("Este es el sql para el calculo de precio\n\n\n" + sql.toString());
         return sql.toString();
     }
 

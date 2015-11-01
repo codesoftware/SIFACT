@@ -34,7 +34,7 @@
                 </div>
                 <div class="col-md-3 col-sm-0 col-xs-0"></div>
             </div>
-            <div class="row">
+            <div class="row cuerpo">
                 <div class="col-md-3 col-sm-0 col-xs-0"></div>
                 <div class="col-md-6 col-sm-12 col-xs-12">
                     <table class="table table-bordered">
@@ -47,7 +47,16 @@
                             <tr>
                                 <td><b>SEDE:</b></td>
                                 <td>
-                                    <s:select name="sede" list="sedes" cssClass="form-control" headerKey="-1" headerValue="Seleccione una Sede"/>
+                                    <s:if test="sedes != null">
+                                        <s:select name="sede" list="sedes" cssClass="form-control" headerKey="-1" headerValue="Seleccione una Sede"/>
+                                    </s:if>
+                                    <s:else>
+                                        <script>
+                                            $(function (){
+                                                $('.cuerpo').hide('slow');
+                                            });
+                                        </script>
+                                    </s:else>
                                 </td>
                             </tr>
                         </tbody>

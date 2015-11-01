@@ -57,8 +57,8 @@ public class TempProductoFactDao {
     public String insertTemoral() {
         String sql = "";
         sql += "INSERT INTO co_ttem_fact(                                  \n";
-        sql += "            tem_fact_trans, tem_fact_dska, tem_fact_cant, tem_fact_dcto )  \n";
-        sql += "    VALUES (" + this.getTem_fact_trans() + ", " + this.getTem_fact_dska() + "," + this.getTem_fact_cant() + "," + this.getTem_fact_dcto() + ")\n";
+        sql += "            tem_fact,tem_fact_trans, tem_fact_dska, tem_fact_cant, tem_fact_dcto )  \n";
+        sql += "    VALUES ((select coalesce( max(tem_fact), 0 ) +1 from co_ttem_fact)," + this.getTem_fact_trans() + ", " + this.getTem_fact_dska() + "," + this.getTem_fact_cant() + "," + this.getTem_fact_dcto() + ")\n";
         return sql;
     }
 

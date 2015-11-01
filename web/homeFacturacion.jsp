@@ -49,7 +49,8 @@
                                     <s:include value="/WEB-INF/TEMPLATES/botones/buscar.jsp">
                                         <s:param name="function">consultaCliente</s:param>
                                         <s:param name="title">Buscar Cliente</s:param>                                    
-                                    </s:include>                                    
+                                    </s:include>&nbsp;&nbsp;&nbsp;&nbsp;
+                                    <a class="btn btn-primary" onclick="enviaClienteGenerico()">Cliente Generico</a>
                                 </td>
                             </tr>                    
                         </tfoot>

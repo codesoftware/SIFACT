@@ -44,7 +44,6 @@ public class SedeAction extends ActionSupport implements SessionAware{
                 Map session = ActionContext.getContext().getSession();
                 session.put("parametros", parametro);
             }
-            System.out.println("Esta es la sede que escojio: " + sedeNombre);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -64,7 +63,7 @@ public class SedeAction extends ActionSupport implements SessionAware{
             this.sedes = logica.buscaSedesActivasMapa();
             if(sedes == null){
                 bandera = "N";
-                addActionError("No existen sedes activas en el sistema por favor contactese con el administrador");
+                addActionError("No existen sedes activas en el sistema o ha sido imposible la conexion con la base de datos por favor contactese con el administrador");
             }else{
                 bandera = "S";
             }

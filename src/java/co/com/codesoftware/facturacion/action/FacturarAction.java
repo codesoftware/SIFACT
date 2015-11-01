@@ -47,7 +47,6 @@ public class FacturarAction extends ActionSupport implements SessionAware {
             //Obtentgo el identificador primario del usuario que facturo
             UsuarioLogica logicaUsu = new UsuarioLogica();
             UsuarioEntity objUsu = logicaUsu.buscaUsuarioXusuario(usuario.trim());
-            logicaUsu = null;
             if (prodFact != null) {
                 String idTrans = logica.obtieneValorSecuenciaTemp();
                 if (idTrans != null) {
@@ -64,7 +63,7 @@ public class FacturarAction extends ActionSupport implements SessionAware {
                                 fact_fact = facturo[1];
                             }
                         } else {
-                            addActionError("Error al generar la factura");
+                            addActionError("Error al al insertar en la tabla temporal de facturacion");
                             return ERROR;
                         }
                     } else {
